@@ -1,0 +1,131 @@
+.home-container {
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  color: var(--text-color);
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+/* HERO */
+.home-hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5rem) 1rem;
+  text-align: center;
+  gap: 1.2rem;
+}
+
+.hero-left {
+  min-width: 260px;
+}
+
+.hero-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+
+.hero-content {
+  max-width: clamp(600px, 50vw, 900px);
+  text-align: center;
+}
+
+.home-title {
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-weight: bold;
+  line-height: 1.15;
+  margin-bottom: 18px;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(97,220,163,0.6);
+
+}
+
+.home-subtitle {
+  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  max-width: clamp(320px, 70vw, 800px);
+  opacity: 0.85;
+  line-height: 1.4;
+  margin-left: 32px;
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+
+
+.home-intro,
+.home-description {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin-bottom: 16px;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+/* CTA buttons row (uses global .btn-pill styles now) */
+.home-cta-row {
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+  margin-left: 3px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* CONTACT + OTHER SECTIONS */
+.home-section {
+  margin-top: 60px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 22px;
+  color: var(--accent);
+  text-shadow: 0 0 6px rgba(97,220,163,0.6);
+}
+
+.section-block {
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  padding: 20px 24px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(97,220,163,0.3);
+}
+
+.section-block p {
+  margin-bottom: 6px;
+  color: var(--text-color);
+  opacity: 0.85;
+}
+
+/* Shrink CTA buttons on smaller screens */
+@media (max-width: 520px) {
+  .home-cta-row .btn-pill {
+    padding: 6px 10px;   /* smaller padding */
+    font-size: 0.8rem;   /* shrink text */
+  }
+}
+
+@media (max-width: 420px) {
+  .home-cta-row .btn-pill {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+  }
+}
