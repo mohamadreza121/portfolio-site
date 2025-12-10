@@ -31,6 +31,11 @@ export default function ScrambledText({
     const available = scrambleChars.split("");
 
     charsRef.current = text.split("").map((ch) => {
+      if (ch === " ") {
+        const space = document.createTextNode(" ");
+        p.appendChild(space);
+        return space;
+      }
       const span = document.createElement("span");
       span.className = "scramble-char";
       span.setAttribute("data-content", ch);

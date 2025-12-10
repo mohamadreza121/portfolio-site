@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import DecryptedText from '../components/DecryptedText';
 import { Viewer } from '@react-pdf-viewer/core';
@@ -77,8 +79,9 @@ export default function Certifications() {
                 rel="noreferrer"
                 className="btn-pill credly-btn cursor-target"
               >
+                <FontAwesomeIcon icon={faLink} className="icon-link" />
                 <DecryptedText
-                  text="🔗 Verify my certifications on Credly"
+                  text="Verify my certifications on Credly"
                   sequential={true}
                   animateOn="hover"
                   speed={80}

@@ -192,6 +192,17 @@
   align-items: center;
 }
 
+.icon-link {
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateY(2px);
+  color: var(--accent);
+  text-shadow: 0 0 6px rgba(97,220,163,0.6);
+  margin-bottom: 28px;
+}
+
+
 @media (max-width: 900px) {
   .certifications-hero {
     grid-template-columns: 1fr;
@@ -216,5 +227,9 @@
 
   .cert-card {
     max-width: 100%;
+  }
+
+  .icon-link {
+    margin-top: 28px;
   }
 }

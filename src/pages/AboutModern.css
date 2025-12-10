@@ -144,6 +144,7 @@
 
     .hero-left {
     margin-right: 65px;
+    
   }
 
   .about-intro {
@@ -164,6 +165,7 @@
 @media (max-width: 420px) {
   .hero-left > * {
     max-width: 200px; /* shrink profile card */
+    margin-left: 10px;
   }
 
   .about-title {
