@@ -56,7 +56,7 @@ export default function Projects(){
                 <div className="project-card" key={p.id}>
                   <h3>{p.title}</h3>
                   <div className="meta">{p.meta}</div>
-                  <div style={{ marginTop: 12 }}>
+                  <div style={{ marginTop: 20 }}>
                     <Link to={`/projects/${p.id}`} className="btn-pill cursor-target">
                       View Project
                     </Link>
