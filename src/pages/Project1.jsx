@@ -20,7 +20,13 @@ export default function Project1(){
         <div className="meta">VLANs, Router-on-a-Stick, DHCP, DNS, NAT, ACLs, Port Security, RPVST — Tools: Cisco Packet Tracer / GNS3</div>
 
         <div style={{marginTop:12}}>
-          <Link to="/#projects" className="btn-pill cursor-target">← Back to Projects</Link>
+          <Link
+            to="/"
+            state={{ scrollTo: "projects" }}
+            className="btn-pill cursor-target"
+          >
+            ← Back to Projects
+          </Link>
         </div>
       </div>
     </div>

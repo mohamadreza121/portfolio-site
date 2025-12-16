@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import Home from "./Home";
 import About from "./About";
@@ -15,13 +15,24 @@ export default function Main() {
   const location = useLocation();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [active, setActive] = useState("Home"); // ⬅️ lifted state
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    if (location.hash) {
-      const el = document.querySelector(location.hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (location.state?.scrollTo && location.pathname === "/") {
+      const targetElement = document.getElementById(location.state.scrollTo);
+
+      if (targetElement) {
+        requestAnimationFrame(() => {
+          targetElement.scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      // ✅ Clear navigation state AFTER scrolling
+      navigate(".", { replace: true, state: null });
     }
-  }, [location]);
+  }, [location, navigate]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,8 +78,9 @@ export default function Main() {
     },
     {
       root: null,
-      rootMargin: "-64px 0px -65% 0px",
+      rootMargin: "-72px 0px -80% 0px",
       threshold: 0,
+
     }
   );
 
