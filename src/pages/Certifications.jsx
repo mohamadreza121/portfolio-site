@@ -51,6 +51,7 @@ export default function Certifications() {
 
   return (
     <div id="certifications" className="certifications-page">
+        <span className="spy-marker" />
 
       {/* MATCH WIDTH & ALIGNMENT WITH PROJECTS */}
       <div className="certifications-container">

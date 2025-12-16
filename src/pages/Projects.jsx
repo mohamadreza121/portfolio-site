@@ -16,6 +16,7 @@ const projects = [
 export default function Projects(){
   return (
     <div id="projects" className="projects-page">
+        <span className="spy-marker" />
 
       {/* MATCHES ABOUT WIDTH */}
       <div className="projects-container">

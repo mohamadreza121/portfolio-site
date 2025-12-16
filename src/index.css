@@ -35,6 +35,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.home-page,
+.about-page,
+.projects-page,
+.certifications-page {
+  position: relative;
+}
+
 /* ===== APP CONTAINER ===== */
 .app-root {
   position: relative;
@@ -169,6 +176,13 @@ body {
   transform: translateY(-4px);
   background: linear-gradient(90deg, var(--accent), #61b3dc);
   color: #000;
+}
+
+.spy-marker {
+  position: absolute;
+  top: 0;
+  height: 1px;
+  width: 100%;
 }
 
 

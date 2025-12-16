@@ -4,9 +4,10 @@ import "./HomeModern.css";
 import "../components/TargetCursor.css";
 
 
-export default function Home({ setActive }) {
+export default function Home() {
   return (
     <div id="home" className="home-page">
+        <span className="spy-marker" />
       {/* MAIN CONTAINER — matches About */}
       <div className="home-container">
 
@@ -43,14 +44,12 @@ export default function Home({ setActive }) {
               <a
                 href="#projects"
                 className="btn-pill primary cursor-target"
-                onClick={() => setActive("Projects")}
               >
                 View My Projects
               </a>
               <a
                 href="#certifications"
                 className="btn-pill cursor-target"
-                onClick={() => setActive("Certs")}
               >
                 Certifications
               </a>

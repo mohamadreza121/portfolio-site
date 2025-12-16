@@ -41,7 +41,7 @@ const TargetCursor = ({
     gsap.to(cursorRef.current, {
       x,
       y,
-      duration: 0.08,
+      duration: 0.1,
       ease: 'power3.out'
     });
   }, []);
@@ -143,8 +143,8 @@ const TargetCursor = ({
 
     const mouseDownHandler = () => {
       if (!dotRef.current) return;
-      gsap.to(dotRef.current, { scale: 0.7, duration: 0.2 });
-      gsap.to(cursorRef.current, { scale: 0.9, duration: 0.15 });
+      gsap.to(dotRef.current, { scale: 0.7, duration: 0.3 });
+      gsap.to(cursorRef.current, { scale: 0.9, duration: 0.2 });
     };
 
     const mouseUpHandler = () => {
@@ -316,7 +316,7 @@ const TargetCursor = ({
   }
 
   return (
-    <div ref={cursorRef} className="target-cursor-wrapper" style={{ zIndex: 99999 }}>
+    <div ref={cursorRef} className="target-cursor-wrapper">
       <div ref={dotRef} className="target-cursor-dot" />
       <div className="target-cursor-corner corner-tl" />
       <div className="target-cursor-corner corner-tr" />

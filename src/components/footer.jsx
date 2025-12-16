@@ -42,14 +42,56 @@ export default function Footer() {
         {/* Quick Links */}
         <div className="footer-section">
           <h3 className="footer-title">Quick Links</h3>
-          <ul className="footer-links">
-            <li><a href="#home" className="footer-link cursor-target">Home</a></li>
-            <li><a href="#about" className="footer-link cursor-target">About Me</a></li>
-            <li><a href="#projects" className="footer-link cursor-target">Projects</a></li>
-            <li><a href="#certifications" className="footer-link cursor-target">Certifications</a></li>
-          </ul>
-        </div>
+            <ul className="footer-links">
+              <li>
+                <button
+                  type="button"
+                  className="footer-link cursor-target"
+                  onClick={() => {
+                    document.querySelector("#home")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Home
+                </button>
+              </li>
 
+              <li>
+                <button
+                  type="button"
+                  className="footer-link cursor-target"
+                  onClick={() => {
+                    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  About
+                </button>
+              </li>
+
+              <li>
+                <button
+                  type="button"
+                  className="footer-link cursor-target"
+                  onClick={() => {
+                    document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Projects
+                </button>
+              </li>
+
+              <li>
+                <button
+                  type="button"
+                  className="footer-link cursor-target"
+                  onClick={() => {
+                    document.querySelector("#certifications")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Certifications
+                </button>
+              </li>
+            </ul>
+        </div>       
       </div>
 
       {/* Bottom bar */}

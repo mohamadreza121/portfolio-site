@@ -2,13 +2,12 @@ import { FaHome, FaUser, FaProjectDiagram, FaCertificate } from "react-icons/fa"
 import Dock from "./Dock";
 import "./Dock.css";
 
-export default function Navbar({ active, setActive }) {
+export default function Navbar({ active }) {
   const items = [
     {
       icon: <FaHome size={16} color={active === "Home" ? "#61dca3" : "#9fb6a8"} />,
       label: "Home",
       onClick: () => {
-        setActive("Home");
         document.querySelector("#home")?.scrollIntoView({ behavior: "smooth" });
       },
     },
@@ -16,7 +15,6 @@ export default function Navbar({ active, setActive }) {
       icon: <FaUser size={16} color={active === "About" ? "#61dca3" : "#9fb6a8"} />,
       label: "About",
       onClick: () => {
-        setActive("About");
         document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
       },
     },
@@ -24,7 +22,6 @@ export default function Navbar({ active, setActive }) {
       icon: <FaProjectDiagram size={16} color={active === "Projects" ? "#61dca3" : "#9fb6a8"} />,
       label: "Projects",
       onClick: () => {
-        setActive("Projects");
         document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
       },
     },
@@ -32,7 +29,6 @@ export default function Navbar({ active, setActive }) {
       icon: <FaCertificate size={16} color={active === "Certs" ? "#61dca3" : "#9fb6a8"} />,
       label: "Certs",
       onClick: () => {
-        setActive("Certs");
         document.querySelector("#certifications")?.scrollIntoView({ behavior: "smooth" });
       },
     },

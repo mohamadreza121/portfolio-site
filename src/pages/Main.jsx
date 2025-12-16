@@ -33,19 +33,69 @@ export default function Main() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setActive("Home"); // ⬅️ reset active to Home
   };
+
+  useEffect(() => {
+    const sections = [
+      { id: "home", name: "Home" },
+      { id: "about", name: "About" },
+      { id: "projects", name: "Projects" },
+      { id: "certifications", name: "Certs" },
+    ];
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // ✅ True top of page = Home
+      if (window.scrollY <= 1) {
+        setActive((prev) => (prev === "Home" ? prev : "Home"));
+        return;
+      }
+
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const section = sections.find(
+          (s) => entry.target.parentElement.id === s.id
+        );
+
+        if (!section) return;
+
+        setActive((prev) =>
+          prev !== section.name ? section.name : prev
+        );
+      });
+    },
+    {
+      root: null,
+      rootMargin: "-64px 0px -65% 0px",
+      threshold: 0,
+    }
+  );
+
+
+
+
+    sections.forEach(({ id }) => {
+      const marker = document.querySelector(`#${id} .spy-marker`);
+      if (marker) observer.observe(marker);
+    });
+
+
+    return () => observer.disconnect();
+  }, []);
+
+
 
   return (
     <div className="main-page"> 
       <header className="navbar"> 
         <nav className="pill"> 
-          <Navbar active={active} setActive={setActive} /> 
+          <Navbar active={active} /> 
         </nav> 
       </header>
 
       <main className="site-content">
-        <Home setActive={setActive} />
+        <Home />
         <About />
         <Projects />
         <Certifications />

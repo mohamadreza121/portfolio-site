@@ -1,12 +1,11 @@
-import React from "react";
 import DecryptedText from "../components/DecryptedText";
-import ScrambledText from "../components/ScrambledText";
 import ProfileCard from "../components/ProfileCard";
 import "./AboutModern.css";
 
 export default function About() {
   return (
     <div id="about" className="about-page">
+        <span className="spy-marker" />
 
       {/* MAIN CONTAINER — matches Home width */}
       <div className="about-container">
@@ -113,7 +112,7 @@ export default function About() {
 
             <p style={{ marginTop: 10 }}>
               <strong>High School Diploma (Mathematics & Physics)</strong><br />
-              Samenolaeme High School — Tehran, Iran
+              Samen High School — Tehran, Iran
             </p>
           </div>
         </section>

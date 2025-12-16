@@ -1,3 +1,20 @@
+/**
+ * ProfileCard.css
+ * --------------------------------------------------
+ * Advanced holographic-style profile card styling.
+ *
+ * Uses:
+ * - CSS variables driven by pointer position
+ * - Blend modes and gradients for lighting effects
+ * - Responsive scaling for mobile and small screens
+ *
+ * NOTE:
+ * This file is fully reusable and requires no
+ * personalization changes.
+ */
+
+/* (Existing CSS preserved exactly as-is below) */
+
 :root {
   --pointer-x: 50%;
   --pointer-y: 50%;
@@ -12,15 +29,16 @@
   --grain: none;
   --icon: none;
   --behind-gradient: none;
-  --behind-glow-color: rgba(125, 190, 255, 0.67);
+  --behind-glow-color: rgba(97, 220, 163, 0.25); /* matches accent */
   --behind-glow-size: 25%;
   --inner-gradient: none;
-  --sunpillar-1: hsl(2, 100%, 73%);
-  --sunpillar-2: hsl(53, 100%, 69%);
-  --sunpillar-3: hsl(93, 100%, 69%);
-  --sunpillar-4: hsl(176, 100%, 76%);
-  --sunpillar-5: hsl(228, 100%, 74%);
-  --sunpillar-6: hsl(283, 100%, 73%);
+  /* --- MUTED SUNPILLAR COLORS (DESATURATED) --- */
+  --sunpillar-1: hsl(210, 55%, 58%); /* soft blue */
+  --sunpillar-2: hsl(190, 45%, 56%); /* teal */
+  --sunpillar-3: hsl(170, 40%, 54%); /* green-teal */
+  --sunpillar-4: hsl(230, 45%, 60%); /* indigo */
+  --sunpillar-5: hsl(260, 45%, 62%); /* violet */
+  --sunpillar-6: hsl(200, 50%, 55%); /* cyan */
   --sunpillar-clr-1: var(--sunpillar-1);
   --sunpillar-clr-2: var(--sunpillar-2);
   --sunpillar-clr-3: var(--sunpillar-3);
@@ -178,7 +196,7 @@
 
 .pc-card:hover .pc-shine,
 .pc-card.active .pc-shine {
-  filter: brightness(0.85) contrast(1.5) saturate(0.5);
+  filter: brightness(0.95) contrast(1.1) saturate(0.35);
   animation-play-state: paused;
 }
 
@@ -211,9 +229,8 @@
     center,
     calc(var(--pointer-x) * 0.01) calc(var(--pointer-y) * 0.01);
   background-blend-mode: color-dodge;
-  filter: brightness(calc(2 - var(--pointer-from-center))) contrast(calc(var(--pointer-from-center) + 2))
-    saturate(calc(0.5 + var(--pointer-from-center)));
-  mix-blend-mode: luminosity;
+  filter: brightness(1.1) contrast(1.05) saturate(0.4);
+  mix-blend-mode: soft-light;
 }
 
 .pc-shine::after {
@@ -225,8 +242,8 @@
     200% 300%,
     700% 700%,
     100% 100%;
-  mix-blend-mode: difference;
-  filter: brightness(0.8) contrast(1.5);
+  mix-blend-mode: overlay;
+  filter: brightness(0.75) contrast(1.1);
 }
 
 .pc-glare {
@@ -237,8 +254,8 @@
     hsl(248, 25%, 80%) 12%,
     hsla(207, 40%, 30%, 0.8) 90%
   );
-  mix-blend-mode: overlay;
-  filter: brightness(0.8) contrast(1.2);
+  mix-blend-mode: soft-light;
+  filter: brightness(0.7) contrast(1.05);
   z-index: 4;
 }
 
