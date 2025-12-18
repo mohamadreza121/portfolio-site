@@ -2,6 +2,7 @@ import React from "react";
 import DecryptedText from "../components/DecryptedText";
 import "./HomeModern.css";
 import "../components/TargetCursor.css";
+import ScrollReveal from "../components/ScrollReveal";
 
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
 
           {/* RIGHT SIDE — text content */}
           <div className="hero-right">
+            <ScrollReveal>
             <h1 className="home-title">
               <DecryptedText
                 text="Mohammadreza Heidarpoor"
@@ -35,7 +37,7 @@ export default function Home() {
                 text="Aspiring Network Engineer & Network Technician"
                 animateOn="both"
                 sequential={true}
-                speed={60}
+                speed={80}
                 revealDirection="start"
               />
             </h2>
@@ -60,6 +62,7 @@ export default function Home() {
                 Contact Me
               </a>
             </div>
+            </ScrollReveal>
           </div>
         </section>
 

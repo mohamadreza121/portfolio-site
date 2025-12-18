@@ -187,6 +187,8 @@ body {
 
 
 
+
+
 /* ===== RESPONSIVENESS ===== */
 @media (min-width: 900px) {
   .hero { grid-template-columns: 1fr 420px; }
@@ -200,5 +202,23 @@ body {
 
   .btn-pill {
     width: 100%;
+  }
+}
+
+
+
+
+/* =========================================
+   ACCESSIBILITY: REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal,
+  .home-cta-row,
+  .navbar-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

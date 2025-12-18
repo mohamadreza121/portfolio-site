@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import DecryptedText from '../components/DecryptedText';
+import ScrollReveal from '../components/ScrollReveal';
 import './Projects.css';
 
 
@@ -26,6 +27,7 @@ export default function Projects(){
 
           {/* LEFT */}
           <div className="projects-left">
+            <ScrollReveal>
             <h1 className="projects-title">
               <DecryptedText 
                 text="My Networking & IT Projects"
@@ -47,10 +49,12 @@ export default function Projects(){
                 revealDirection="start"
               />
             </p>
+            </ScrollReveal>
           </div>
 
           {/* RIGHT */}
           <div className="projects-right">
+            <ScrollReveal>
             <div className="project-list">
               {projects.map(p => (
                 <div className="project-card" key={p.id}>
@@ -64,6 +68,7 @@ export default function Projects(){
                 </div>
               ))}
             </div>
+            </ScrollReveal>
           </div>
 
         </section>

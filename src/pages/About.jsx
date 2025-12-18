@@ -1,5 +1,6 @@
 import DecryptedText from "../components/DecryptedText";
 import ProfileCard from "../components/ProfileCard";
+import ScrollReveal from "../components/ScrollReveal";
 import "./AboutModern.css";
 
 export default function About() {
@@ -15,6 +16,7 @@ export default function About() {
 
           {/* LEFT — PROFILE CARD */}
           <div className="hero-left">
+            <ScrollReveal>
             <ProfileCard
               name="Mohammadreza Heidarpoor"
               title="Networking & IT Security Student"
@@ -26,10 +28,12 @@ export default function About() {
               enableTilt={true}
               enableMobileTilt={false}
             />
+            </ScrollReveal>
           </div>
 
           {/* RIGHT — TEXT */}
           <div className="hero-right">
+            <ScrollReveal>
             <h1 className="about-title">
               <DecryptedText 
                 text="About Me"
@@ -51,11 +55,13 @@ export default function About() {
                 revealDirection="start"
               />
             </div>
+            </ScrollReveal>
           </div>
         </section>
 
         {/* ======= TECHNICAL SKILLS ======== */}
         <section className="about-section">
+          <ScrollReveal>
           <h2 className="section-title">Technical Skills</h2>
 
           <div className="section-block">
@@ -82,10 +88,12 @@ export default function About() {
               Packet Tracer • Visio • Draw.io • Lucidchart
             </p>
           </div>
+          </ScrollReveal>
         </section>
 
         {/* ======= EXPERIENCE ======== */}
         <section className="about-section">
+          <ScrollReveal>
           <h2 className="section-title">Experience</h2>
 
           <div className="section-block">
@@ -98,10 +106,12 @@ export default function About() {
               • Built, configured, and deployed PCs for labs and clients.
             </p>
           </div>
+          </ScrollReveal>
         </section>
 
         {/* ======= EDUCATION ======== */}
         <section className="about-section">
+          <ScrollReveal>
           <h2 className="section-title">Education</h2>
 
           <div className="section-block">
@@ -115,6 +125,7 @@ export default function About() {
               Samen High School — Tehran, Iran
             </p>
           </div>
+          </ScrollReveal>
         </section>
 
       </div>
