@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import DecryptedText from '../components/DecryptedText';
-import ScrollReveal from '../components/ScrollReveal';
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -62,7 +61,6 @@ export default function Certifications() {
 
           {/* LEFT SIDE */}
           <div className="certifications-left">
-            <ScrollReveal revealOnEnterBack={false}>
             <h1 className="certifications-title">
               <DecryptedText
                 text="Certifications"
@@ -106,12 +104,10 @@ export default function Certifications() {
                 </div>
               ))}
             </div>
-            </ScrollReveal>
           </div>
 
           {/* RIGHT SIDE */}
           <div className="certifications-right">
-            <ScrollReveal revealOnEnterBack={false}>
             <div className="cert-grid">
               {mainCerts.map((cert, idx) => (
                 <div
@@ -124,7 +120,6 @@ export default function Certifications() {
                 </div>
               ))}
             </div>
-            </ScrollReveal>
           </div>
 
         </section>
