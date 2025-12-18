@@ -62,7 +62,7 @@ export default function Certifications() {
 
           {/* LEFT SIDE */}
           <div className="certifications-left">
-            <ScrollReveal>
+            <ScrollReveal revealOnEnterBack={false}>
             <h1 className="certifications-title">
               <DecryptedText
                 text="Certifications"
@@ -111,7 +111,7 @@ export default function Certifications() {
 
           {/* RIGHT SIDE */}
           <div className="certifications-right">
-            <ScrollReveal>
+            <ScrollReveal revealOnEnterBack={false}>
             <div className="cert-grid">
               {mainCerts.map((cert, idx) => (
                 <div

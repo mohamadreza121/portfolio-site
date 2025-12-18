@@ -9,9 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
  * ScrollReveal
  * -------------
  * Section-level reveal animation
- * Plays on enter (top → bottom AND bottom → top)
- * Resets when leaving viewport
- * Safe with IntersectionObserver and scrollIntoView
+ * Configurable direction behavior
  */
 export default function ScrollReveal({
   children,
@@ -29,6 +27,9 @@ export default function ScrollReveal({
   // scroll config
   start = "top 85%",
   end = "bottom 15%",
+
+  // behavior
+  revealOnEnterBack = true,
 }) {
   const ref = useRef(null);
 
@@ -39,12 +40,7 @@ export default function ScrollReveal({
     const ctx = gsap.context(() => {
       const animation = gsap.fromTo(
         el,
-        {
-          y,
-          opacity,
-          scale,
-          rotate,
-        },
+        { y, opacity, scale, rotate },
         {
           y: 0,
           opacity: 1,
@@ -62,14 +58,30 @@ export default function ScrollReveal({
         end,
 
         onEnter: () => animation.restart(),
-        onEnterBack: () => animation.restart(),
+
+        onEnterBack: () => {
+          if (revealOnEnterBack) {
+            animation.restart();
+          }
+        },
+
         onLeave: () => animation.pause(0),
         onLeaveBack: () => animation.pause(0),
       });
     }, el);
 
     return () => ctx.revert();
-  }, [y, opacity, scale, rotate, duration, ease, start, end]);
+  }, [
+    y,
+    opacity,
+    scale,
+    rotate,
+    duration,
+    ease,
+    start,
+    end,
+    revealOnEnterBack,
+  ]);
 
   return (
     <Component ref={ref} className={`scroll-reveal ${className}`}>
