@@ -46,6 +46,7 @@
   align-items: center;
   min-width: 260px;
   padding-left: 30px;   /* 👈 shift card right */
+  transition: transform 0.25s ease;
 }
 
 .hero-left > * {
@@ -119,8 +120,8 @@
 
   .hero-left {
     justify-self: center;
-    margin-right: 142px; /* reduced by ~3px */
-    padding-left: 15px;
+    padding-left: 0;
+    transform: translateX(-66px);
   }
 
   .hero-left > * {
@@ -136,15 +137,21 @@
   }
 }
 
-/* Small screens (phones) */
-@media (max-width: 600px) {
-  .about-title {
-    font-size: 2rem; /* shrink title */
+/* 750px → 600px : shift 5px RIGHT */
+@media (max-width: 750px) and (min-width: 601px) {
+  .hero-left {
+    transform: translateX(-28px);
+  }
+}
+
+/* 600px → 480px : shift 2px LEFT */
+@media (max-width: 600px) and (min-width: 481px) {
+  .hero-left {
+    transform: translateX(-30px);
   }
 
-  .hero-left {
-    margin-right: 62px; /* reduced by ~3px */
-    padding-left: 15px;
+  .about-title {
+    font-size: 2rem;
   }
 
   .about-intro {
@@ -161,14 +168,21 @@
   }
 }
 
-/* Extra small screens */
+/* 480px → 420px : shift 2px RIGHT */
+@media (max-width: 480px) and (min-width: 421px) {
+  .hero-left {
+    transform: translateX(-14px);
+  }
+}
+
+/* 420px and below : shift 12px LEFT */
 @media (max-width: 420px) {
   .hero-left {
-    margin-right: 3px; /* slight left shift */
+    transform: translateX(-38px);
   }
 
   .hero-left > * {
-    max-width: 200px; /* shrink profile card */
+    max-width: 200px;
   }
 
   .about-title {
