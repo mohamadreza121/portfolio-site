@@ -160,20 +160,46 @@
   }
 
   .section-title {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
   }
 
   .section-block p {
     font-size: 0.9rem;
   }
+
+  .section-block {
+    padding: 16px;
+  }
 }
+
 
 /* 480px → 420px : shift 2px RIGHT */
 @media (max-width: 480px) and (min-width: 421px) {
   .hero-left {
     transform: translateX(-14px);
   }
+
+  .about-title {
+    font-size: 1.9rem;
+  }
+
+  .about-intro {
+    font-size: 0.92rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .section-block p {
+    font-size: 0.88rem;
+  }
+
+  .section-block {
+    padding: 14px;
+  }
 }
+
 
 /* 420px and below : shift 12px LEFT */
 @media (max-width: 420px) {
@@ -191,12 +217,22 @@
 
   .about-intro {
     font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .section-block p {
+    font-size: 0.85rem;
   }
 
   .section-block {
     padding: 12px;
   }
 }
+
 
 
 :root[data-theme="night"] {
