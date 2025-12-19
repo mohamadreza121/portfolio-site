@@ -9,31 +9,28 @@ import Projects from "./Projects";
 import Certifications from "./Certifications";
 import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
-import '../components/TargetCursor.css'
+import "../components/TargetCursor.css";
 
-export default function Main() {
+export default function Main({ theme, toggleTheme, active, setActive }) {
   const location = useLocation();
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [active, setActive] = useState("Home"); // ⬅️ lifted state
   const navigate = useNavigate();
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // ⬇️ Scroll to section if navigated with state
   useEffect(() => {
     if (location.state?.scrollTo && location.pathname === "/") {
       const targetElement = document.getElementById(location.state.scrollTo);
-
       if (targetElement) {
         requestAnimationFrame(() => {
           targetElement.scrollIntoView({ behavior: "smooth" });
         });
       }
-
-      // ✅ Clear navigation state AFTER scrolling
       navigate(".", { replace: true, state: null });
     }
   }, [location, navigate]);
 
-
+  // ⬇️ Show scroll-to-top button
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200);
@@ -46,6 +43,7 @@ export default function Main() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // ⬇️ Track active section with IntersectionObserver
   useEffect(() => {
     const sections = [
       { id: "home", name: "Home" },
@@ -54,56 +52,48 @@ export default function Main() {
       { id: "certifications", name: "Certs" },
     ];
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      // ✅ True top of page = Home
-      if (window.scrollY <= 1) {
-        setActive((prev) => (prev === "Home" ? prev : "Home"));
-        return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (window.scrollY <= 1) {
+          setActive((prev) => (prev === "Home" ? prev : "Home"));
+          return;
+        }
+
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const section = sections.find(
+            (s) => entry.target.parentElement.id === s.id
+          );
+          if (!section) return;
+          setActive((prev) => (prev !== section.name ? section.name : prev));
+        });
+      },
+      {
+        root: null,
+        rootMargin: "-72px 0px -80% 0px",
+        threshold: 0,
       }
-
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const section = sections.find(
-          (s) => entry.target.parentElement.id === s.id
-        );
-
-        if (!section) return;
-
-        setActive((prev) =>
-          prev !== section.name ? section.name : prev
-        );
-      });
-    },
-    {
-      root: null,
-      rootMargin: "-72px 0px -80% 0px",
-      threshold: 0,
-
-    }
-  );
-
-
-
+    );
 
     sections.forEach(({ id }) => {
       const marker = document.querySelector(`#${id} .spy-marker`);
       if (marker) observer.observe(marker);
     });
 
-
     return () => observer.disconnect();
   }, []);
 
-
-
   return (
-    <div className="main-page"> 
-      <header className="navbar"> 
-        <nav className="pill"> 
-          <Navbar active={active} /> 
-        </nav> 
+    <div className="main-page">
+      <header className="navbar">
+        <nav className="pill">
+          <Navbar
+            active={active}
+            onSetActive={setActive}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        </nav>
       </header>
 
       <main className="site-content">
@@ -113,7 +103,7 @@ export default function Main() {
         <Certifications />
       </main>
 
-      <Footer />
+      <Footer active={active} setActive={setActive} />
 
       {showScrollTop && (
         <button className="scroll-top-btn cursor-target" onClick={scrollToTop}>

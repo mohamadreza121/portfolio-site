@@ -19,8 +19,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(97, 220, 163, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(97, 220, 163, 0.05) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
@@ -53,7 +53,7 @@
   font-size: 2.6rem;
   margin-bottom: 20px;
   color: var(--accent);
-  text-shadow: 0 0 8px rgba(97,220,163,0.6);
+  text-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* RIGHT SIDE */
@@ -72,13 +72,13 @@
 .credly-btn {
   font-size: 1.2rem;              /* bigger text */
   padding: 14px 28px;             /* bigger pill */
-  background: linear-gradient(90deg, var(--accent), #61b3dc);
+  background: linear-gradient(90deg, var(--accent), var(--accent-alt));
   color: #022a1b;
   border: none;
   border-radius: 999px;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 0 14px rgba(97,220,163,0.6);
+  box-shadow: 0 0 14px var(--accent-glow);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -101,11 +101,11 @@
 /* cyber card styling */
 .cert-card {
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(97,220,163,0.3);
+  border: 1px solid var(--accent-border);
   border-radius: 12px;
   padding: 16px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  box-shadow: 0 0 20px var(--card-shadow);
   transition: transform 220ms ease, box-shadow 220ms ease;
   width: 100%;
   max-width: 480px;
@@ -116,7 +116,7 @@
 
 .cert-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 24px rgba(97,220,163,0.4);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
 /* cyber grid background inside cards */
@@ -147,7 +147,7 @@
   width: 100%;
   height: auto;
   border-radius: 6px;
-  border: 1px solid rgba(97,220,163,0.3);
+  border: 1px solid var(--accent-border);
 }
 
 .cert-title {
@@ -155,7 +155,7 @@
   font-weight: 600;
   color: var(--accent);
   margin-top: 12px;
-  text-shadow: 0 0 6px rgba(97,220,163,0.6);
+  text-shadow: 0 0 6px var(--accent-glow);
 }
 
 /* lightbox overlay for PDFs */
@@ -180,7 +180,7 @@
   background: #0a0a0a;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 40px rgba(97,220,163,0.4);
+  box-shadow: 0 0 40px var(--accent-glow);
 }
 
 
@@ -198,7 +198,7 @@
   vertical-align: middle;
   transform: translateY(2px);
   color: var(--accent);
-  text-shadow: 0 0 6px rgba(97,220,163,0.6);
+  text-shadow: 0 0 6px var(--accent-glow);
   margin-bottom: 28px;
 }
 
@@ -232,4 +232,23 @@
   .icon-link {
     margin-top: 28px;
   }
+}
+
+
+:root[data-theme="night"] {
+  --accent: #61dca3; /* cyber green */
+  --accent-alt: #61b3dc; /* teal/blue secondary */
+  --accent-glow: rgba(97,220,163,0.6);
+  --accent-border: rgba(97,220,163,0.3);
+  --card-shadow: rgba(0,0,0,0.6);
+  --grid-line: rgba(97,220,163,0.05);
+}
+
+:root[data-theme="day"] {
+  --accent: #ff7b54; /* warm orange */
+  --accent-alt: #61b3dc; /* keep blue secondary for contrast */
+  --accent-glow: rgba(255,123,84,0.6);
+  --accent-border: rgba(255,123,84,0.3);
+  --card-shadow: rgba(0,0,0,0.15); /* softer shadow in day mode */
+  --grid-line: rgba(255,123,84,0.08); /* warm orange tint */
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import './ProfileCard.css';
 
 const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
@@ -37,6 +37,25 @@ const ProfileCardComponent = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
+
+  const [theme, setTheme] = useState(document.documentElement.getAttribute("data-theme") || "night");
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const newTheme = document.documentElement.getAttribute("data-theme");
+      setTheme(newTheme);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"]
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const avatarFilter = theme === "night" ? "grayscale(100%) contrast(1.2)" : "none";
+
 
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
@@ -316,7 +335,7 @@ const ProfileCardComponent = ({
                 className="avatar"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
-                loading="lazy"
+                style={{ filter: avatarFilter }}
                 onError={e => {
                   const t = e.target;
                   t.style.display = 'none';

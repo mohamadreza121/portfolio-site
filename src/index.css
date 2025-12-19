@@ -5,13 +5,25 @@
 @tailwind utilities;
 
 
-/* ===== THEME VARIABLES ===== */
-:root {
+/* Night mode (default) */
+:root[data-theme="night"] {
   --bg-color: #000;
   --text-color: #e6f7ef;
   --muted: #9fb6a8;
   --accent: #61dca3;
 }
+
+/* Day mode */
+:root[data-theme="day"] {
+  --bg-color: #ffffff;
+  --text-color: #1a1a1a;
+  --muted: #b0b0b0;
+  --accent: #ff7b54;   /* lively orange */
+  --accent-alt: #ffb347;
+  --accent-dark: #e85d04;
+  --accent-border: rgba(255, 123, 84, 0.3);
+}
+
 
 /* ===== GLOBAL RESET ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -95,7 +107,7 @@ body {
 
 .btn-pill {
   background: transparent;
-  border: 1px solid rgba(97,220,163,0.4);
+  border: 1px solid var(--accent-border);
   color: var(--text-color);
   padding: clamp(6px, 1.2vw, 12px) clamp(10px, 2vw, 20px);
   font-size: clamp(0.75rem, 1.7vw, 1rem);
@@ -105,18 +117,19 @@ body {
   font-weight: 600;
   transition: all 220ms ease;
   font-family: 'JetBrains Mono', monospace;
-    flex-shrink: 1;
-      min-width: 0;
-        white-space: nowrap;
-          overflow: hidden;
-            text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+            
 }
 
 .btn-pill.primary {
   background: linear-gradient(90deg, var(--accent), #61b3dc);
   color: #022a1b;
   border: none;
-  box-shadow: 0 0 10px rgba(97,220,163,0.6);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .btn-pill:hover {
@@ -124,7 +137,7 @@ body {
   color: var(--accent);
   border-color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
-  box-shadow: 0 0 12px rgba(97,220,163,0.6);
+  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 
@@ -138,16 +151,19 @@ body {
 }
 
 
-.revealed {
-  color: var(--accent);
-  text-shadow: 0 0 6px rgba(97,220,163,0.6);
-  transition: color 0.3s ease;
-}
 
 .encrypted {
-  color: rgba(97,220,163,0.3);
-  opacity: 0.6;
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent-glow);
+  opacity: 0.4;
 }
+
+.revealed {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-glow);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
 
 #home, #about, #projects, #certifications {
   scroll-margin-top: 80px; /* adjust to your navbar height */

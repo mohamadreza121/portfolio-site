@@ -1,3 +1,33 @@
+/* ===== THEME VARIABLES ===== */
+:root[data-theme="night"] {
+  --dock-bg: #060010;
+  --dock-border: #222;
+  --dock-item-bg: #060010;
+  --dock-item-border: #222;
+  --dock-label-bg: #060010;
+  --dock-label-border: #222;
+  --dock-label-color: #fff;
+
+  --nav-active: #61dca3;     /* cyber green active */
+  --nav-inactive: #9fb6a8;   /* muted inactive */
+  --accent: #61dca3;         /* hover accent */
+}
+
+:root[data-theme="day"] {
+  --dock-bg: #fdfdfd;
+  --dock-border: #ddd;
+  --dock-item-bg: #ffffff;
+  --dock-item-border: #ccc;
+  --dock-label-bg: #ffffff;
+  --dock-label-border: #ccc;
+  --dock-label-color: #1a1a1a;
+
+  --nav-active: #ff7b54;     /* lively orange active */
+  --nav-inactive: #999999;   /* neutral inactive */
+  --accent: #ff7b54;         /* hover accent */
+}
+
+/* ===== DOCK LAYOUT ===== */
 .dock-outer {
   margin: 0 0.5rem;
   display: flex;
@@ -6,9 +36,9 @@
 }
 
 .dock-panel {
-  position: fixed;        /* 👈 pin to viewport */
+  position: fixed;
   margin-top: 45px;
-  top: 0;                 /* stick to top edge */
+  top: 0;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -17,10 +47,11 @@
   width: fit-content;
   gap: 1rem;
   border-radius: 1rem;
-  background-color: #060010;
-  border: 1px solid #222;
+  background-color: var(--dock-bg);
+  border: 1px solid var(--dock-border);
   padding: 0 0.5rem 0.5rem;
-  z-index: 100;           /* ensure above content */
+  z-index: 100;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .dock-item {
@@ -29,13 +60,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: #060010;
-  border: 1px solid #222;
+  background-color: var(--dock-item-bg);
+  border: 1px solid var(--dock-item-border);
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   cursor: pointer;
   outline: none;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .dock-icon {
@@ -44,6 +76,7 @@
   justify-content: center;
 }
 
+/* ===== LABELS ===== */
 .dock-label {
   position: absolute;
   top: -1.5rem;
@@ -51,10 +84,28 @@
   width: fit-content;
   white-space: pre;
   border-radius: 0.375rem;
-  border: 1px solid #222;
-  background-color: #060010;
+  border: 1px solid var(--dock-label-border);
+  background-color: var(--dock-label-bg);
   padding: 0.125rem 0.5rem;
   font-size: 0.75rem;
-  color: #fff;
+  color: var(--dock-label-color);
   transform: translateX(-50%);
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+/* ===== ACTIVE / INACTIVE ICONS ===== */
+.dock-item .dock-icon svg {
+  color: var(--nav-inactive);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.dock-item.active .dock-icon svg {
+  color: var(--nav-active);
+  filter: drop-shadow(0 0 6px var(--nav-active));
+}
+
+/* ===== HOVER EFFECT ===== */
+.dock-item:hover .dock-icon svg {
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent);
 }

@@ -55,8 +55,7 @@
   line-height: 1.15;
   margin-bottom: 18px;
   color: var(--accent);
-  text-shadow: 0 0 8px rgba(97,220,163,0.6);
-
+  text-shadow: 0 0 8px var(--accent-glow);
 }
 
 .home-subtitle {
@@ -98,15 +97,15 @@
   font-size: 1.8rem;
   margin-bottom: 22px;
   color: var(--accent);
-  text-shadow: 0 0 6px rgba(97,220,163,0.6);
+  text-shadow: 0 0 6px var(--accent-glow);
 }
 
 .section-block {
-  background: rgba(255,255,255,0.02);
+  background: var(--section-bg);
   border-radius: 12px;
   padding: 20px 24px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(97,220,163,0.3);
+  border: 1px solid var(--accent-border);
 }
 
 .section-block p {
@@ -128,4 +127,22 @@
     padding: 5px 8px;
     font-size: 0.72rem;
   }
+}
+
+:root[data-theme="night"] {
+  --accent: #61dca3;
+  --muted: #9fb6a8;
+  --text-color: #e6f7ef;
+  --accent-glow: rgba(97, 220, 163, 0.6);
+  --accent-border: rgba(97, 220, 163, 0.3);
+  --section-bg: rgba(255, 255, 255, 0.02);
+}
+
+:root[data-theme="day"] {
+  --accent: #ff7b54;
+  --muted: #666666;
+  --text-color: #1a1a1a;
+  --accent-glow: rgba(255, 123, 84, 0.6);
+  --accent-border: rgba(255, 123, 84, 0.3);
+  --section-bg: rgba(0, 0, 0, 0.02);
 }

@@ -13,21 +13,21 @@ export default function Footer() {
         <div className="footer-section">
           <h3 className="footer-title">Contact</h3>
           <p>
-            <FaMapMarkerAlt size={14} color="#61dca3" style={{ marginRight: "8px" }} />
+            <FaMapMarkerAlt size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
             Toronto, Ontario, Canada
           </p>
           <p>
-            <FaPhone size={14} color="#61dca3" style={{ marginRight: "8px" }} />
+            <FaPhone size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
             +1 (647) 802-3224
           </p>
           <p>
-            <FaEnvelope size={14} color="#61dca3" style={{ marginRight: "8px" }} />
+            <FaEnvelope size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
             <a href="mailto:mrheidarpoor7@gmail.com" className="footer-link cursor-target">
               mrheidarpoor7@gmail.com
             </a>
           </p>
           <p>
-            <FaLinkedin size={14} color="#61dca3" style={{ marginRight: "8px" }} />
+            <FaLinkedin size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
             <a
               href="https://linkedin.com/in/mohammadreza-heidarpoor"
               target="_blank"

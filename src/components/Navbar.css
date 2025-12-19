@@ -1,0 +1,25 @@
+.navbar-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.theme-toggle-btn {
+  position: fixed;
+  top: 45px;
+  right: 20px;
+  background: var(--bg-color);
+  border: 1px solid #222;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+.theme-toggle-btn:hover {
+  background: #111;
+}
+
+

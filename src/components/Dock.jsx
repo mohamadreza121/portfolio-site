@@ -98,7 +98,10 @@ export default function Dock({
   const height = useSpring(heightRow, spring);
 
   return (
-    <motion.div style={{ height: panelHeight, overflow: 'visible', scrollbarWidth: 'none' }} className="dock-outer">
+    <motion.div
+      style={{ height: panelHeight, overflow: 'visible', scrollbarWidth: 'none' }}
+      className="dock-outer"
+    >
       <motion.div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);
@@ -113,21 +116,21 @@ export default function Dock({
         role="toolbar"
         aria-label="Application dock"
       >
-        {items.map((item, index) => (
-          <DockItem
-            key={index}
-            onClick={item.onClick}
-            className={item.className}
-            mouseX={mouseX}
-            spring={spring}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
-          >
-            <DockIcon>{item.icon}</DockIcon>
-            <DockLabel>{item.label}</DockLabel>
-          </DockItem>
-        ))}
+      {items.map((item, index) => (
+        <DockItem
+          key={index}
+          onClick={item.onClick}
+          className={item.isActive ? "active" : ""}
+          mouseX={mouseX}
+          spring={spring}
+          distance={distance}
+          magnification={magnification}
+          baseItemSize={baseItemSize}
+        >
+          <DockIcon>{item.icon}</DockIcon>
+          <DockLabel>{item.label}</DockLabel>
+        </DockItem>
+      ))}
       </motion.div>
     </motion.div>
   );
