@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { scrollToSection } from "../utils/scrollToSection";
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaLinkedin } from "react-icons/fa";
 import "./footer.css";
 import "./TargetCursor.css";
@@ -48,7 +48,7 @@ export default function Footer() {
                   type="button"
                   className="footer-link cursor-target"
                   onClick={() => {
-                    document.querySelector("#home")?.scrollIntoView({ behavior: "smooth" });
+                    scrollToSection("home");
                   }}
                 >
                   Home
@@ -60,7 +60,7 @@ export default function Footer() {
                   type="button"
                   className="footer-link cursor-target"
                   onClick={() => {
-                    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+                    scrollToSection("about");
                   }}
                 >
                   About
@@ -72,7 +72,7 @@ export default function Footer() {
                   type="button"
                   className="footer-link cursor-target"
                   onClick={() => {
-                    document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+                    scrollToSection("projects");
                   }}
                 >
                   Projects
@@ -84,7 +84,7 @@ export default function Footer() {
                   type="button"
                   className="footer-link cursor-target"
                   onClick={() => {
-                    document.querySelector("#certifications")?.scrollIntoView({ behavior: "smooth" });
+                    scrollToSection("certifications");
                   }}
                 >
                   Certifications
@@ -96,7 +96,7 @@ export default function Footer() {
                   type="button"
                   className="footer-link cursor-target"
                   onClick={() => {
-                    document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
+                    scrollToSection("services");
                   }}
                 >
                   Services

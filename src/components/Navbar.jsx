@@ -7,6 +7,7 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
+import { scrollToSection } from "../utils/scrollToSection";
 import Dock from "./Dock";
 import "./Dock.css";
 import "./Navbar.css";
@@ -19,7 +20,7 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       label: "Home",
       onClick: () => {
         onSetActive?.("Home");
-        document.querySelector("#home")?.scrollIntoView({ behavior: "smooth" });
+        scrollToSection("home");
       },
       isActive: active === "Home",
     },
@@ -28,7 +29,7 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       label: "About",
       onClick: () => {
         onSetActive?.("About");
-        document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+        scrollToSection("about");
       },
       isActive: active === "About",
     },
@@ -37,7 +38,7 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       label: "Projects",
       onClick: () => {
         onSetActive?.("Projects");
-        document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+        scrollToSection("projects");
       },
       isActive: active === "Projects",
     },
@@ -46,7 +47,7 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       label: "Certs",
       onClick: () => {
         onSetActive?.("Certs");
-        document.querySelector("#certifications")?.scrollIntoView({ behavior: "smooth" });
+        scrollToSection("certifications");
       },
       isActive: active === "Certs",
     },
@@ -54,12 +55,22 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaTools size={16} />,
       label: "Services",
       onClick: () => {
-        onSetActive?.("Services");
-        document
-          .querySelector("#services")
-          ?.scrollIntoView({ behavior: "smooth" });
+      onSetActive?.("Services");
+      scrollToSection("services");
       },
       isActive: active === "Services",
+    },
+        // 🌗 THEME TOGGLE (NO ACTIVE STATE)
+    {
+      icon:
+        theme === "night" ? (
+          <FaSun size={16} />
+        ) : (
+          <FaMoon size={16} />
+        ),
+      label: "Theme",
+      onClick: onToggleTheme,
+      isActive: false,
     },
   ];
 
@@ -71,15 +82,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
         baseItemSize={50}
         magnification={70}
       />
-
-      {/* Theme toggle button pinned top-right */}
-      <button className="theme-toggle-btn cursor-target" onClick={onToggleTheme}>
-        {theme === "night" ? (
-          <FaSun size={18} style={{ color: "var(--nav-active)" }} />
-        ) : (
-          <FaMoon size={18} style={{ color: "var(--nav-active)" }} />
-        )}
-      </button>
     </div>
   );
 }

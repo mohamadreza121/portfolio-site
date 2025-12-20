@@ -172,8 +172,10 @@ body {
 .app-root {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
+
 
 .site-content {
   position: relative;
@@ -395,12 +397,6 @@ body {
     margin-top: 40px;
     padding: 0 0.4rem 0.4rem;
   }
-
-  .theme-toggle-btn {
-    top: 47px;
-    right: 16px;
-    transform: translateY(2px);
-  }
 }
 
 
@@ -414,10 +410,6 @@ body {
   /* NAVBAR */
   .dock-item {
     transform: scale(0.95);
-  }
-  .theme-toggle-btn {
-    transform: scale(0.95);
-    transform: translateY(4px);
   }
 }
 
@@ -557,11 +549,6 @@ body {
   .dock-label {
     font-size: 0.7rem;
   }
-
-  .theme-toggle-btn {
-    transform: scale(0.9);
-    transform: translateY(4px);
-  }
 }
 
 
@@ -667,11 +654,6 @@ body {
 
   .dock-label {
     display: none;
-  }
-
-  .theme-toggle-btn {
-    transform: scale(0.85);
-    transform: translateY(5.8px);
   }
 }
 
@@ -819,11 +801,6 @@ body {
   .dock-item {
     transform: scale(0.8);
   }
-
-  .theme-toggle-btn {
-    transform: scale(0.8);
-    transform: translateY(-3px);
-  }
 }
 
 
@@ -843,11 +820,6 @@ body {
   /* NAVBAR */
   .dock-item {
     transform: scale(0.75);
-  }
-
-  .theme-toggle-btn {
-    transform: scale(0.75);
-    transform: translateY(-2px);
   }
 }
 
