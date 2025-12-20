@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from '../pages/Main';
 import Project1 from '../pages/Project1';

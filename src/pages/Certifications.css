@@ -106,7 +106,11 @@
   padding: 16px;
   text-align: center;
   box-shadow: 0 0 20px var(--card-shadow);
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  transition:
+    transform 0.25s ease,
+    padding 0.25s ease,
+    font-size 0.25s ease,
+    box-shadow 220ms ease;
   width: 100%;
   max-width: 480px;
   cursor: pointer;
@@ -200,55 +204,4 @@
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent-glow);
   margin-bottom: 28px;
-}
-
-
-@media (max-width: 900px) {
-  .certifications-hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
-  }
-
-  .certifications-container {
-    padding: 30px 16px;
-  }
-
-  .credly-btn-wrapper {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .credly-btn {
-    font-size: 1rem;
-    padding: 12px 24px;
-    margin-bottom: 12px;
-  }
-
-  .cert-card {
-    max-width: 100%;
-  }
-
-  .icon-link {
-    margin-top: 28px;
-  }
-}
-
-
-:root[data-theme="night"] {
-  --accent: #61dca3; /* cyber green */
-  --accent-alt: #61b3dc; /* teal/blue secondary */
-  --accent-glow: rgba(97,220,163,0.6);
-  --accent-border: rgba(97,220,163,0.3);
-  --card-shadow: rgba(0,0,0,0.6);
-  --grid-line: rgba(97,220,163,0.05);
-}
-
-:root[data-theme="day"] {
-  --accent: #ff7b54; /* warm orange */
-  --accent-alt: #61b3dc; /* keep blue secondary for contrast */
-  --accent-glow: rgba(255,123,84,0.6);
-  --accent-border: rgba(255,123,84,0.3);
-  --card-shadow: rgba(0,0,0,0.15); /* softer shadow in day mode */
-  --grid-line: rgba(255,123,84,0.08); /* warm orange tint */
 }

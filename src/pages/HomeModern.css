@@ -116,36 +116,3 @@
   color: var(--text-color);
   opacity: 0.85;
 }
-
-/* Shrink CTA buttons on smaller screens */
-@media (max-width: 520px) {
-  .home-cta-row .btn-pill {
-    padding: 6px 10px;   /* smaller padding */
-    font-size: 0.8rem;   /* shrink text */
-  }
-}
-
-@media (max-width: 420px) {
-  .home-cta-row .btn-pill {
-    padding: 5px 8px;
-    font-size: 0.72rem;
-  }
-}
-
-:root[data-theme="night"] {
-  --accent: #61dca3;
-  --muted: #9fb6a8;
-  --text-color: #e6f7ef;
-  --accent-glow: rgba(97, 220, 163, 0.6);
-  --accent-border: rgba(97, 220, 163, 0.3);
-  --section-bg: rgba(255, 255, 255, 0.02);
-}
-
-:root[data-theme="day"] {
-  --accent: #ff7b54;
-  --muted: #666666;
-  --text-color: #1a1a1a;
-  --accent-glow: rgba(255, 123, 84, 0.6);
-  --accent-border: rgba(255, 123, 84, 0.3);
-  --section-bg: rgba(0, 0, 0, 0.02);
-}

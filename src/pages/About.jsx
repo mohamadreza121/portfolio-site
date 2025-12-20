@@ -1,7 +1,7 @@
 import DecryptedText from "../components/DecryptedText";
 import ProfileCard from "../components/ProfileCard";
-import ScrollReveal from "../components/ScrollReveal";
 import "./AboutModern.css";
+import ScrollReveal from "../components/ScrollReveal";
 
 export default function About() {
   return (
@@ -13,7 +13,6 @@ export default function About() {
 
         {/* ======= HERO SECTION ======== */}
         <section className="about-hero">
-
           {/* LEFT — PROFILE CARD */}
           <div className="hero-left">
             <ScrollReveal>

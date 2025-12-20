@@ -5,19 +5,33 @@
 
 .theme-toggle-btn {
   position: fixed;
-  top: 45px;
+  top: 50px; 
   right: 20px;
-  background: var(--bg-color);
-  border: 1px solid #222;
-  border-radius: 50%;
-  padding: 8px;
-  cursor: pointer;
-  z-index: 200;
+
+  width: 50px;
+  height: 50px;
+
+  background: var(--dock-item-bg);
+  border: 1px solid var(--dock-item-border);
+  border-radius: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.4s ease, color 0.4s ease;
+
+  cursor: pointer;
+  z-index: 200;
+
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    transform 0.2s ease;
 }
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+}
+
 .theme-toggle-btn:hover {
   background: #111;
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Router from './routes/Router';
 import LetterGlitch from './components/LetterGlitch';
 import TargetCursor from './components/TargetCursor';
-import Navbar from './components/Navbar';
 import './index.css';
 
 export default function App() {

@@ -1,32 +1,3 @@
-/* ===== THEME VARIABLES ===== */
-:root[data-theme="night"] {
-  --dock-bg: #060010;
-  --dock-border: #222;
-  --dock-item-bg: #060010;
-  --dock-item-border: #222;
-  --dock-label-bg: #060010;
-  --dock-label-border: #222;
-  --dock-label-color: #fff;
-
-  --nav-active: #61dca3;     /* cyber green active */
-  --nav-inactive: #9fb6a8;   /* muted inactive */
-  --accent: #61dca3;         /* hover accent */
-}
-
-:root[data-theme="day"] {
-  --dock-bg: #fdfdfd;
-  --dock-border: #ddd;
-  --dock-item-bg: #ffffff;
-  --dock-item-border: #ccc;
-  --dock-label-bg: #ffffff;
-  --dock-label-border: #ccc;
-  --dock-label-color: #1a1a1a;
-
-  --nav-active: #ff7b54;     /* lively orange active */
-  --nav-inactive: #999999;   /* neutral inactive */
-  --accent: #ff7b54;         /* hover accent */
-}
-
 /* ===== DOCK LAYOUT ===== */
 .dock-outer {
   margin: 0 0.5rem;

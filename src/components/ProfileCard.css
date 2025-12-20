@@ -15,35 +15,29 @@
 
 /* (Existing CSS preserved exactly as-is below) */
 
-/* Night mode (cool, cyberpunk palette) */
-:root[data-theme="night"] {
+/* =====================================================
+   PROFILE CARD — INTERACTION STATE
+   (Component-local, theme-agnostic)
+   ===================================================== */
+
+:root {
   --pointer-x: 50%;
   --pointer-y: 50%;
   --pointer-from-center: 0;
   --pointer-from-top: 0.5;
   --pointer-from-left: 0.5;
+
   --card-opacity: 0;
+
   --rotate-x: 0deg;
   --rotate-y: 0deg;
+
   --background-x: 50%;
   --background-y: 50%;
+
   --grain: none;
   --icon: none;
-  --behind-gradient: none;
-  --behind-glow-color: rgba(97, 220, 163, 0.25);
-  --behind-glow-size: 25%;
   --inner-gradient: none;
-  --name-gradient: linear-gradient(to bottom, #fff, #6f6fbe);
-  --title-gradient: linear-gradient(to bottom, #fff, #4a4ac0);
-  --avatar-blend-mode: luminosity;
-
-  /* --- MUTED SUNPILLAR COLORS (Night) --- */
-  --sunpillar-1: hsl(210, 55%, 58%); /* soft blue */
-  --sunpillar-2: hsl(190, 45%, 56%); /* teal */
-  --sunpillar-3: hsl(170, 40%, 54%); /* green-teal */
-  --sunpillar-4: hsl(230, 45%, 60%); /* indigo */
-  --sunpillar-5: hsl(260, 45%, 62%); /* violet */
-  --sunpillar-6: hsl(200, 50%, 55%); /* cyan */
 
   --sunpillar-clr-1: var(--sunpillar-1);
   --sunpillar-clr-2: var(--sunpillar-2);
@@ -53,56 +47,13 @@
   --sunpillar-clr-6: var(--sunpillar-6);
 
   --card-radius: 30px;
+  
 }
 
-/* Day mode (warm, radiant palette) */
-:root[data-theme="day"] {
-  --pointer-x: 50%;
-  --pointer-y: 50%;
-  --pointer-from-center: 0;
-  --pointer-from-top: 0.5;
-  --pointer-from-left: 0.5;
-  --card-opacity: 0;
-  --rotate-x: 0deg;
-  --rotate-y: 0deg;
-  --background-x: 50%;
-  --background-y: 50%;
-  --grain: none;
-  --icon: none;
-  --behind-gradient: none;
-  --behind-glow-color: rgba(255, 123, 84, 0.25);
-  --behind-glow-size: 25%;
-  --inner-gradient: none;
-  --name-gradient: linear-gradient(to bottom, #ff7b54, #ff9e3c);   /* vivid orange */
-  --title-gradient: linear-gradient(to bottom, #ff9e3c, #ffb88c); /* softer orange-gold */
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --avatar-blend-mode: normal;
 
-  /* Subtle sunlight vignette */
-  --day-vignette: radial-gradient(
-    circle at top left,
-    rgba(255, 223, 150, 0.25) 0%,
-    rgba(255, 223, 150, 0.15) 30%,
-    rgba(255, 255, 255, 0.0) 70%
-  );
-
-  /* --- SUNPILLAR COLORS (Day) --- */
-  --sunpillar-1: hsl(35, 90%, 65%);   /* golden amber */
-  --sunpillar-2: hsl(25, 85%, 62%);   /* warm orange */
-  --sunpillar-3: hsl(15, 80%, 60%);   /* coral red-orange */
-  --sunpillar-4: hsl(200, 70%, 60%);  /* sky blue */
-  --sunpillar-5: hsl(280, 65%, 68%);  /* soft violet-magenta */
-  --sunpillar-6: hsl(150, 55%, 55%);  /* fresh spring green */
-
-  --sunpillar-clr-1: var(--sunpillar-1);
-  --sunpillar-clr-2: var(--sunpillar-2);
-  --sunpillar-clr-3: var(--sunpillar-3);
-  --sunpillar-clr-4: var(--sunpillar-4);
-  --sunpillar-clr-5: var(--sunpillar-5);
-  --sunpillar-clr-6: var(--sunpillar-6);
-
-  --card-radius: 30px;
-}
+/* =====================================================
+   PROFILE CARD — THEME-DEPENDENT BEHAVIOR
+   ===================================================== */
 
 :root[data-theme="night"] .pc-content:not(.pc-avatar-content) {
   mix-blend-mode: luminosity;

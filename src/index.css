@@ -5,24 +5,138 @@
 @tailwind utilities;
 
 
-/* Night mode (default) */
+/* =====================================================
+   THEME TOKENS — NIGHT MODE (DEFAULT)
+   ===================================================== */
+
 :root[data-theme="night"] {
-  --bg-color: #000;
+  /* Base */
+  --bg-color: #000000;
   --text-color: #e6f7ef;
   --muted: #9fb6a8;
+
+  /* Accent system */
   --accent: #61dca3;
+  --accent-alt: #61b3dc;
+  --accent-dark: #2fa97a;
+
+  /* Accent effects */
+  --accent-glow: rgba(97, 220, 163, 0.6);
+  --accent-border: rgba(97, 220, 163, 0.3);
+  --card-hover: rgba(97, 220, 163, 0.45);
+
+  /* Surfaces */
+  --section-bg: rgba(255, 255, 255, 0.02);
+  --card-shadow: rgba(0, 0, 0, 0.6);
+
+  /* Grid & decorative lines */
+  --grid-line: rgba(97, 220, 163, 0.05);
+
+  /* Footer */
+  --bg-color-footer: #0a0a0a;
+  --border-footer: rgba(97, 220, 163, 0.4);
+  --grid-color: rgba(97, 220, 163, 0.05);
+
+  /* Dock / Navbar */
+  --dock-bg: #060010;
+  --dock-border: #222;
+  --dock-item-bg: #060010;
+  --dock-item-border: #222;
+  --dock-label-bg: #060010;
+  --dock-label-border: #222;
+  --dock-label-color: #ffffff;
+
+  --nav-active: #61dca3;
+  --nav-inactive: #9fb6a8;
+
+  /* Profile Card — Visuals */
+  --behind-glow-color: rgba(97, 220, 163, 0.25);
+  --behind-glow-size: 25%;
+
+    /* Card surfaces */
+  --card-bg: rgba(10, 10, 10, 0.85);
+
+  --name-gradient: linear-gradient(to bottom, #ffffff, #6f6fbe);
+  --title-gradient: linear-gradient(to bottom, #ffffff, #4a4ac0);
+
+  --avatar-blend-mode: luminosity;
+
+  /* Sunpillar colors (night) */
+  --sunpillar-1: hsl(210, 55%, 58%);
+  --sunpillar-2: hsl(190, 45%, 56%);
+  --sunpillar-3: hsl(170, 40%, 54%);
+  --sunpillar-4: hsl(230, 45%, 60%);
+  --sunpillar-5: hsl(260, 45%, 62%);
+  --sunpillar-6: hsl(200, 50%, 55%);
 }
 
-/* Day mode */
+
+/* =====================================================
+   THEME TOKENS — DAY MODE
+   ===================================================== */
+
 :root[data-theme="day"] {
+  /* Base */
   --bg-color: #ffffff;
-  --text-color: #1a1a1a;
-  --muted: #b0b0b0;
-  --accent: #ff7b54;   /* lively orange */
-  --accent-alt: #ffb347;
+  --text-color: #0f0f0f;
+  --muted: #4b4b4b;
+
+
+  /* Accent system */
+  --accent: #ff7b54;
+  --accent-alt: #61b3dc;
   --accent-dark: #e85d04;
-  --accent-border: rgba(255, 123, 84, 0.3);
+
+  /* Accent effects */
+  --accent-glow: rgba(255, 123, 84, 0.6);
+  --accent-border: rgba(235, 105, 70, 0.7);
+  --card-hover: rgba(255, 123, 84, 0.45);
+
+  /* Surfaces */
+  --section-bg: rgba(0, 0, 0, 0.02);
+  --card-shadow: rgba(0, 0, 0, 0.15);
+
+  /* Grid & decorative lines */
+  --grid-line: rgba(255, 123, 84, 0.08);
+
+  /* Footer */
+  --bg-color-footer: #fdfdfd;
+  --border-footer: rgba(255, 123, 84, 0.6);
+  --grid-color: rgba(255, 123, 84, 0.08);
+
+  /* Dock / Navbar */
+  --dock-bg: #fdfdfd;
+  --dock-border: #dddddd;
+  --dock-item-bg: #ffffff;
+  --dock-item-border: #cccccc;
+  --dock-label-bg: #ffffff;
+  --dock-label-border: #cccccc;
+  --dock-label-color: #0f0f0f;
+
+  --nav-active: #ff7b54;
+  --nav-inactive: #7a7a7a;
+
+  /* Profile Card — Visuals */
+  --behind-glow-color: rgba(255, 123, 84, 0.25);
+  --behind-glow-size: 25%;
+
+    /* Card surfaces */
+  --card-bg: rgba(255, 255, 255, 0.85);
+
+  --name-gradient: linear-gradient(to bottom, #ff7b54, #ff9e3c);
+  --title-gradient: linear-gradient(to bottom, #ff9e3c, #ffb88c);
+
+  --avatar-blend-mode: normal;
+
+  /* Sunpillar colors (day) */
+  --sunpillar-1: hsl(35, 90%, 65%);
+  --sunpillar-2: hsl(25, 85%, 62%);
+  --sunpillar-3: hsl(15, 80%, 60%);
+  --sunpillar-4: hsl(200, 70%, 60%);
+  --sunpillar-5: hsl(280, 65%, 68%);
+  --sunpillar-6: hsl(150, 55%, 55%);
 }
+
 
 
 /* ===== GLOBAL RESET ===== */
@@ -205,12 +319,432 @@ body {
 
 
 
-/* ===== RESPONSIVENESS ===== */
-@media (min-width: 900px) {
-  .hero { grid-template-columns: 1fr 420px; }
+/* =====================================================
+   GLOBAL RESPONSIVE SYSTEM
+   ===================================================== */
+
+/* ---------- TABLET & BELOW ---------- */
+@media (max-width: 900px) {
+
+  /* ABOUT */
+  .about-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .hero-left {
+    justify-self: center;
+    padding-left: 0;
+    transform: translateX(-66px);
+  }
+
+  .hero-left > * {
+    max-width: 260px;
+  }
+
+  .about-container,
+  .projects-container,
+  .certifications-container {
+    padding: 30px 16px;
+  }
+
+  .section-block {
+    padding: 16px;
+  }
+
+  /* PROJECTS */
+  .projects-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
+  /* CERTIFICATIONS */
+  .certifications-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .credly-btn {
+    font-size: 1rem;
+    padding: 12px 24px;
+    margin-bottom: 12px;
+  }
+
+  .cert-card {
+    max-width: 100%;
+  }
+
+  .icon-link {
+    margin-top: 28px;
+  }
+
+  /* NAVBAR */
+  .dock-panel {
+    margin-top: 40px;
+    padding: 0 0.4rem 0.4rem;
+  }
+
+  .theme-toggle-btn {
+    top: 47px;
+    right: 16px;
+    transform: translateY(2px);
+  }
 }
 
+
+/* ---------- 750px → 601px ---------- */
+@media (max-width: 750px) and (min-width: 601px) {
+
+  .hero-left {
+    transform: translateX(-28px);
+  }
+
+  /* NAVBAR */
+  .dock-item {
+    transform: scale(0.95);
+  }
+  .theme-toggle-btn {
+    transform: scale(0.95);
+    transform: translateY(4px);
+  }
+}
+
+
+/* ---------- 600px → 481px ---------- */
+@media (max-width: 600px) and (min-width: 481px) {
+
+  /* HOME */
+  .home-cta-row .btn-pill {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* ABOUT */
+  .hero-left {
+    transform: translateX(-30px);
+  }
+
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .about-intro {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .section-title {
+    font-size: 1.45rem;
+  }
+
+  .section-block p {
+    font-size: 0.9rem;
+  }
+
+  /* PROJECTS */
+  .projects-title {
+    font-size: 2rem;
+  }
+
+  .projects-intro {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .project-list {
+    gap: 20px;
+  }
+
+  .project-card {
+    padding: 16px;
+  }
+
+  .project-card h3 {
+    font-size: 1.02rem;
+  }
+
+  .project-card .meta {
+    font-size: 0.88rem;
+  }
+
+  /* CERTIFICATIONS */
+  .certifications-title {
+    font-size: 2rem;
+  }
+
+  .credly-btn {
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+
+  .cert-grid {
+    gap: 20px;
+  }
+
+  .cert-card {
+    padding: 14px;
+  }
+
+  .cert-title {
+    font-size: 0.92rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 16px 18px;
+  }
+
+  .footer-container {
+    gap: 32px;
+  }
+
+  .footer-title {
+    font-size: 1rem;
+  }
+
+  .footer-link {
+    font-size: 0.9rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+  }
+
+  /* NAVBAR */
+  .dock-panel {
+    gap: 0.75rem;
+  }
+
+  .dock-item {
+    transform: scale(0.9);
+  }
+
+  .dock-label {
+    font-size: 0.7rem;
+  }
+
+  .theme-toggle-btn {
+    transform: scale(0.9);
+    transform: translateY(4px);
+  }
+}
+
+
+/* ---------- 480px → 421px ---------- */
+@media (max-width: 480px) and (min-width: 421px) {
+
+  .hero-left {
+    transform: translateX(-14px);
+  }
+
+  .about-title,
+  .projects-title,
+  .certifications-title {
+    font-size: 1.9rem;
+  }
+
+  .about-intro,
+  .projects-intro {
+    font-size: 0.92rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .section-block {
+    padding: 14px;
+  }
+
+  .project-list,
+  .cert-grid {
+    gap: 18px;
+  }
+
+  .project-card,
+  .cert-card {
+    padding: 14px;
+  }
+
+  .project-card h3 {
+    font-size: 0.98rem;
+  }
+
+  .project-card .meta {
+    font-size: 0.85rem;
+  }
+
+  .cert-title {
+    font-size: 0.9rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 28px 14px 16px;
+  }
+
+  .footer-container {
+    gap: 28px;
+  }
+
+  .footer-title {
+    font-size: 0.95rem;
+  }
+
+  .footer-link {
+    font-size: 0.88rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.78rem;
+  }
+
+  /* NAVBAR */
+  .dock-panel {
+    padding: 0 0.35rem 0.35rem;
+  }
+
+  .dock-item {
+    transform: scale(0.85);
+  }
+
+  .dock-label {
+    display: none;
+  }
+
+  .theme-toggle-btn {
+    transform: scale(0.85);
+    transform: translateY(5.8px);
+  }
+}
+
+
+/* ---------- 420px AND BELOW ---------- */
+@media (max-width: 420px) {
+
+  /* HOME */
+  .home-cta-row .btn-pill {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+  }
+
+  /* ABOUT */
+  .hero-left {
+    transform: translateX(-38px);
+  }
+
+  .hero-left > * {
+    max-width: 200px;
+  }
+
+  .about-title,
+  .projects-title,
+  .certifications-title {
+    font-size: 1.8rem;
+  }
+
+  .about-intro,
+  .projects-intro {
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .section-block {
+    padding: 12px;
+  }
+
+  .section-block p {
+    font-size: 0.85rem;
+  }
+
+  /* PROJECTS */
+  .project-list {
+    gap: 16px;
+  }
+
+  .project-card {
+    padding: 12px;
+  }
+
+  .project-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .project-card .meta {
+    font-size: 0.82rem;
+  }
+
+  /* CERTIFICATIONS */
+  .credly-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .cert-grid {
+    gap: 16px;
+  }
+
+  .cert-card {
+    padding: 12px;
+  }
+
+  .cert-title {
+    font-size: 0.88rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 24px 12px 14px;
+  }
+
+  .footer-container {
+    gap: 24px;
+  }
+
+  .footer-section {
+    min-width: 100%;
+  }
+
+  .footer-title {
+    font-size: 0.9rem;
+  }
+
+  .footer-link {
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+    margin-top: 20px;
+  }
+
+  /* NAVBAR */
+  .dock-panel {
+    margin-top: 32px;
+    gap: 0.5rem;
+  }
+
+  .dock-item {
+    transform: scale(0.8);
+  }
+
+  .theme-toggle-btn {
+    transform: scale(0.8);
+    transform: translateY(-3px);
+  }
+}
+
+
+/* ---------- EXTRA SMALL ---------- */
 @media (max-width: 380px) {
+
   .home-cta-row {
     flex-direction: column;
     gap: 0.6rem;
@@ -219,7 +753,19 @@ body {
   .btn-pill {
     width: 100%;
   }
+
+  /* NAVBAR */
+  .dock-item {
+    transform: scale(0.75);
+  }
+
+  .theme-toggle-btn {
+    transform: scale(0.75);
+    transform: translateY(-2px);
+  }
 }
+
+
 
 
 

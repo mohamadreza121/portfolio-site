@@ -39,6 +39,11 @@ export default function DecryptedText({
   const [hasAnimated, setHasAnimated] = useState(false);
   const containerRef = useRef(null);
 
+  // ✅ Count only revealable (non-space) characters
+  const revealableCount = useRef(
+    text.split('').filter(char => char !== ' ').length
+  );
+
   useEffect(() => {
     let interval;
     let currentIteration = 0;
@@ -47,24 +52,30 @@ export default function DecryptedText({
       const textLength = text.length;
       switch (revealDirection) {
         case 'start':
-          for (let i=0;i<textLength;i++) if (!revealedSet.has(i) && text[i] !== ' ') return i;
-          return 0;
+          for (let i = 0; i < textLength; i++)
+            if (!revealedSet.has(i) && text[i] !== ' ') return i;
+          return null;
+
         case 'end':
-          for (let i=textLength-1;i>=0;i--) if (!revealedSet.has(i) && text[i] !== ' ') return i;
-          return 0;
+          for (let i = textLength - 1; i >= 0; i--)
+            if (!revealedSet.has(i) && text[i] !== ' ') return i;
+          return null;
+
         case 'center': {
           const middle = Math.floor(textLength / 2);
           for (let offset = 0; offset <= middle; offset++) {
             const i1 = middle + offset;
             const i2 = middle - offset;
-            if (i1 < textLength && !revealedSet.has(i1) && text[i1] !== ' ') return i1;
-            if (i2 >= 0 && !revealedSet.has(i2) && text[i2] !== ' ') return i2;
+            if (i1 < textLength && !revealedSet.has(i1) && text[i1] !== ' ')
+              return i1;
+            if (i2 >= 0 && !revealedSet.has(i2) && text[i2] !== ' ')
+              return i2;
           }
-          for (let i=0;i<textLength;i++) if (!revealedSet.has(i) && text[i] !== ' ') return i;
-          return 0;
+          return null;
         }
+
         default:
-          return revealedSet.size;
+          return null;
       }
     };
 
@@ -72,8 +83,8 @@ export default function DecryptedText({
       ? Array.from(new Set(text.split(''))).filter(char => char !== ' ')
       : characters.split('');
 
-    const shuffleText = (originalText, currentRevealed) => {
-      return originalText
+    const shuffleText = (originalText, currentRevealed) =>
+      originalText
         .split('')
         .map((char, i) => {
           if (char === ' ') return ' ';
@@ -81,23 +92,26 @@ export default function DecryptedText({
           return availableChars[Math.floor(Math.random() * availableChars.length)];
         })
         .join('');
-    };
 
     if (isHovering) {
       setIsScrambling(true);
+
       interval = setInterval(() => {
         setRevealedIndices(prevRevealed => {
           const nextSet = new Set(prevRevealed);
+
           if (sequential) {
-            if (nextSet.size < text.length) {
+            // ✅ Correct termination condition
+            if (nextSet.size < revealableCount.current) {
               const nextIndex = getNextIndex(nextSet);
-              nextSet.add(nextIndex);
+              if (nextIndex !== null) nextSet.add(nextIndex);
               setDisplayText(shuffleText(text, nextSet));
               return nextSet;
             } else {
               clearInterval(interval);
               setIsScrambling(false);
               setDisplayText(text);
+              setIsHovering(false);
               return nextSet;
             }
           } else {
@@ -121,7 +135,16 @@ export default function DecryptedText({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isHovering, text, speed, maxIterations, sequential, revealDirection, characters, useOriginalCharsOnly]);
+  }, [
+    isHovering,
+    text,
+    speed,
+    maxIterations,
+    sequential,
+    revealDirection,
+    characters,
+    useOriginalCharsOnly
+  ]);
 
   useEffect(() => {
     if (animateOn !== 'view' && animateOn !== 'both') return;
@@ -129,31 +152,27 @@ export default function DecryptedText({
     const observerCallback = entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !hasAnimated) {
+          setRevealedIndices(new Set());
+          setDisplayText(text);
           setIsHovering(true);
           setHasAnimated(true);
-          setTimeout(()=>setIsHovering(false), (maxIterations * speed) + 200);
         }
       });
     };
 
-    const observerOptions = {
+    const observer = new IntersectionObserver(observerCallback, {
       root: null,
       rootMargin: '0px',
       threshold: 0.1
-    };
+    });
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
     const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
-  }, [animateOn, hasAnimated, maxIterations, speed]);
+  }, [animateOn, hasAnimated, text]);
 
   const hoverProps =
     animateOn === 'hover' || animateOn === 'both'
@@ -164,14 +183,25 @@ export default function DecryptedText({
       : {};
 
   return (
-    <motion.span className={parentClassName} ref={containerRef} style={styles.wrapper} {...hoverProps} {...props}>
+    <motion.span
+      className={parentClassName}
+      ref={containerRef}
+      style={styles.wrapper}
+      {...hoverProps}
+      {...props}
+    >
       <span style={styles.srOnly}>{displayText}</span>
 
       <span aria-hidden="true">
         {displayText.split('').map((char, index) => {
-          const isRevealedOrDone = revealedIndices.has(index) || !isScrambling || !isHovering;
+          const isRevealedOrDone =
+            revealedIndices.has(index) || !isScrambling || !isHovering;
+
           return (
-            <span key={index} className={isRevealedOrDone ? className : encryptedClassName}>
+            <span
+              key={index}
+              className={isRevealedOrDone ? className : encryptedClassName}
+            >
               {char}
             </span>
           );

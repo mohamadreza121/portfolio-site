@@ -1,8 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import DecryptedText from '../components/DecryptedText';
-import ScrollReveal from '../components/ScrollReveal';
 import './Projects.css';
+import ScrollReveal from "../components/ScrollReveal";
 
 
 const projects = [
@@ -72,8 +71,7 @@ export default function Projects(){
           </div>
 
         </section>
-      </div>
-
+      </div>   
     </div>
   );
 }
