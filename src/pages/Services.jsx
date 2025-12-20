@@ -74,9 +74,9 @@ export default function Services() {
 
           {/* RIGHT */}
           <div className="services-right">
-            <ScrollReveal>
               <div className="service-list">
                 {services.map((s, idx) => (
+                  <ScrollReveal key={idx}>
                 <div className="service-card" key={idx}>
                   <h3>{s.title}</h3>
                   <div className="meta">{s.meta}</div>
@@ -86,18 +86,16 @@ export default function Services() {
                     <button
                       className="btn-pill cursor-target"
                       onClick={() => {
-                        document
-                          .querySelector("#footer")
-                          ?.scrollIntoView({ behavior: "smooth" });
+                        scrollToSection("footer");
                       }}
                     >
                       Request Quote
                     </button>
                   </div>
                 </div>
+                </ScrollReveal>
                 ))}
               </div>
-            </ScrollReveal>
           </div>
 
         </section>
