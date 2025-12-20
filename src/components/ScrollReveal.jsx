@@ -44,10 +44,11 @@ export default function ScrollReveal({
           duration,
           ease,
           paused: true,
+          immediateRender: false, // ✅ CRITICAL
         }
       );
 
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: wrapper,
         start,
         end,
@@ -58,10 +59,16 @@ export default function ScrollReveal({
         onLeave: () => animation.pause(0),
         onLeaveBack: () => animation.pause(0),
       });
+
+      // ✅ SAFETY: reveal immediately if already in viewport
+      if (trigger.isActive) {
+        animation.progress(1);
+      }
     }, wrapper);
 
     return () => ctx.revert();
   }, [y, opacity, scale, rotate, duration, ease, start, end, revealOnEnterBack]);
+
 
   return (
     <Component ref={wrapperRef} className={`scroll-reveal ${className}`}>
