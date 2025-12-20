@@ -5,12 +5,6 @@ import "./ScrollReveal.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * ScrollReveal
- * -------------
- * Section-level reveal animation
- * Configurable direction behavior
- */
 export default function ScrollReveal({
   children,
   as: Component = "div",
@@ -28,18 +22,19 @@ export default function ScrollReveal({
   start = "top 85%",
   end = "bottom 15%",
 
-  // behavior
   revealOnEnterBack = true,
 }) {
-  const ref = useRef(null);
+  const wrapperRef = useRef(null);
+  const animRef = useRef(null);
 
   useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const wrapper = wrapperRef.current;
+    const animEl = animRef.current;
+    if (!wrapper || !animEl) return;
 
     const ctx = gsap.context(() => {
       const animation = gsap.fromTo(
-        el,
+        animEl,
         { y, opacity, scale, rotate },
         {
           y: 0,
@@ -53,39 +48,26 @@ export default function ScrollReveal({
       );
 
       ScrollTrigger.create({
-        trigger: el,
+        trigger: wrapper,
         start,
         end,
 
         onEnter: () => animation.restart(),
-
-        onEnterBack: () => {
-          if (revealOnEnterBack) {
-            animation.restart();
-          }
-        },
+        onEnterBack: () => revealOnEnterBack && animation.restart(),
 
         onLeave: () => animation.pause(0),
         onLeaveBack: () => animation.pause(0),
       });
-    }, el);
+    }, wrapper);
 
     return () => ctx.revert();
-  }, [
-    y,
-    opacity,
-    scale,
-    rotate,
-    duration,
-    ease,
-    start,
-    end,
-    revealOnEnterBack,
-  ]);
+  }, [y, opacity, scale, rotate, duration, ease, start, end, revealOnEnterBack]);
 
   return (
-    <Component ref={ref} className={`scroll-reveal ${className}`}>
-      {children}
+    <Component ref={wrapperRef} className={`scroll-reveal ${className}`}>
+      <div ref={animRef} className="scroll-reveal-inner">
+        {children}
+      </div>
     </Component>
   );
 }

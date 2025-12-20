@@ -26,7 +26,7 @@
   --card-hover: rgba(97, 220, 163, 0.45);
 
   /* Surfaces */
-  --section-bg: rgba(255, 255, 255, 0.02);
+  --section-bg: rgba(10, 10, 10, 0.85);
   --card-shadow: rgba(0, 0, 0, 0.6);
 
   /* Grid & decorative lines */
@@ -93,7 +93,7 @@
   --card-hover: rgba(255, 123, 84, 0.45);
 
   /* Surfaces */
-  --section-bg: rgba(0, 0, 0, 0.02);
+  --section-bg: rgba(255, 255, 255, 0.85);
   --card-shadow: rgba(0, 0, 0, 0.15);
 
   /* Grid & decorative lines */
@@ -279,7 +279,7 @@ body {
 }
 
 
-#home, #about, #projects, #certifications {
+#home, #about, #projects, #certifications, #services {
   scroll-margin-top: 80px; /* adjust to your navbar height */
 }
 
@@ -345,7 +345,8 @@ body {
 
   .about-container,
   .projects-container,
-  .certifications-container {
+  .certifications-container,
+  .services-container {
     padding: 30px 16px;
   }
 
@@ -376,6 +377,14 @@ body {
   .cert-card {
     max-width: 100%;
   }
+
+  /* SERVICES */
+  .services-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
 
   .icon-link {
     margin-top: 28px;
@@ -492,6 +501,29 @@ body {
     font-size: 0.92rem;
   }
 
+  /* SERVICES */
+  .services-title {
+    font-size: 2rem;
+  }
+
+  .services-intro {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .service-list {
+    gap: 20px;
+  }
+
+  .service-card {
+    padding: 16px;
+  }
+
+  .service-card h3 {
+    font-size: 1.02rem;
+  }
+
+
   /* FOOTER */
   .footer {
     padding: 32px 16px 18px;
@@ -580,6 +612,28 @@ body {
   .cert-title {
     font-size: 0.9rem;
   }
+
+  /* SERVICES */
+  .services-title {
+    font-size: 1.9rem;
+  }
+
+  .services-intro {
+    font-size: 0.92rem;
+  }
+
+  .service-list {
+    gap: 18px;
+  }
+
+  .service-card {
+    padding: 14px;
+  }
+
+  .service-card h3 {
+    font-size: 0.98rem;
+  }
+
 
   /* FOOTER */
   .footer {
@@ -698,6 +752,37 @@ body {
   .cert-title {
     font-size: 0.88rem;
   }
+
+  /* SERVICES */
+  .services-title {
+    font-size: 1.8rem;
+  }
+
+  .services-intro {
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .service-list {
+    gap: 16px;
+  }
+
+  .service-card {
+    padding: 12px;
+  }
+
+  .service-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .service-card .meta {
+    font-size: 0.82rem;
+  }
+
+  .service-card .price {
+    font-size: 0.8rem;
+  }
+
 
   /* FOOTER */
   .footer {

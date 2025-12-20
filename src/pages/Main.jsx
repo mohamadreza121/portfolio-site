@@ -7,6 +7,7 @@ import Home from "./Home";
 import About from "./About";
 import Projects from "./Projects";
 import Certifications from "./Certifications";
+import Services from "./Services";
 import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
 import "../components/TargetCursor.css";
@@ -50,6 +51,7 @@ export default function Main({ theme, toggleTheme, active, setActive }) {
       { id: "about", name: "About" },
       { id: "projects", name: "Projects" },
       { id: "certifications", name: "Certs" },
+      { id: "services", name: "Services" },
     ];
 
     const observer = new IntersectionObserver(
@@ -101,6 +103,7 @@ export default function Main({ theme, toggleTheme, active, setActive }) {
         <About />
         <Projects />
         <Certifications />
+        <Services />
       </main>
 
       <Footer active={active} setActive={setActive} />

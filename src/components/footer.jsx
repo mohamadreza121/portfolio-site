@@ -90,6 +90,18 @@ export default function Footer() {
                   Certifications
                 </button>
               </li>
+
+              <li>
+                <button
+                  type="button"
+                  className="footer-link cursor-target"
+                  onClick={() => {
+                    document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Services
+                </button>
+              </li>
             </ul>
         </div>       
       </div>

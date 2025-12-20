@@ -1,0 +1,142 @@
+/* ===== SERVICES PAGE ===== */
+.services-page {
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  color: var(--text-color);
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 250px;
+}
+
+/* GRID BACKGROUND */
+.services-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* WIDTH MATCHES PROJECTS / CERTIFICATIONS */
+.services-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* HERO LAYOUT */
+.services-hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: flex-start;
+  margin-top: 60px;
+  transition: transform 0.25s ease;
+}
+
+/* LEFT */
+.services-left {
+  min-width: 260px;
+}
+
+.services-title {
+  font-size: 2.6rem;
+  margin-bottom: 16px;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.services-intro {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+/* RIGHT */
+.services-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* SERVICE GRID */
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  transition: transform 0.25s ease;
+}
+
+/* SERVICE CARD */
+.service-card {
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--accent-border);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.service-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent-glow);
+}
+
+.service-card .meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.service-card .price {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--accent-alt);
+  opacity: 0.9;
+}
+
+/* HOVER */
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 25px var(--card-hover);
+}
+
+/* SUBTLE GRID */
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.service-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== SERVICE CTA ===== */
+.service-cta {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+  transition: transform 0.25s ease;
+}

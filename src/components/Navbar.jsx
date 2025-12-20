@@ -3,6 +3,7 @@ import {
   FaUser,
   FaProjectDiagram,
   FaCertificate,
+  FaTools,
   FaMoon,
   FaSun,
 } from "react-icons/fa";
@@ -48,6 +49,17 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
         document.querySelector("#certifications")?.scrollIntoView({ behavior: "smooth" });
       },
       isActive: active === "Certs",
+    },
+    {
+      icon: <FaTools size={16} />,
+      label: "Services",
+      onClick: () => {
+        onSetActive?.("Services");
+        document
+          .querySelector("#services")
+          ?.scrollIntoView({ behavior: "smooth" });
+      },
+      isActive: active === "Services",
     },
   ];
 

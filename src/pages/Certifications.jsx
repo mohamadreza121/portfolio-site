@@ -62,6 +62,7 @@ export default function Certifications() {
 
           {/* LEFT SIDE */}
           <div className="certifications-left">
+            <ScrollReveal>
             <h1 className="certifications-title">
               <DecryptedText
                 text="Certifications"
@@ -105,10 +106,12 @@ export default function Certifications() {
                 </div>
               ))}
             </div>
+            </ScrollReveal>
           </div>
 
           {/* RIGHT SIDE */}
           <div className="certifications-right">
+            <ScrollReveal>
             <div className="cert-grid">
               {mainCerts.map((cert, idx) => (
                 <div
@@ -117,10 +120,11 @@ export default function Certifications() {
                   onClick={() => setLightboxPdf(cert.pdf)}
                 >
                   <img src={cert.thumb} alt={cert.title} className="cert-thumb cursor-target" />
-                  <p className="cert-title"><ScrollReveal>{cert.title}</ScrollReveal></p>
+                  <p className="cert-title">{cert.title}</p>
                 </div>
               ))}
             </div>
+            </ScrollReveal>
           </div>
         </section>
 
