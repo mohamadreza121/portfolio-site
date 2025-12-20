@@ -297,7 +297,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(97,220,163,0.6);
+  box-shadow: 0 0 12px var(--accent-glow);
   transition: all 0.3s ease;
   z-index: 200; /* above dock */
 }

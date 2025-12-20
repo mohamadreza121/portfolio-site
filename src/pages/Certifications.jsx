@@ -117,7 +117,7 @@ export default function Certifications() {
                   onClick={() => setLightboxPdf(cert.pdf)}
                 >
                   <img src={cert.thumb} alt={cert.title} className="cert-thumb cursor-target" />
-                  <p className="cert-title">{cert.title}</p>
+                  <p className="cert-title"><ScrollReveal>{cert.title}</ScrollReveal></p>
                 </div>
               ))}
             </div>

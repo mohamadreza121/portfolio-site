@@ -62,40 +62,49 @@ export default function About() {
         <section className="about-section">
           <ScrollReveal>
           <h2 className="section-title">Technical Skills</h2>
-
+          </ScrollReveal>
+          
           <div className="section-block">
+            <ScrollReveal>
             <h3>Networking</h3>
             <p>
               VLANs & Inter-VLAN Routing • OSPF • BGP • NAT • ACLs • Port Security •
               DHCP • DNS • STP • Rapid-PVST • WAN • Troubleshooting
             </p>
+            </ScrollReveal>
           </div>
 
           <div className="section-block">
+            <ScrollReveal>
             <h3>Security</h3>
             <p>
               Firewall Configuration • VPN (Remote & Site-to-Site) • Cisco
               AnyConnect • Layer 2 Attack Prevention • Access Control • Traffic
               Monitoring
             </p>
+            </ScrollReveal>
           </div>
 
           <div className="section-block">
+            <ScrollReveal>
             <h3>Systems & Tools</h3>
             <p>
               Windows Server • Active Directory • GPO • Hyper-V • VirtualBox • GNS3 •
               Packet Tracer • Visio • Draw.io • Lucidchart
             </p>
+            </ScrollReveal>
           </div>
-          </ScrollReveal>
+          
         </section>
 
         {/* ======= EXPERIENCE ======== */}
         <section className="about-section">
           <ScrollReveal>
           <h2 className="section-title">Experience</h2>
+          </ScrollReveal>
 
           <div className="section-block">
+            <ScrollReveal>
             <p>
               • Designed and deployed multi-tier network topologies for office environments.<br />
               • Configured PoE, QoS, VoIP, Cisco & Yealink phones.<br />
@@ -104,16 +113,18 @@ export default function About() {
               • Taught networking concepts using Packet Tracer & GNS3.<br />
               • Built, configured, and deployed PCs for labs and clients.
             </p>
+            </ScrollReveal>
           </div>
-          </ScrollReveal>
         </section>
 
         {/* ======= EDUCATION ======== */}
         <section className="about-section">
           <ScrollReveal>
           <h2 className="section-title">Education</h2>
+          </ScrollReveal>
 
           <div className="section-block">
+            <ScrollReveal>
             <p>
               <strong>Bachelor of Information Technology (Networking & IT Security)</strong><br />
               Ontario Tech University — Expected 2027
@@ -123,8 +134,8 @@ export default function About() {
               <strong>High School Diploma (Mathematics & Physics)</strong><br />
               Samen High School — Tehran, Iran
             </p>
+            </ScrollReveal>
           </div>
-          </ScrollReveal>
         </section>
 
       </div>

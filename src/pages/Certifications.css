@@ -100,7 +100,7 @@
 
 /* cyber card styling */
 .cert-card {
-  background: rgba(255,255,255,0.02);
+  background: var(--card-bg);
   border: 1px solid var(--accent-border);
   border-radius: 12px;
   padding: 16px;

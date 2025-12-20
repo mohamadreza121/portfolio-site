@@ -26,8 +26,8 @@ export default function Projects(){
 
           {/* LEFT */}
           <div className="projects-left">
-            <ScrollReveal>
             <h1 className="projects-title">
+              <ScrollReveal>
               <DecryptedText 
                 text="My Networking & IT Projects"
                 sequential={true}
@@ -37,9 +37,11 @@ export default function Projects(){
                 encryptedClassName="encrypted"
                 className="revealed"
               />
+              </ScrollReveal>
             </h1>
 
             <p className="projects-intro">
+              <ScrollReveal>
               <DecryptedText 
                 text="Hands-on projects designed to simulate real-world environments and demonstrate my ability to perform the responsibilities of a Network Engineer or Network Technician."
                 sequential={true}
@@ -47,18 +49,19 @@ export default function Projects(){
                 speed={2}
                 revealDirection="start"
               />
+              </ScrollReveal>
             </p>
-            </ScrollReveal>
           </div>
 
           {/* RIGHT */}
           <div className="projects-right">
-            <ScrollReveal>
             <div className="project-list">
               {projects.map(p => (
                 <div className="project-card" key={p.id}>
+                  <ScrollReveal>
                   <h3>{p.title}</h3>
-                  <div className="meta">{p.meta}</div>
+                  </ScrollReveal>
+                  <div className="meta"><ScrollReveal>{p.meta} </ScrollReveal></div>
                   <div style={{ marginTop: 20 }}>
                     <Link to={`/projects/${p.id}`} className="btn-pill cursor-target">
                       View Project
@@ -67,7 +70,6 @@ export default function Projects(){
                 </div>
               ))}
             </div>
-            </ScrollReveal>
           </div>
 
         </section>
