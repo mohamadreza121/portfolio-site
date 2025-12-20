@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "gsap";
 import Router from './routes/Router';
 import LetterGlitch from './components/LetterGlitch';
 import TargetCursor from './components/TargetCursor';
@@ -13,6 +15,24 @@ export default function App() {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+
+  useEffect(() => {
+  // Ensure ScrollTrigger recalculates after full render
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, []);
+
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
 
   // ✅ Toggle between day and night
   const toggleTheme = () => {
