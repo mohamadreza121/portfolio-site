@@ -10,20 +10,26 @@
   position: fixed;
   margin-top: 45px;
   top: 0;
-  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   align-items: flex-end;
+
   width: fit-content;
+  max-width: calc(100vw - 16px);
+  overflow: hidden;
+
   gap: 1rem;
   border-radius: 1rem;
   background-color: var(--dock-bg);
   border: 1px solid var(--dock-border);
   padding: 0 0.5rem 0.5rem;
+
   z-index: 100;
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
+
 
 .dock-item {
   position: relative;

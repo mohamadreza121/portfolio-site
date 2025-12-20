@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { gsap } from "gsap";
 import Router from './routes/Router';
 import LetterGlitch from './components/LetterGlitch';
 import TargetCursor from './components/TargetCursor';

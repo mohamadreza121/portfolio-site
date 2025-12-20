@@ -78,9 +78,9 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
     <div className="navbar-wrapper">
       <Dock
         items={items}
-        panelHeight={68}
-        baseItemSize={50}
-        magnification={70}
+        panelHeight={64}
+        baseItemSize={44}
+        magnification={window.innerWidth <= 480 ? 56 : 70}
       />
     </div>
   );
