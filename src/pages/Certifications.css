@@ -178,12 +178,13 @@
 }
 
 .lightbox-content {
-  width: 90%;
-  height: 90%;
-  min-height: 600px;
+  width: 80%;
+  height: 75%;
+  min-height: 520px;
   background: #0a0a0a;
   border-radius: 8px;
   overflow: hidden;
+  transform: translateY(25px);
   box-shadow: 0 0 40px var(--accent-glow);
 }
 
