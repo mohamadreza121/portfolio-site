@@ -6,7 +6,7 @@ import "./TargetCursor.css";
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer id="footer" className="footer">
       <div className="footer-container">
 
         {/* Contact Info */}

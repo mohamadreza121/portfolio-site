@@ -1,5 +1,6 @@
 import DecryptedText from "../components/DecryptedText";
 import ScrollReveal from "../components/ScrollReveal";
+import { scrollToSection } from "../utils/scrollToSection";
 import "./Services.css";
 
 const services = [
