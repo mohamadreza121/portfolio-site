@@ -30,8 +30,11 @@ export default function DecryptedText({
   parentClassName = '',
   encryptedClassName = '',
   animateOn = 'hover',
+  revealDelay = 0,
+  revealKey, // ✅ NEW
   ...props
 }) {
+
   const [displayText, setDisplayText] = useState(text);
   const [isHovering, setIsHovering] = useState(false);
   const [isScrambling, setIsScrambling] = useState(false);
@@ -147,15 +150,19 @@ export default function DecryptedText({
   ]);
 
   useEffect(() => {
+    if (revealKey) return;
     if (animateOn !== 'view' && animateOn !== 'both') return;
 
     const observerCallback = entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !hasAnimated) {
-          setRevealedIndices(new Set());
-          setDisplayText(text);
-          setIsHovering(true);
           setHasAnimated(true);
+
+          setTimeout(() => {
+            setRevealedIndices(new Set());
+            setDisplayText(text);
+            setIsHovering(true);
+          }, revealDelay);
         }
       });
     };
@@ -172,7 +179,8 @@ export default function DecryptedText({
     return () => {
       if (currentRef) observer.unobserve(currentRef);
     };
-  }, [animateOn, hasAnimated, text]);
+  }, [animateOn, hasAnimated, text, revealDelay, revealKey]);
+
 
   const hoverProps =
     animateOn === 'hover' || animateOn === 'both'

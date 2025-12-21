@@ -1,23 +1,31 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowUp } from "react-icons/fa";
 import Home from "./Home";
 import About from "./About";
 import Projects from "./Projects";
 import Certifications from "./Certifications";
 import Services from "./Services";
 import Footer from "../components/footer";
-import Navbar from "../components/Navbar";
 import "../components/TargetCursor.css";
 
-export default function Main({ theme, toggleTheme, active, setActive, revealKey }) {
+export default function Main({ active, setActive, revealKey }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [showScrollTop, setShowScrollTop] = useState(false);
+  // ✅ Force "Home" when you're at the very top (fixes About staying active)
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY <= 2) {
+        setActive("Home");
+      }
+    };
 
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // run once on mount
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [setActive]);
 
   // ⬇️ Scroll to section if navigated with state
   useEffect(() => {
@@ -32,20 +40,7 @@ export default function Main({ theme, toggleTheme, active, setActive, revealKey 
     }
   }, [location, navigate]);
 
-  // ⬇️ Show scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 200);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // ⬇️ Track active section with IntersectionObserver
+  // ⬇️ Track active section
   useEffect(() => {
     const sections = [
       { id: "home", name: "Home" },
@@ -58,21 +53,21 @@ export default function Main({ theme, toggleTheme, active, setActive, revealKey 
     const observer = new IntersectionObserver(
       (entries) => {
         if (window.scrollY <= 1) {
-          setActive((prev) => (prev === "Home" ? prev : "Home"));
+          setActive(prev => (prev === "Home" ? prev : "Home"));
           return;
         }
 
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           const section = sections.find(
-            (s) => entry.target.parentElement.id === s.id
+            s => entry.target.parentElement.id === s.id
           );
-          if (!section) return;
-          setActive((prev) => (prev !== section.name ? section.name : prev));
+          if (section) {
+            setActive(prev => (prev !== section.name ? section.name : prev));
+          }
         });
       },
       {
-        root: null,
         rootMargin: "-72px 0px -80% 0px",
         threshold: 0,
       }
@@ -84,21 +79,10 @@ export default function Main({ theme, toggleTheme, active, setActive, revealKey 
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [setActive]);
 
   return (
     <div className="main-page">
-      <header className="navbar">
-        <nav className="pill">
-          <Navbar
-            active={active}
-            onSetActive={setActive}
-            theme={theme}
-            onToggleTheme={toggleTheme}
-          />
-        </nav>
-      </header>
-
       <main className="site-content">
         <Home revealKey={revealKey} />
         <About />
@@ -107,13 +91,7 @@ export default function Main({ theme, toggleTheme, active, setActive, revealKey 
         <Services />
       </main>
 
-      <Footer active={active} setActive={setActive}  />
-
-      {showScrollTop && (
-        <button className="scroll-top-btn cursor-target" onClick={scrollToTop}>
-          <FaArrowUp size={22} />
-        </button>
-      )}
+      <Footer active={active} setActive={setActive} />
     </div>
   );
 }

@@ -5,10 +5,16 @@
  * @param {string} id - Target element ID (without #)
  */
 export function scrollToSection(id) {
+  // ✅ Home should be true top
+  if (id === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
   const el = document.getElementById(id);
   if (!el) return;
 
-  const OFFSET = 110; // fixed dock / navbar height
+  const OFFSET = 80; // fixed dock / navbar height
   const y =
     el.getBoundingClientRect().top + window.pageYOffset - OFFSET;
 

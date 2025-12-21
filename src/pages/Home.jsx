@@ -41,9 +41,11 @@ export default function Home({ revealKey }) {
                 animateOn="both"
                 sequential
                 speed={150}
-                revealDirection="start"
+                revealDirection="center"
                 encryptedClassName="encrypted"
                 className="revealed"
+                revealDelay={420}
+                revealKey={revealKey}
               />
             </h1>
 
@@ -53,7 +55,9 @@ export default function Home({ revealKey }) {
                 animateOn="both"
                 sequential
                 speed={80}
-                revealDirection="start"
+                revealDirection="center"
+                revealDelay={620}
+                revealKey={revealKey}
               />
             </h2>
 

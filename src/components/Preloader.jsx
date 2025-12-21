@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./Preloader.css";
 
-export default function Preloader({ onComplete, onStartReveal }) {
+export default function Preloader({ onComplete }) {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const progressRef = useRef(null);
@@ -32,9 +32,6 @@ export default function Preloader({ onComplete, onStartReveal }) {
        ========================================= */
     gsap.set(container, { opacity: 1 });
     gsap.set(titleRef.current, { opacity: 0, scale: 0.95 });
-    gsap.set(".curtain", { opacity: 0 });
-    gsap.set(".curtain-left", { x: "0%" });
-    gsap.set(".curtain-right", { x: "0%" });
 
     /* =========================================
        TITLE PULSES (LOCAL THEME TOGGLE)
@@ -78,62 +75,26 @@ export default function Preloader({ onComplete, onStartReveal }) {
     );
 
     /* =========================================
-       CURTAINS APPEAR (CLOSED)
+       FADE OUT PRELOADER COMPLETELY
        ========================================= */
-    tl.to(".curtain", {
-      opacity: 1,
-      duration: 0.35,
-    });
-
-
-    /* =========================================
-      CURTAIN OPEN (MAIN EVENT)
-    ========================================= */
-
-    // signal site reveal EXACTLY when curtains start moving
-    tl.call(() => {
-      onStartReveal?.();
-    });
-
-    tl.to(".curtain-left", {
-      x: "-115%",
-      duration: 1.8,
-      ease: "power4.inOut",
-    });
-
-    tl.to(
-      ".curtain-right",
-      {
-        x: "115%",
-        duration: 1.8,
-        ease: "power4.inOut",
-      },
-      "<"
-    );
-
-    /* =========================================
-      NOW hide preloader visuals
-    ========================================= */
-    tl.call(() => {
-      container.classList.add("hide-content");
+    tl.to(container, {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.out",
     });
 
     /* =========================================
-      FINALLY unmount preloader
-    ========================================= */
+       SIGNAL COMPLETION (HAND OFF TO CURTAINS)
+       ========================================= */
     tl.call(() => {
-      requestAnimationFrame(onComplete);
+      onComplete?.();
     });
-
 
     return () => tl.kill();
-  }, [onComplete, onStartReveal]);
+  }, [onComplete]);
 
   return (
     <div className="preloader" ref={containerRef}>
-      <div className="curtain curtain-left" />
-      <div className="curtain curtain-right" />
-
       <h1 className="preloader-title" ref={titleRef}>
         Welcome to My Portfolio
       </h1>
