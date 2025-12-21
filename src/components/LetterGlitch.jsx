@@ -24,14 +24,18 @@ const LetterGlitch = ({
     day: ['#ff7b54', '#ffb347', '#e85d04'] // bright orange scheme
   };
 
-  const glitchColors = palettes[theme];
+  const glitchColors = palettes[theme] ?? palettes.night;
 
   const fontSize = 16;
   const charWidth = 10;
   const charHeight = 20;
 
   const getRandomChar = () => lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
-  const getRandomColor = () => glitchColors[Math.floor(Math.random() * glitchColors.length)];
+  const getRandomColor = () => {
+    if (!glitchColors || glitchColors.length === 0) return '#61dca3';
+    return glitchColors[Math.floor(Math.random() * glitchColors.length)];
+  };
+
 
   const hexToRgb = hex => {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -192,7 +196,7 @@ const LetterGlitch = ({
       : 'linear-gradient(135deg, #fefefe 0%, #f5f5f5 100%)',
     transition: 'background 0.5s ease',
     overflow: 'hidden',
-    zIndex: 1,
+    zIndex: 0,
     pointerEvents: 'none'
   };
 

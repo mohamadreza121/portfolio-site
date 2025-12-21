@@ -12,11 +12,12 @@ import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
 import "../components/TargetCursor.css";
 
-export default function Main({ theme, toggleTheme, active, setActive }) {
+export default function Main({ theme, toggleTheme, active, setActive, revealKey }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+
 
   // ⬇️ Scroll to section if navigated with state
   useEffect(() => {
@@ -99,14 +100,14 @@ export default function Main({ theme, toggleTheme, active, setActive }) {
       </header>
 
       <main className="site-content">
-        <Home />
+        <Home revealKey={revealKey} />
         <About />
         <Projects />
         <Certifications />
         <Services />
       </main>
 
-      <Footer active={active} setActive={setActive} />
+      <Footer active={active} setActive={setActive}  />
 
       {showScrollTop && (
         <button className="scroll-top-btn cursor-target" onClick={scrollToTop}>

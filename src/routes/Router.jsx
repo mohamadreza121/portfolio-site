@@ -7,13 +7,13 @@ import Project4 from '../pages/Project4';
 import Project5 from '../pages/Project5';
 import Project6 from '../pages/Project6';
 
-export default function Router({ theme, toggleTheme, active, setActive }) {
+export default function Router({ theme, toggleTheme, active, setActive, revealKey }) {
   return (
     <Routes>
       {/* Pass theme + toggleTheme down to Main */}
       <Route
         path="/"
-        element={<Main theme={theme} toggleTheme={toggleTheme} active={active} setActive={setActive}/>}
+        element={<Main theme={theme} toggleTheme={toggleTheme} active={active} setActive={setActive} revealKey={revealKey}/>}
       />
 
       {/* If your project pages need theme awareness, pass it here too */}
