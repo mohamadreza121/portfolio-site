@@ -173,20 +173,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
   cursor: zoom-out;
 }
 
 .lightbox-content {
-  width: 80%;
-  height: 75%;
-  min-height: 520px;
+  width: 82vw;
+  max-width: 760px;
+
+  height: 68vh;
+  max-height: 520px;
+
   background: #0a0a0a;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  transform: translateY(25px);
-  box-shadow: 0 0 40px var(--accent-glow);
+
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.85),
+    0 0 40px var(--accent-glow);
+
+  transform: translateY(8px);
 }
+
 
 
 .extra-cert-wrapper {

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DecryptedText from '../components/DecryptedText';
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
@@ -9,6 +9,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { Worker } from '@react-pdf-viewer/core';
 import './Certifications.css';
 import ScrollReveal from "../components/ScrollReveal";
+import LightboxPortal from "../components/LightboxPortal";
 
 
 
@@ -49,6 +50,19 @@ export default function Certifications() {
 
   const mainCerts = certs.slice(0, 10);
   const extraCerts = certs.slice(10);
+  
+  useEffect(() => {
+    if (lightboxPdf) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [lightboxPdf]);
+
 
   return (
     <div id="certifications" className="certifications-page">
@@ -131,14 +145,23 @@ export default function Certifications() {
       </div>
 
       {lightboxPdf && (
-        <div className="lightbox" onClick={() => setLightboxPdf(null)}>
-          <div className="lightbox-content" onClick={e => e.stopPropagation()}>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-              <Viewer fileUrl={lightboxPdf} plugins={[defaultLayoutPluginInstance]} />
-            </Worker>
+        <LightboxPortal>
+          <div className="lightbox" onClick={() => setLightboxPdf(null)}>
+            <div
+              className="lightbox-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+                <Viewer
+                  fileUrl={lightboxPdf}
+                  plugins={[defaultLayoutPluginInstance]}
+                />
+              </Worker>
+            </div>
           </div>
-        </div>
+        </LightboxPortal>
       )}
+
     </div>
   );
 }
