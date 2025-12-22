@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowUp } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 import Router from "./routes/Router";
 import LetterGlitch from "./components/LetterGlitch";
@@ -16,6 +17,11 @@ import "./index.css";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  /* =====================================================
+     ROUTING
+     ===================================================== */
+  const location = useLocation();
+
   /* =====================================================
      GLOBAL STATE
      ===================================================== */
@@ -34,19 +40,28 @@ export default function App() {
   const [revealKey, setRevealKey] = useState(0);
 
   /* =====================================================
+     INITIAL REVEAL GUARD (CRITICAL)
+     ===================================================== */
+  const hasInitialRevealRef = useRef(false);
+
+  /* =====================================================
      UI STATE
      ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  /* =====================================================
+     INITIAL SCROLL RESET
+     ===================================================== */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-
+  /* =====================================================
+     PHASE ATTR
+     ===================================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-phase", phase);
   }, [phase]);
-
 
   /* =====================================================
      THEME CONTROL (SITE ONLY)
@@ -67,14 +82,10 @@ export default function App() {
   }, []);
 
   /* =====================================================
-     CURTAINS START → REVEAL SITE CONTENT
+     CURTAINS START → REVEAL SITE CONTENT (BOOT ONLY)
      ===================================================== */
   const handleCurtainsStartReveal = useCallback(() => {
-    // This is the missing link that drives:
-    // - .site-hidden → .site-visible
-    // - Home hero-enter GSAP
-    // - DecryptedText "view/both" timing in context
-    window.scrollTo(0, 0); // critical
+    window.scrollTo(0, 0);
     setRevealKey((k) => k + 1);
   }, []);
 
@@ -86,7 +97,28 @@ export default function App() {
   }, []);
 
   /* =====================================================
-     SCROLL TRIGGER REFRESH (ONLY WHEN READY)
+     🔁 RE-TRIGGER REVEAL WHEN RETURNING TO "/"
+     (SKIPS INITIAL LOAD)
+     ===================================================== */
+  useEffect(() => {
+    if (phase !== "ready") return;
+    if (location.pathname !== "/") return;
+
+    // ⛔ Skip first reveal (handled by curtains)
+    if (!hasInitialRevealRef.current) {
+      hasInitialRevealRef.current = true;
+      return;
+    }
+
+    // ✅ Route-return re-trigger
+    requestAnimationFrame(() => {
+      setRevealKey((k) => k + 1);
+      ScrollTrigger.refresh(true);
+    });
+  }, [location.pathname, phase]);
+
+  /* =====================================================
+     SCROLL TRIGGER REFRESH (READY ONLY)
      ===================================================== */
   useEffect(() => {
     if (phase !== "ready") return;
@@ -110,7 +142,6 @@ export default function App() {
      ===================================================== */
   return (
     <div className="app-root">
-
       {/* CURTAINS EXIST DURING PRELOADER + CURTAINS */}
       {(phase === "preloader" || phase === "curtains") && (
         <CurtainOverlay
@@ -138,7 +169,9 @@ export default function App() {
           {showScrollTop && (
             <button
               className="scroll-top-btn cursor-target"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
             >
               <FaArrowUp size={22} />
             </button>
@@ -171,7 +204,6 @@ export default function App() {
           revealKey={revealKey}
         />
       </div>
-
     </div>
   );
 }

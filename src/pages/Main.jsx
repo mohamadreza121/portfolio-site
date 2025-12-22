@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Home from "./Home";
 import About from "./About";
 import Projects from "./Projects";
@@ -14,7 +16,9 @@ export default function Main({ active, setActive, revealKey }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ Force "Home" when you're at the very top (fixes About staying active)
+  /* =====================================================
+     FORCE "HOME" ACTIVE AT VERY TOP
+     ===================================================== */
   useEffect(() => {
     const onScroll = () => {
       if (window.scrollY <= 2) {
@@ -24,10 +28,13 @@ export default function Main({ active, setActive, revealKey }) {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll(); // run once on mount
+
     return () => window.removeEventListener("scroll", onScroll);
   }, [setActive]);
 
-  // ⬇️ Scroll to section if navigated with state
+  /* =====================================================
+     SCROLL TO SECTION WHEN NAVIGATING BACK FROM PROJECTS
+     ===================================================== */
   useEffect(() => {
     if (location.state?.scrollTo && location.pathname === "/") {
       const targetElement = document.getElementById(location.state.scrollTo);
@@ -36,11 +43,15 @@ export default function Main({ active, setActive, revealKey }) {
           targetElement.scrollIntoView({ behavior: "smooth" });
         });
       }
+
+      // Clear navigation state
       navigate(".", { replace: true, state: null });
     }
   }, [location, navigate]);
 
-  // ⬇️ Track active section
+  /* =====================================================
+     ACTIVE SECTION TRACKING (INTERSECTION OBSERVER)
+     ===================================================== */
   useEffect(() => {
     const sections = [
       { id: "home", name: "Home" },
@@ -59,11 +70,15 @@ export default function Main({ active, setActive, revealKey }) {
 
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
+
           const section = sections.find(
             s => entry.target.parentElement.id === s.id
           );
+
           if (section) {
-            setActive(prev => (prev !== section.name ? section.name : prev));
+            setActive(prev =>
+              prev !== section.name ? section.name : prev
+            );
           }
         });
       },
@@ -81,6 +96,18 @@ export default function Main({ active, setActive, revealKey }) {
     return () => observer.disconnect();
   }, [setActive]);
 
+  /* =====================================================
+     🔥 CRITICAL FIX: RE-ARM GSAP / SCROLLTRIGGER
+     ===================================================== */
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh(true);
+    });
+  }, []);
+
+  /* =====================================================
+     RENDER
+     ===================================================== */
   return (
     <div className="main-page">
       <main className="site-content">
