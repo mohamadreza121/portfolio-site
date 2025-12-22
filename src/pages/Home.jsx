@@ -8,22 +8,27 @@ export default function Home({ revealKey }) {
   useEffect(() => {
     if (!revealKey) return;
 
+    // Kill any previous hero animations to avoid stacking
     gsap.killTweensOf(".hero-enter");
 
+    // Hero container reveal (opacity / translate / blur)
     gsap.fromTo(
       ".hero-enter",
-      { opacity: 0, y: 40, filter: "blur(12px)" },
+      {
+        opacity: 0,
+        y: 40,
+        filter: "blur(12px)",
+      },
       {
         opacity: 1,
         y: 0,
         filter: "blur(0px)",
         duration: 1.0,
         ease: "power3.out",
-        delay: 0, // IMPORTANT: no delay now, curtain controls timing
+        delay: 0, // Curtain controls timing
       }
     );
   }, [revealKey]);
-
 
   return (
     <div id="home" className="home-page">
@@ -31,9 +36,10 @@ export default function Home({ revealKey }) {
 
       <div className="home-container">
         <section className="home-hero">
-
+          {/* LEFT COLUMN (visual / spacer) */}
           <div className="hero-left"></div>
 
+          {/* RIGHT COLUMN (content reveal) */}
           <div className="hero-right hero-enter">
             <h1 className="home-title">
               <DecryptedText
@@ -70,12 +76,14 @@ export default function Home({ revealKey }) {
                 Certifications
               </a>
 
-              <a href="mailto:mrheidarpoor7@gmail.com" className="btn-pill cursor-target">
+              <a
+                href="mailto:mrheidarpoor7@gmail.com"
+                className="btn-pill cursor-target"
+              >
                 Contact Me
               </a>
             </div>
           </div>
-
         </section>
       </div>
     </div>

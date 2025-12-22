@@ -31,10 +31,9 @@ export default function DecryptedText({
   encryptedClassName = '',
   animateOn = 'hover',
   revealDelay = 0,
-  revealKey, // ✅ NEW
+  revealKey,
   ...props
 }) {
-
   const [displayText, setDisplayText] = useState(text);
   const [isHovering, setIsHovering] = useState(false);
   const [isScrambling, setIsScrambling] = useState(false);
@@ -42,11 +41,14 @@ export default function DecryptedText({
   const [hasAnimated, setHasAnimated] = useState(false);
   const containerRef = useRef(null);
 
-  // ✅ Count only revealable (non-space) characters
+  // Count only revealable (non-space) characters
   const revealableCount = useRef(
     text.split('').filter(char => char !== ' ').length
   );
 
+  /* =====================================================
+     SCRAMBLE / REVEAL ENGINE (UNCHANGED)
+     ===================================================== */
   useEffect(() => {
     let interval;
     let currentIteration = 0;
@@ -104,7 +106,6 @@ export default function DecryptedText({
           const nextSet = new Set(prevRevealed);
 
           if (sequential) {
-            // ✅ Correct termination condition
             if (nextSet.size < revealableCount.current) {
               const nextIndex = getNextIndex(nextSet);
               if (nextIndex !== null) nextSet.add(nextIndex);
@@ -149,6 +150,26 @@ export default function DecryptedText({
     useOriginalCharsOnly
   ]);
 
+  /* =====================================================
+     🔑 EXPLICIT REVEAL (AFTER CURTAINS)
+     ===================================================== */
+  useEffect(() => {
+    if (!revealKey) return;
+
+    setHasAnimated(true);
+    setRevealedIndices(new Set());
+    setDisplayText(text);
+
+    const timer = setTimeout(() => {
+      setIsHovering(true);
+    }, revealDelay);
+
+    return () => clearTimeout(timer);
+  }, [revealKey, revealDelay, text]);
+
+  /* =====================================================
+     VIEW-BASED REVEAL (ONLY IF revealKey IS NOT USED)
+     ===================================================== */
   useEffect(() => {
     if (revealKey) return;
     if (animateOn !== 'view' && animateOn !== 'both') return;
@@ -181,7 +202,9 @@ export default function DecryptedText({
     };
   }, [animateOn, hasAnimated, text, revealDelay, revealKey]);
 
-
+  /* =====================================================
+     HOVER SUPPORT (UNCHANGED)
+     ===================================================== */
   const hoverProps =
     animateOn === 'hover' || animateOn === 'both'
       ? {

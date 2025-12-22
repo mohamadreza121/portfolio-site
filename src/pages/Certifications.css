@@ -70,23 +70,37 @@
 }
 
 .credly-btn {
-  font-size: 1.2rem;              /* bigger text */
-  padding: 14px 28px;             /* bigger pill */
-  background: linear-gradient(90deg, var(--accent), var(--accent-alt));
-  color: #022a1b;
-  border: none;
-  border-radius: 999px;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 0 14px var(--accent-glow);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.credly-btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px; /* consistent spacing */
+}
+
+.credly-icon {
+  font-size: 1em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent-glow);
 }
 
 .credly-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(97,220,163,0.8);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
+
+.icon-link {
+  margin-right: 5px;
+}
 
 
 
@@ -205,12 +219,3 @@
   align-items: center;
 }
 
-.icon-link {
-  margin-right: 8px;
-  display: inline-block;
-  vertical-align: middle;
-  transform: translateY(2px);
-  color: var(--accent);
-  text-shadow: 0 0 6px var(--accent-glow);
-  margin-bottom: 28px;
-}
