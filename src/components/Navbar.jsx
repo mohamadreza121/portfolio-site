@@ -80,7 +80,7 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
         items={items}
         panelHeight={64}
         baseItemSize={44}
-        magnification={window.innerWidth <= 480 ? 56 : 70}
+        magnification={window.innerWidth <= 480 ? 44 : 70}
       />
     </div>
   );

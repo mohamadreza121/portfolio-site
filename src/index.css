@@ -437,8 +437,18 @@ body {
 
   /* NAVBAR */
   .dock-panel {
-    margin-top: 40px;
-    padding: 0 0.4rem 0.4rem;
+    margin-top: 44px;
+    padding: 0.6rem 0.7rem;
+    gap: 0.6rem;
+    max-width: calc(100vw - 16px);
+  }
+
+  .dock-item {
+    transform: scale(0.9);
+  }
+
+  .dock-label {
+    display: none;
   }
 }
 
@@ -451,8 +461,19 @@ body {
   }
 
   /* NAVBAR */
+  .dock-panel {
+    margin-top: 44px;
+    padding: 0.6rem 0.7rem;
+    gap: 0.6rem;
+    max-width: calc(100vw - 16px);
+  }
+
   .dock-item {
-    transform: scale(0.95);
+    transform: scale(0.9);
+  }
+
+  .dock-label {
+    display: none;
   }
 }
 
@@ -582,15 +603,18 @@ body {
 
   /* NAVBAR */
   .dock-panel {
-    gap: 0.75rem;
+    margin-top: 40px;
+    padding: 0.55rem 0.65rem;
+    gap: 0.5rem;
+    max-width: calc(100vw - 14px);
   }
 
   .dock-item {
-    transform: scale(0.9);
+    transform: scale(0.85);
   }
 
   .dock-label {
-    font-size: 0.7rem;
+    display: none;
   }
 }
 
@@ -688,8 +712,8 @@ body {
 
   /* NAVBAR */
   .dock-panel {
-    margin-top: 28px;
-    padding: 0 0.3rem 0.3rem;
+    margin-top: 38px; 
+    padding: 0.5rem 0.6rem;
     gap: 0.45rem;
     max-width: calc(100vw - 10px);
   }
@@ -840,13 +864,16 @@ body {
 
   /* NAVBAR */
   .dock-panel {
-    margin-top: 22px;
-    padding: 0 0.2rem 0.2rem;
-    gap: 0.35rem;
+    margin-top: 32px;
+    padding: 0.45rem 0.55rem;
+    gap: 0.4rem;
+    max-width: calc(100vw - 12px);
   }
-
   .dock-item {
-    transform: scale(0.72);
+    transform: scale(0.76);
+  }
+  .dock-label {
+    display: none;
   }
 }
 
@@ -871,8 +898,19 @@ body {
 
 
   /* NAVBAR */
+  .dock-panel {
+    margin-top: 26px;
+    padding: 0.35rem 0.45rem;
+    gap: 0.35rem;
+    max-width: calc(100vw - 14px);
+  }
+
   .dock-item {
-    transform: scale(0.75);
+    transform: scale(0.72);
+  }
+
+  .dock-label {
+    display: none;
   }
 }
 

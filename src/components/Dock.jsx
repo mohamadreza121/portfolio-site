@@ -21,6 +21,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
   const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
   const size = useSpring(targetSize, spring);
 
+
   return (
     <motion.div
       ref={ref}
@@ -89,6 +90,7 @@ export default function Dock({
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
+  const isMobile = window.matchMedia("(max-width: 480px)").matches;
 
   const maxHeight = useMemo(
     () => Math.max(dockHeight, magnification + magnification / 2 + 4),
@@ -102,20 +104,28 @@ export default function Dock({
       style={{ height: panelHeight, overflow: 'visible', scrollbarWidth: 'none' }}
       className="dock-outer"
     >
-      <motion.div
-        onMouseMove={({ pageX }) => {
-          isHovered.set(1);
-          mouseX.set(pageX);
-        }}
-        onMouseLeave={() => {
-          isHovered.set(0);
-          mouseX.set(Infinity);
-        }}
-        className={`dock-panel ${className}`}
-        style={{ height: panelHeight }}
-        role="toolbar"
-        aria-label="Application dock"
-      >
+    <motion.div
+      onMouseMove={
+        !isMobile
+          ? ({ pageX }) => {
+              isHovered.set(1);
+              mouseX.set(pageX);
+            }
+          : undefined
+      }
+      onMouseLeave={
+        !isMobile
+          ? () => {
+              isHovered.set(0);
+              mouseX.set(Infinity);
+            }
+          : undefined
+      }
+      className={`dock-panel ${className}`}
+      style={{ height: panelHeight }}
+      role="toolbar"
+      aria-label="Application dock"
+    >
       {items.map((item, index) => (
         <DockItem
           key={index}
