@@ -1,0 +1,338 @@
+/* ============================================================================
+   Carousel (Reusable, Production Grade)
+   ========================================================================== */
+
+.carousel {
+  position: relative;
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* Subtle frame to match surface cards */
+.carousel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid var(--accent-border);
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* ============================================================================
+   Viewport
+   ========================================================================== */
+
+.carousel__viewport {
+  position: relative;
+  border-radius: 14px;
+  padding: 14px 10px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x proximity;
+  pointer-events: auto;
+  scroll-behavior: smooth;
+  background: var(--section-bg);
+  box-shadow: 0 10px 30px var(--card-shadow);
+
+  /* Edge fade (modern) */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+
+  /* Hide scrollbars (but keep scrolling) */
+  scrollbar-width: none;
+}
+.carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fallback fades if mask-image not supported */
+.carousel__viewport::before,
+.carousel__viewport::after {
+  content: "";
+  position: sticky;
+  top: 0;
+  width: 56px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.carousel__viewport::before {
+  left: 0;
+  background: linear-gradient(to right, var(--section-bg), transparent);
+}
+
+.carousel__viewport::after {
+  right: 0;
+  background: linear-gradient(to left, var(--section-bg), transparent);
+}
+
+/* ============================================================================
+   Track
+   ========================================================================== */
+
+.carousel__track {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 10px 22px;
+  overflow: visible;
+  min-height: 260px;
+}
+
+/* ============================================================================
+   Cards
+   ========================================================================== */
+
+.carousel-card {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+
+  /* Focus-driven motion (JS sets --focus 0..1) */
+  --focus: 0;
+  transform:
+    translateY(calc((1 - var(--focus)) * 10px))
+    scale(calc(0.92 + (var(--focus) * 0.10)));
+  opacity: calc(0.25 + (var(--focus) * 0.75));
+  filter: saturate(calc(0.85 + (var(--focus) * 0.25)));
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease,
+    filter 160ms ease;
+}
+
+.carousel-card__link {
+  display: grid;
+  grid-template-rows: 160px 1fr;
+  width: min(360px, 74vw);
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--accent-border);
+  overflow: hidden;
+  box-shadow: 0 14px 40px var(--card-shadow);
+  text-decoration: none;
+  color: var(--text-color);
+  position: relative;
+}
+
+.carousel-card__link::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: radial-gradient(
+    circle at 20% 15%,
+    var(--accent-glow),
+    transparent 55%
+  );
+  opacity: calc(0.06 + (var(--focus) * 0.06));
+  pointer-events: none;
+}
+
+/* ============================================================================
+   Media
+   ========================================================================== */
+
+.carousel-card__media {
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.carousel-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(calc(1.02 + (var(--focus) * 0.06)));
+  transition: transform 180ms ease;
+}
+
+/* Video play overlay */
+.carousel-card__play {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--accent-border);
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(8px);
+}
+
+:root[data-theme="day"] .carousel-card__play {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.carousel-card__play span {
+  width: 0;
+  height: 0;
+  border-left: 10px solid var(--accent);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  transform: translateX(1px);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+/* Badge */
+.carousel-card__badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--accent-border);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--text-color);
+  backdrop-filter: blur(8px);
+}
+
+:root[data-theme="day"] .carousel-card__badge {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.carousel-card__badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ============================================================================
+   Body
+   ========================================================================== */
+
+.carousel-card__body {
+  padding: 14px 14px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.carousel-card__title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.carousel-card__caption {
+  margin-top: 8px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.carousel-card__cta {
+  margin-top: 12px;
+  display: inline-flex;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--accent-alt);
+}
+
+/* Hover polish */
+.carousel-card__link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 52px var(--card-shadow);
+  border-color: var(--accent);
+}
+
+/* ============================================================================
+   Navigation Arrows
+   ========================================================================== */
+
+.carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-border);
+  background: var(--card-bg);
+  color: var(--text-color);
+  pointer-events: auto;
+  font-size: 1.4rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 6;
+  box-shadow: 0 8px 24px var(--card-shadow);
+}
+
+.carousel__nav.left {
+  left: 10px;
+}
+
+.carousel__nav.right {
+  right: 10px;
+}
+
+.carousel__nav:hover {
+  border-color: var(--accent);
+}
+
+/* ============================================================================
+   Progress Dots
+   ========================================================================== */
+
+.carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.carousel__dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-border);
+  border: none;
+  cursor: pointer;
+}
+
+.carousel__dots .dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ============================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 520px) {
+  .carousel__track {
+    padding: 10px 14px;
+  }
+
+  .carousel-card__link {
+    width: min(320px, 82vw);
+  }
+
+  .carousel__nav {
+    width: 38px;
+    height: 38px;
+  }
+}
