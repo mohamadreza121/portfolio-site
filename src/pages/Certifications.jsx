@@ -57,15 +57,14 @@ export default function Certifications() {
   const carouselItems = useMemo(
     () =>
       certs.map((cert, i) => ({
-        id: `cert-${i}`,
-        title: cert.title,
-        caption: "Click to view certificate",
-        mediaSrc: cert.thumb,
-        mediaAlt: cert.title,
-        badge: "Certificate",
-        href: "#",
-        onClick: () => setLightboxPdf(cert.pdf)
-      })),
+      id: `cert-${i}`,
+      title: cert.title,
+      caption: "Click to view certificate",
+      mediaSrc: cert.thumb,
+      badge: "Certificate",
+      href: undefined,
+      onClick: () => setLightboxPdf(cert.pdf)
+    })),
     []
   );
 
@@ -127,7 +126,7 @@ export default function Certifications() {
       {lightboxPdf && (
         <LightboxPortal>
           <div className="lightbox" onClick={() => setLightboxPdf(null)}>
-            <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
               <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                 <Viewer
                   fileUrl={lightboxPdf}

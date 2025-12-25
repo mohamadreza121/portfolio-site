@@ -1,39 +1,48 @@
 /* =====================================================
-   PROJECT 4 — WINDOWS SERVER & ACTIVE DIRECTORY
+   Project 4 — Windows Server & Active Directory
+   (Aligned with Project1–3)
    ===================================================== */
 
-.project4-page {
-  padding-top: 120px;
+.project-page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  margin-top: 120px;
+}
+
+.project-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  position: relative;
+  z-index: 2;
 }
 
 /* =====================================================
    HERO
    ===================================================== */
 
-.project4-hero {
-  margin-top: 4vh;
-  margin-bottom: 6vh;
-  display: flex;
-  justify-content: center;
+.project-hero {
+  margin-bottom: 5px;
+  max-width: 920px;
+  margin-inline: auto;
 }
 
-.project4-hero-frame {
-  max-width: 1100px;
-  width: 100%;
+.project-hero-frame {
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--accent-border);
   background: var(--card-bg);
-  box-shadow: 0 22px 60px var(--card-shadow);
-  max-height: 62vh;
+  box-shadow: 0 0 22px var(--accent-glow);
+  max-height: 64vh;
 }
 
-.project4-hero-video {
+.project-hero-video {
   position: relative;
   padding-top: 56.25%;
 }
 
-.project4-hero-video iframe {
+.project-hero-video iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -45,38 +54,38 @@
    TITLE
    ===================================================== */
 
-.project4-title-block {
-  max-width: 860px;
-  margin-top: 2vh;
-  margin-bottom: 10vh;
+.project-title-section {
+  max-width: 920px;
+  margin-top: 20px;
+  margin-bottom: 56px;
 }
 
-.project4-title {
-  font-size: clamp(20px, 3.2vw, 34px);
-  font-weight: 800;
+.project-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
   color: var(--accent);
   text-shadow: 0 0 8px var(--accent-glow);
-}
-
-.project4-subtitle {
-  margin-top: 16px;
-  font-size: clamp(14px, 2vw, 18px);
-  color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  min-height: 2.4em;
+  white-space: balance;
 }
 
 /* =====================================================
-   SIGNALS
+   OVERVIEW
    ===================================================== */
 
-.project4-signals {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 22px;
+.project-overview {
   margin-bottom: 12vh;
 }
 
-.project4-signal-card {
+.project-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.project-overview-card {
   background: var(--card-bg);
   border: 1px solid var(--accent-border);
   border-radius: 16px;
@@ -84,84 +93,120 @@
   box-shadow: 0 10px 26px var(--card-shadow);
 }
 
-.project4-signal-card h3 {
-  margin-top: 6px;
-  font-weight: 800;
+.project-overview-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
 }
 
-.project4-signal-card p {
+.project-overview-title {
+  font-weight: 800;
   margin-top: 6px;
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.5;
+}
+
+.project-overview-desc {
+  margin-top: 6px;
 }
 
 /* =====================================================
    TOPOLOGY
    ===================================================== */
 
-.project4-topology {
-  margin-bottom: 10vh;
+.project-topology {
+  margin-bottom: 6vh;
 }
 
-.project4-topology-image {
-  margin-top: 24px;
+.project-topology-image {
+  max-width: 920px;
+  margin: 24px auto 0;
+}
+
+.project-topology-image img {
   width: 100%;
+  display: block;
   border-radius: 18px;
   border: 1px solid var(--accent-border);
-  box-shadow: 0 0 22px var(--accent-glow);
+  background: var(--card-bg);
+  box-shadow: 0 22px 60px var(--card-shadow);
 }
 
-.project4-cta {
-  margin-top: 28px;
+.project-topology-cta {
+  max-width: 920px;
+  margin: 28px auto 0;
 }
 
 /* =====================================================
    ARCHITECTURE
    ===================================================== */
 
-.project4-architecture {
-  max-width: 900px;
+.project-architecture {
   margin-bottom: 12vh;
+  max-width: 900px;
 }
 
-.project4-architecture h3 {
-  margin-top: 28px;
-  font-weight: 700;
+.project-architecture h3 {
+  margin-top: 24px;
 }
 
-.project4-architecture ul {
+.project-architecture ul {
   padding-left: 18px;
-  margin-top: 10px;
   line-height: 1.7;
 }
 
 /* =====================================================
-   GALLERY
+   GALLERY & NAV
    ===================================================== */
 
-.project4-gallery {
-  margin-bottom: 12vh;
+.project-gallery,
+.project-navigation {
+  margin-bottom: 72px;
 }
 
 /* =====================================================
-   NAVIGATION
+   DECRYPTED TEXT COLORS
    ===================================================== */
 
-.project4-nav {
-  margin-bottom: 6vh;
+.encrypted {
+  color: var(--accent);
+  opacity: 0.35;
+  text-shadow: 0 0 6px var(--accent-glow);
+}
+
+.revealed {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* =====================================================
    RESPONSIVE
    ===================================================== */
 
-@media (max-width: 600px) {
-  .project4-title {
+@media (min-width: 1400px) {
+  .project-topology-image {
+    max-width: 880px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-container {
+    padding: 0 16px 64px;
+  }
+
+  .project-hero {
+    max-width: 100%;
+  }
+
+  .project-hero-frame {
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .project-title {
     font-size: 1.6rem;
   }
 
-  .project4-hero-frame {
-    max-height: none;
+  .project-hero-video {
+    padding-top: 60%;
   }
 }

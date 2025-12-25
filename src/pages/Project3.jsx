@@ -173,12 +173,12 @@ export default function Project3() {
         {activeItem && (
           <LightboxPortal>
             <div
-              className="lightbox"
+              className="lightbox-project"
               role="dialog"
               aria-modal="true"
               onClick={() => setActiveItem(null)}
             >
-              <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
+              <div className="lightbox-project-inner" onClick={(e) => e.stopPropagation()}>
                 <img src={activeItem.mediaSrc} alt={activeItem.title} />
               </div>
             </div>

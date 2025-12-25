@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DecryptedText from "../components/DecryptedText";
 import ScrollReveal from "../components/ScrollReveal";
 import "./Projects.css";
@@ -56,6 +56,9 @@ const projects = [
 ];
 
 export default function Projects() {
+
+  const navigate = useNavigate();
+
   return (
     <div id="projects" className="projects-page">
       <span className="spy-marker" />
@@ -120,12 +123,13 @@ export default function Projects() {
                   </div>
 
                   <div className="project-cta">
-                    <Link
-                      to={`/projects/${project.id}`}
+                    <button
+                      type="button"
                       className="btn-pill primary cursor-target"
+                      onClick={() => navigate(`/projects/${project.id}`)}
                     >
                       View Architecture →
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </article>

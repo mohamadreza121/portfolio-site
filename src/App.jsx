@@ -51,6 +51,9 @@ export default function App() {
   ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+
+
+
   /* =====================================================
      DISABLE BROWSER SCROLL RESTORATION (CRITICAL)
   ===================================================== */
@@ -151,16 +154,17 @@ export default function App() {
     requestAnimationFrame(() => ScrollTrigger.refresh());
   }, [phase]);
 
-  /* =====================================================
-     SCROLL-TO-TOP BUTTON
-  ===================================================== */
   useEffect(() => {
     const onScroll = () => {
-      setShowScrollTop(window.scrollY > 200);
+      setShowScrollTop(window.scrollY > 240);
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // initialize on mount
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   /* =====================================================
      RENDER
@@ -194,9 +198,10 @@ export default function App() {
           {showScrollTop && (
             <button
               className="scroll-top-btn cursor-target"
-              onClick={() =>
-                window.scrollTo({ top: 0, behavior: "smooth" })
-              }
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                window.dispatchEvent(new Event("scrollToTop"));
+              }}
             >
               <FaArrowUp size={22} />
             </button>

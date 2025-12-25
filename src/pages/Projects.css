@@ -135,6 +135,17 @@
   z-index: 1;
 }
 
+html[data-theme="day"] .project-overlay {
+  background:
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.75) 40%,
+      rgba(255, 255, 255, 0.45) 100%
+    );
+}
+
+
 /* =====================================================
    CONTENT LAYER
    ===================================================== */
@@ -182,11 +193,19 @@
   font-size: 0.72rem;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.55);
+
+  background: var(--card-bg);
   border: 1px solid var(--accent-border);
   color: var(--accent);
+
   box-shadow: 0 0 8px var(--accent-glow);
 }
+
+html[data-theme="day"] .tech-pill {
+  box-shadow: 0 0 4px var(--accent-glow);
+}
+
+
 
 /* =====================================================
    CTA

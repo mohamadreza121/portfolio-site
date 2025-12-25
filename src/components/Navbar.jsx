@@ -16,7 +16,7 @@ import "./Navbar.css";
 import "./Dock.css";
 import "./TargetCursor.css";
 
-export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
+export default function Navbar({ active, theme, onToggleTheme }) {
   const navigate = useNavigate();
 
   const navItems = [
@@ -25,7 +25,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaHome />,
       label: "Home",
       onClick: () => {
-        onSetActive?.("Home");
         navigateAndScroll(navigate, "home");
       },
       isActive: active === "Home",
@@ -35,7 +34,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaUser />,
       label: "About",
       onClick: () => {
-        onSetActive?.("About");
         navigateAndScroll(navigate, "about");
       },
       isActive: active === "About",
@@ -45,7 +43,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaProjectDiagram />,
       label: "Projects",
       onClick: () => {
-        onSetActive?.("Projects");
         navigateAndScroll(navigate, "projects");
       },
       isActive: active === "Projects",
@@ -55,7 +52,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaCertificate />,
       label: "Certs",
       onClick: () => {
-        onSetActive?.("Certs");
         navigateAndScroll(navigate, "certifications");
       },
       isActive: active === "Certs",
@@ -65,7 +61,6 @@ export default function Navbar({ active, theme, onToggleTheme, onSetActive }) {
       icon: <FaTools />,
       label: "Services",
       onClick: () => {
-        onSetActive?.("Services");
         navigateAndScroll(navigate, "services");
       },
       isActive: active === "Services",

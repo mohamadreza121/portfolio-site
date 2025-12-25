@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
+
 import DecryptedText from "../components/DecryptedText";
+import { navigateAndScroll } from "../utils/scrollToSection";
+
 import "./HomeModern.css";
 import "../components/TargetCursor.css";
 
 export default function Home({ revealKey }) {
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!revealKey) return;
 
@@ -36,7 +42,6 @@ export default function Home({ revealKey }) {
 
       <div className="home-container">
         <section className="home-hero">
-
           {/* RIGHT COLUMN (content reveal) */}
           <div className="hero-right hero-enter">
             <h1 className="home-title">
@@ -66,17 +71,29 @@ export default function Home({ revealKey }) {
             </h2>
 
             <div className="home-cta-row">
-              <a href="#projects" className="btn-pill primary cursor-target">
+              <button
+                type="button"
+                className="btn-pill primary cursor-target"
+                onClick={() => navigateAndScroll(navigate, "projects")}
+              >
                 View My Projects
-              </a>
+              </button>
 
-              <a href="#certifications" className="btn-pill cursor-target">
+              <button
+                type="button"
+                className="btn-pill cursor-target"
+                onClick={() => navigateAndScroll(navigate, "certifications")}
+              >
                 Certifications
-              </a>
+              </button>
 
               <a
                 href="mailto:mrheidarpoor7@gmail.com"
                 className="btn-pill cursor-target"
+                onClick={(e) => {
+                  // Prevent scroll-spy confusion when leaving the page
+                  e.stopPropagation();
+                }}
               >
                 Contact Me
               </a>

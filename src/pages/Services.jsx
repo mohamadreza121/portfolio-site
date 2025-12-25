@@ -36,7 +36,7 @@ const services = [
   },
 ];
 
-export default function Services() {
+export default function Services({ setActive }) {
   const navigate = useNavigate();
 
   return (
@@ -44,8 +44,7 @@ export default function Services() {
       <span className="spy-marker" />
 
       <div className="services-container">
-
-        {/* ================= HERO (CENTERED, MATCHES PROJECTS/CERTS) ================= */}
+        {/* HERO */}
         <section className="services-hero-center">
           <h1 className="services-title-center">
             <DecryptedText
@@ -64,7 +63,7 @@ export default function Services() {
           </p>
         </section>
 
-        {/* ================= SERVICE GRID ================= */}
+        {/* SERVICE GRID */}
         <section className="services-grid">
           {services.map((s, idx) => (
             <article key={idx} className="service-cinematic-card">
@@ -77,8 +76,11 @@ export default function Services() {
                   <span className="service-price">{s.price}</span>
 
                   <button
+                    type="button"
                     className="btn-pill cursor-target"
-                    onClick={() => navigateAndScroll(navigate, "footer")}
+                    onClick={() => {
+                      navigateAndScroll(navigate, "footer");
+                    }}
                   >
                     Request Quote →
                   </button>
@@ -87,7 +89,6 @@ export default function Services() {
             </article>
           ))}
         </section>
-
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 're
 import './Dock.css';
 import './TargetCursor'
 
-function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize }) {
+function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize, isActive }) {
   const ref = useRef(null);
   const isHovered = useMotionValue(0);
 
@@ -20,6 +20,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
 
   const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
   const size = useSpring(targetSize, spring);
+  
 
 
   return (
@@ -27,17 +28,25 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       ref={ref}
       style={{
         width: size,
-        height: size
+        height: size,
+        touchAction: "manipulation",
+        WebkitTapHighlightColor: "transparent"
       }}
+      onTouchStart={() => isHovered.set(1)}
+      onTouchEnd={() => isHovered.set(0)}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.();
+      }}
       className={`dock-item cursor-target ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
+      aria-current={isActive ? "true" : undefined}
     >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
     </motion.div>
@@ -139,6 +148,7 @@ export default function Dock({
         <DockItem
           key={index}
           onClick={item.onClick}
+          isActive={item.isActive}
           className={item.isActive ? "active" : ""}
           mouseX={mouseX}
           spring={spring}

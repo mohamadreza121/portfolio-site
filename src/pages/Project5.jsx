@@ -1,232 +1,221 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DecryptedText from "../components/DecryptedText";
-import Carousel from "../components/Carousel";
+import CarouselProject from "../components/CarouselProject";
+import LightboxPortal from "../components/LightboxPortal";
 import "./Project5.css";
 
 export default function Project5() {
+  const [activeItem, setActiveItem] = useState(null);
+
+  /* Always enter from the top */
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
   }, []);
+
+  /* Lock scroll on lightbox */
+  useEffect(() => {
+    document.body.style.overflow = activeItem ? "hidden" : "";
+    return () => (document.body.style.overflow = "");
+  }, [activeItem]);
 
   const mediaItems = [
     {
       id: "p5-video-hero",
       type: "video",
-      title: "Layer 2 Defense Walkthrough (DHCP Snooping + DAI)",
+      title: "Layer 2 Defense Walkthrough",
       caption:
-        "Stop rogue DHCP servers, prevent ARP spoofing, and enforce trusted uplinks at the access layer.",
-      href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      badge: "Hero Demo",
+        "DHCP Snooping and Dynamic ARP Inspection protecting the access layer.",
       mediaSrc: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
     },
     {
-      id: "p5-dhcp-snoop",
+      id: "p5-dhcp",
       type: "image",
-      title: "DHCP Snooping Policy & Trusted Ports",
+      title: "DHCP Snooping Policy",
       caption:
-        "Trusted uplinks, untrusted access ports, and binding table creation per VLAN.",
-      href: "https://www.youtube.com/watch?v=9bZkp7q19f0",
-      badge: "DHCP Snooping",
+        "Trusted uplinks, untrusted access ports, and binding table creation.",
       mediaSrc: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg",
     },
     {
       id: "p5-dai",
       type: "image",
-      title: "Dynamic ARP Inspection Enforcement",
+      title: "Dynamic ARP Inspection",
       caption:
-        "ARP validation using DHCP snooping bindings to block spoofed ARP replies.",
-      href: "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-      badge: "DAI",
+        "ARP validation using DHCP Snooping bindings to block spoofing.",
       mediaSrc: "https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg",
     },
     {
-      id: "p5-attack-demo",
+      id: "p5-attack",
       type: "image",
-      title: "Attack Simulation: Rogue DHCP / ARP Spoof Attempt",
+      title: "Attack Simulation",
       caption:
-        "Demonstrates how L2 defenses stop MITM and gateway impersonation at the edge.",
-      href: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
-      badge: "Threat Model",
+        "Rogue DHCP and ARP spoof attempts blocked at the switch.",
       mediaSrc: "https://i.ytimg.com/vi/3JZ_D3ELwOQ/hqdefault.jpg",
     },
     {
-      id: "p5-rate-limit",
+      id: "p5-rate",
       type: "image",
-      title: "Rate Limiting & Violation Handling",
+      title: "Rate Limiting & Violations",
       caption:
-        "DHCP rate limits, ARP inspection limits, and action handling for noisy ports.",
-      href: "https://www.youtube.com/watch?v=L_jWHffIx5E",
-      badge: "Hardening",
+        "DHCP and ARP rate limits with enforcement actions.",
       mediaSrc: "https://i.ytimg.com/vi/L_jWHffIx5E/hqdefault.jpg",
     },
   ];
 
   return (
-    <div className="page project5-page">
-      {/* ==================================================
-         HERO — L2 DEFENSE WALKTHROUGH
-      ================================================== */}
-      <section className="project5-hero">
-        <div className="project5-hero-frame">
-          <div className="project5-hero-video">
-            <iframe
-              title="Project 5 Hero Video"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      </section>
+    <div className="project-page" id="project-5">
+      <span className="spy-marker" />
 
-      {/* ==================================================
-         TITLE & CONTEXT
-      ================================================== */}
-      <section className="project5-title-block">
-        <h1 className="project5-title">
-          <DecryptedText
-            text="Layer 2 Defense — DHCP Snooping & Dynamic ARP Inspection"
-            animateOn="view"
-            sequential
-            className="revealed"
-            encryptedClassName="encrypted"
+      <div className="project-container">
+
+        {/* ================= HERO ================= */}
+        <section className="project-hero">
+          <div className="project-hero-inner">
+            <div className="project-hero-frame">
+              <div className="project-hero-video">
+                <iframe
+                  title="Project 5 Hero Video"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+
+            <div className="project-title-section">
+              <h1 className="project-title">
+                <span className="decrypt-stable">
+                  <DecryptedText
+                    text="Layer 2 Defense — DHCP Snooping & Dynamic ARP Inspection"
+                    animateOn="view"
+                    sequential
+                    speed={55}
+                    revealDirection="start"
+                    className="revealed"
+                    encryptedClassName="encrypted"
+                  />
+                </span>
+              </h1>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= OVERVIEW ================= */}
+        <section className="project-overview">
+          <h2 className="section-title">Project overview</h2>
+
+          <div className="project-overview-grid">
+            {[
+              {
+                label: "Threat",
+                title: "Rogue DHCP & MITM",
+                desc: "Blocks unauthorized DHCP servers and gateway impersonation.",
+              },
+              {
+                label: "Control",
+                title: "DHCP Snooping",
+                desc: "Builds trusted IP–MAC bindings per VLAN.",
+              },
+              {
+                label: "Enforcement",
+                title: "Dynamic ARP Inspection",
+                desc: "Drops spoofed ARP packets at wire speed.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="project-overview-card">
+                <div className="project-overview-label">{item.label}</div>
+                <div className="project-overview-title">{item.title}</div>
+                <div className="meta project-overview-desc">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ================= TOPOLOGY ================= */}
+        <section className="project-topology">
+          <div className="project-section-inner">
+            <div className="project-topology-image">
+              <img
+                src="/Topology-L2Defense.png"
+                alt="Layer 2 defense topology"
+              />
+            </div>
+
+            <div className="cta-row project-topology-cta">
+              <a className="btn-pill cursor-target">
+                View switch configs & validation output →
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= ARCHITECTURE ================= */}
+        <section className="project-architecture">
+          <h2 className="section-title">Architecture & implementation</h2>
+
+          <h3>DHCP Snooping</h3>
+          <ul>
+            <li>Enable on user VLANs and mark uplinks as trusted.</li>
+            <li>Block DHCP offers on untrusted access ports.</li>
+            <li>Maintain per-VLAN binding tables.</li>
+          </ul>
+
+          <h3>Dynamic ARP Inspection</h3>
+          <ul>
+            <li>Validate ARP packets against DHCP Snooping bindings.</li>
+            <li>Apply inspection limits and violation handling.</li>
+            <li>Prevent ARP-based MITM attacks.</li>
+          </ul>
+
+          <h3>Hardening</h3>
+          <ul>
+            <li>Rate-limit DHCP and ARP packets.</li>
+            <li>Explicit trust on trunk ports.</li>
+            <li>Complement with Port Security and STP protections.</li>
+          </ul>
+        </section>
+
+        {/* ================= GALLERY ================= */}
+        <section className="project-gallery">
+          <h2 className="section-title">Implementation gallery</h2>
+
+          <CarouselProject
+            items={mediaItems}
+            onOpen={(item) => setActiveItem(item)}
           />
-        </h1>
+        </section>
 
-        <div className="project5-subtitle">
-          Access-layer security controls that prevent rogue addressing, ARP spoofing,
-          and man-in-the-middle attacks by enforcing trusted uplinks and validating
-          L2 identity.
-        </div>
-      </section>
-
-      {/* ==================================================
-         EXECUTIVE SIGNALS
-      ================================================== */}
-      <section className="project5-signals">
-        {[
-          {
-            label: "Threat",
-            title: "Rogue DHCP + MITM",
-            desc: "Stops unauthorized DHCP servers from poisoning clients.",
-          },
-          {
-            label: "Control",
-            title: "DHCP Snooping Bindings",
-            desc: "Builds trusted IP–MAC bindings per VLAN as a verification source.",
-          },
-          {
-            label: "Enforcement",
-            title: "DAI Validation",
-            desc: "Drops spoofed ARP packets that do not match the binding database.",
-          },
-        ].map((item, i) => (
-          <div className="project5-signal-card" key={i}>
-            <div className="signal-label">{item.label}</div>
-            <h3>{item.title}</h3>
-            <p>{item.desc}</p>
+        {/* ================= NAV ================= */}
+        <section className="project-navigation">
+          <div className="cta-row">
+            <Link to="/projects/4" className="btn-pill">
+              ← Back to Project 4
+            </Link>
+            <Link to="/projects/6" className="btn-pill primary">
+              Continue to Project 6 →
+            </Link>
           </div>
-        ))}
-      </section>
+        </section>
 
-      {/* ==================================================
-         DIAGRAM / POLICY PIVOT
-      ================================================== */}
-      <section className="project5-topology">
-        <h2 className="section-title">Policy layout & trust boundaries</h2>
-
-        <img
-          src="/Topology-L2Defense.png"
-          alt="DHCP Snooping and DAI policy layout"
-          className="project5-topology-image"
-        />
-
-        <div className="project5-cta cta-row">
-          <a
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            target="_blank"
-            rel="noreferrer"
-            className="btn-pill cursor-target"
-          >
-            View switch configs & validation output →
-          </a>
-        </div>
-      </section>
-
-      {/* ==================================================
-         ARCHITECTURE & IMPLEMENTATION
-      ================================================== */}
-      <section className="project5-architecture">
-        <h2 className="section-title">Architecture & implementation</h2>
-
-        <h3>DHCP Snooping fundamentals</h3>
-        <ul>
-          <li>
-            Enable DHCP Snooping on relevant VLANs; mark uplinks as <strong>trusted</strong>.
-          </li>
-          <li>
-            Keep user/access ports <strong>untrusted</strong> to block rogue DHCP offers.
-          </li>
-          <li>
-            Verify DHCP option handling and maintain the <strong>binding table</strong>.
-          </li>
-        </ul>
-
-        <h3>DAI enforcement strategy</h3>
-        <ul>
-          <li>
-            Enable Dynamic ARP Inspection on the same VLANs protected by DHCP Snooping.
-          </li>
-          <li>
-            Validate ARP packets against the DHCP Snooping binding database.
-          </li>
-          <li>
-            Use inspection limits and appropriate violation actions for noisy ports.
-          </li>
-        </ul>
-
-        <h3>Operational hardening</h3>
-        <ul>
-          <li>
-            Apply DHCP and ARP rate limits to reduce broadcast abuse and scanning impact.
-          </li>
-          <li>
-            Ensure trunk ports are explicitly trusted and VLAN lists are tight.
-          </li>
-          <li>
-            Pair with Port Security and STP protections for a complete access-layer posture.
-          </li>
-        </ul>
-      </section>
-
-      {/* ==================================================
-         GALLERY
-      ================================================== */}
-      <section className="project5-gallery">
-        <h2 className="section-title">Implementation gallery</h2>
-        <div className="meta">
-          Screenshots and short clips showing rogue DHCP blocking, ARP validation,
-          binding table verification, and enforcement under attack simulation.
-        </div>
-
-        <Carousel items={mediaItems} ariaLabel="Project 5 L2 Defense gallery" />
-      </section>
-
-      {/* ==================================================
-         NAVIGATION
-      ================================================== */}
-      <section className="project5-nav">
-        <div className="cta-row">
-          <Link to="/projects/4" className="btn-pill primary cursor-target">
-            ← Back to Project 4
-          </Link>
-
-          <Link to="/projects/6" className="btn-pill cursor-target">
-            Continue to Project 6 →
-          </Link>
-        </div>
-      </section>
+        {activeItem && (
+          <LightboxPortal>
+            <div
+              className="lightbox-project"
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setActiveItem(null)}
+            >
+              <div
+                className="lightbox-project-inner"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={activeItem.mediaSrc} alt={activeItem.title} />
+              </div>
+            </div>
+          </LightboxPortal>
+        )}
+      </div>
     </div>
   );
 }

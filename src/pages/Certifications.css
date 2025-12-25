@@ -6,8 +6,16 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  overflow: hidden;
   font-family: "JetBrains Mono", monospace;
 }
+
+.certifications-page .rpv-core__viewer,
+.certifications-page .rpv-core__viewer-layout,
+.certifications-page .rpv-core__viewer-layout__main {
+  height: 100%;
+}
+
 
 /* Subtle grid backdrop */
 .certifications-page::before {

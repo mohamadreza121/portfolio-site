@@ -77,7 +77,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => navigateAndScroll(navigate, "home")}
+                  onClick={() => {
+                    navigateAndScroll(navigate, "home");
+                  }}
                 >
                   Home
                 </button>
@@ -87,7 +89,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => navigateAndScroll(navigate, "about")}
+                  onClick={() => {
+                    navigateAndScroll(navigate, "about");
+                  }}
                 >
                   About
                 </button>
@@ -97,7 +101,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => navigateAndScroll(navigate, "projects")}
+                  onClick={() => {
+                    navigateAndScroll(navigate, "projects");
+                  }}
                 >
                   Projects
                 </button>
@@ -107,9 +113,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() =>
-                    navigateAndScroll(navigate, "certifications")
-                  }
+                  onClick={() => {
+                    navigateAndScroll(navigate, "certifications");
+                  }}
                 >
                   Certifications
                 </button>
@@ -119,7 +125,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => navigateAndScroll(navigate, "services")}
+                  onClick={() => {
+                    navigateAndScroll(navigate, "services");
+                  }}
                 >
                   Services
                 </button>

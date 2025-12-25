@@ -52,6 +52,19 @@
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
+/* ============================================
+   iOS TOUCH HARDENING — DOCK
+============================================ */
+
+.dock-item {
+  min-width: 44px;
+  min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+
 /* Active item emphasis matches cards */
 .dock-item.active {
   box-shadow:
@@ -98,6 +111,19 @@
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
 }
+
+
+@media (hover: none) {
+  .dock-label {
+    display: none;
+  }
+
+  .dock-item:hover {
+    box-shadow: none;
+    filter: none;
+  }
+}
+
 
 
 /* Reduce clutter on very small screens */
