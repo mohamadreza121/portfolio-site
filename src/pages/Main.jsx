@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -15,6 +15,22 @@ import "../components/TargetCursor.css";
 export default function Main({ active, setActive, revealKey }) {
   const location = useLocation();
   const navigate = useNavigate();
+
+  /* =====================================================
+     SCROLL-SPY ARMING (FREEZE UNTIL FIRST USER SCROLL)
+     ===================================================== */
+  const hasUserScrolledRef = useRef(false);
+
+  useEffect(() => {
+    const armOnScroll = () => {
+      hasUserScrolledRef.current = true;
+      window.removeEventListener("scroll", armOnScroll);
+    };
+
+    window.addEventListener("scroll", armOnScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", armOnScroll);
+  }, []);
 
   /* =====================================================
      FORCE "HOME" ACTIVE AT VERY TOP
@@ -33,18 +49,20 @@ export default function Main({ active, setActive, revealKey }) {
   }, [setActive]);
 
   /* =====================================================
-     SCROLL TO SECTION WHEN NAVIGATING BACK FROM PROJECTS
+     SCROLL TO SECTION WHEN RETURNING FROM PROJECTS
      ===================================================== */
   useEffect(() => {
     if (location.state?.scrollTo && location.pathname === "/") {
       const targetElement = document.getElementById(location.state.scrollTo);
       if (targetElement) {
         requestAnimationFrame(() => {
-          targetElement.scrollIntoView({ behavior: "smooth" });
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
         });
       }
 
-      // Clear navigation state
       navigate(".", { replace: true, state: null });
     }
   }, [location, navigate]);
@@ -63,22 +81,24 @@ export default function Main({ active, setActive, revealKey }) {
 
     const observer = new IntersectionObserver(
       (entries) => {
+        /* ⛔ HARD GUARDS */
+        if (document.documentElement.dataset.phase !== "ready") return;
+        if (!hasUserScrolledRef.current) return;
+
         if (window.scrollY <= 1) {
-          setActive(prev => (prev === "Home" ? prev : "Home"));
+          setActive("Home");
           return;
         }
 
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
 
           const section = sections.find(
-            s => entry.target.parentElement.id === s.id
+            (s) => entry.target.parentElement.id === s.id
           );
 
           if (section) {
-            setActive(prev =>
-              prev !== section.name ? section.name : prev
-            );
+            setActive(section.name);
           }
         });
       },
@@ -97,7 +117,7 @@ export default function Main({ active, setActive, revealKey }) {
   }, [setActive]);
 
   /* =====================================================
-     🔥 CRITICAL FIX: RE-ARM GSAP / SCROLLTRIGGER
+     🔥 GSAP / SCROLLTRIGGER RE-ARM (ONCE)
      ===================================================== */
   useEffect(() => {
     requestAnimationFrame(() => {

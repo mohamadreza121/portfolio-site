@@ -1,6 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import { navigateAndScroll } from "../utils/scrollToSection";
 import DecryptedText from "../components/DecryptedText";
-import ScrollReveal from "../components/ScrollReveal";
-import { scrollToSection } from "../utils/scrollToSection";
 import "./Services.css";
 
 const services = [
@@ -37,69 +37,57 @@ const services = [
 ];
 
 export default function Services() {
+  const navigate = useNavigate();
+
   return (
     <div id="services" className="services-page">
       <span className="spy-marker" />
 
       <div className="services-container">
-        <section className="services-hero">
 
-          {/* LEFT */}
-          <div className="services-left">
-            <ScrollReveal>
-              <h1 className="services-title">
-                <DecryptedText
-                  text="Professional IT & Network Services"
-                  sequential
-                  animateOn="both"
-                  speed={80}
-                  revealDirection="start"
-                  encryptedClassName="encrypted"
-                  className="revealed"
-                />
-              </h1>
-            </ScrollReveal>
+        {/* ================= HERO (CENTERED, MATCHES PROJECTS/CERTS) ================= */}
+        <section className="services-hero-center">
+          <h1 className="services-title-center">
+            <DecryptedText
+              text="Professional IT & Network Services"
+              animateOn="view"
+              sequential
+              speed={80}
+              encryptedClassName="encrypted"
+              className="revealed"
+            />
+          </h1>
 
-            <ScrollReveal>
-              <p className="services-intro">
-                <DecryptedText
-                  text="Hands-on, security-focused networking and infrastructure services designed for small and mid-sized businesses seeking reliable, enterprise-grade solutions."
-                  sequential
-                  animateOn="hover"
-                  speed={2}
-                  revealDirection="start"
-                />
-              </p>
-            </ScrollReveal>
-          </div>
-
-          {/* RIGHT */}
-          <div className="services-right">
-              <div className="service-list">
-                {services.map((s, idx) => (
-                  <ScrollReveal key={idx}>
-                <div className="service-card" key={idx}>
-                  <h3>{s.title}</h3>
-                  <div className="meta">{s.meta}</div>
-                  <div className="price">{s.price}</div>
-
-                  <div className="service-cta">
-                    <button
-                      className="btn-pill cursor-target"
-                      onClick={() => {
-                        scrollToSection("footer");
-                      }}
-                    >
-                      Request Quote
-                    </button>
-                  </div>
-                </div>
-                </ScrollReveal>
-                ))}
-              </div>
-          </div>
-
+          <p className="services-subtitle">
+            Security-first, enterprise-grade networking and infrastructure
+            services tailored for small and mid-sized organizations.
+          </p>
         </section>
+
+        {/* ================= SERVICE GRID ================= */}
+        <section className="services-grid">
+          {services.map((s, idx) => (
+            <article key={idx} className="service-cinematic-card">
+              <div className="service-content">
+                <h3 className="service-title">{s.title}</h3>
+
+                <p className="service-meta">{s.meta}</p>
+
+                <div className="service-footer">
+                  <span className="service-price">{s.price}</span>
+
+                  <button
+                    className="btn-pill cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "footer")}
+                  >
+                    Request Quote →
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </section>
+
       </div>
     </div>
   );

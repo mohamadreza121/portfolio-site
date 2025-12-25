@@ -1,21 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import "./Carousel.css";
+import { useEffect, useMemo, useRef, useState } from "react";
+import "./CarouselProject.css";
 
-function clamp01(n) {
-  return Math.max(0, Math.min(1, n));
-}
+/* Clamp helper */
+const clamp01 = (n) => Math.max(0, Math.min(1, n));
 
-export default function Carousel({
-  items = [{
-  id: "html",
-  title: "HTML",
-  mediaSrc: htmlThumb,
-  caption: "HTML Certificate",
-  onClick: () => setLightboxPdf("/assets/cert-html.pdf"),
-  mediaRatio: "3 / 4" // taller cert
-}
-],
-  ariaLabel = "Media carousel",
+export default function CarouselProject({
+  items = [],
+  onOpen,
+  ariaLabel = "Project media carousel",
   className = "",
 }) {
   const viewportRef = useRef(null);
@@ -25,9 +17,9 @@ export default function Carousel({
 
   const hasItems = items.length > 0;
 
-  /* ------------------------------------------------------------------
-     Infinite list: [last, ...items, first]
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Infinite buffer: [last, ...items, first]
+     --------------------------------------------------------- */
   const extendedItems = useMemo(() => {
     if (!hasItems) return [];
     return [items[items.length - 1], ...items, items[0]];
@@ -35,16 +27,16 @@ export default function Carousel({
 
   const [activeIndex, setActiveIndex] = useState(1);
 
-  /* ------------------------------------------------------------------
+  /* ---------------------------------------------------------
      Sync refs
-     ------------------------------------------------------------------ */
+     --------------------------------------------------------- */
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, extendedItems.length);
   }, [extendedItems.length]);
 
-  /* ------------------------------------------------------------------
-     Initial scroll
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Initial centering
+     --------------------------------------------------------- */
   useEffect(() => {
     const first = itemRefs.current[1];
     if (!first) return;
@@ -58,9 +50,9 @@ export default function Carousel({
     });
   }, [extendedItems.length]);
 
-  /* ------------------------------------------------------------------
-     Measure focus
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Focus measurement
+     --------------------------------------------------------- */
   const measureAndPaint = () => {
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -96,9 +88,9 @@ export default function Carousel({
     rafRef.current = requestAnimationFrame(measureAndPaint);
   };
 
-  /* ------------------------------------------------------------------
-     Scroll listeners
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Scroll / resize listeners
+     --------------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
 
@@ -115,9 +107,9 @@ export default function Carousel({
     };
   }, [hasItems]);
 
-  /* ------------------------------------------------------------------
-     HARD infinite correction (mobile-safe)
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Infinite correction (snap-safe)
+     --------------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
 
@@ -126,8 +118,6 @@ export default function Carousel({
 
     if (activeIndex === 0 || activeIndex === items.length + 1) {
       isJumpingRef.current = true;
-
-      // Disable snap temporarily
       viewport.style.scrollSnapType = "none";
 
       requestAnimationFrame(() => {
@@ -142,7 +132,6 @@ export default function Carousel({
           block: "nearest",
         });
 
-        // Restore snap
         requestAnimationFrame(() => {
           viewport.style.scrollSnapType = "";
           isJumpingRef.current = false;
@@ -152,9 +141,9 @@ export default function Carousel({
     }
   }, [activeIndex, items.length, hasItems]);
 
-  /* ------------------------------------------------------------------
-     Navigation
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------
+     Navigation helpers
+     --------------------------------------------------------- */
   const scrollToIndex = (idx) => {
     const el = itemRefs.current[idx];
     if (!el) return;
@@ -169,37 +158,7 @@ export default function Carousel({
   const next = () => scrollToIndex(activeIndex + 1);
   const prev = () => scrollToIndex(activeIndex - 1);
 
-  /* ------------------------------------------------------------------
-     Render
-     ------------------------------------------------------------------ */
   if (!hasItems) return null;
-
-  const rendered = extendedItems.map((item, idx) => (
-    <article
-      key={`${item.id}-${idx}`}
-      className="carousel-card"
-      ref={(el) => (itemRefs.current[idx] = el)}
-    >
-      <button
-        type="button"
-        className="carousel-card__link cursor-target"
-        onClick={(e) => {
-          e.preventDefault();
-          item.onClick?.();
-        }}
-      >
-        <div className="carousel-card__media">
-          <img src={item.mediaSrc} alt={item.mediaAlt || item.title} />
-        </div>
-
-        <div className="carousel-card__body">
-          <h4 className="carousel-card__title">{item.title}</h4>
-          <p className="carousel-card__caption">{item.caption}</p>
-          <div className="carousel-card__cta">View →</div>
-        </div>
-      </button>
-    </article>
-  ));
 
   const realActive =
     activeIndex === 0
@@ -209,20 +168,52 @@ export default function Carousel({
       : activeIndex - 1;
 
   return (
-    <div className={`carousel ${className}`} aria-label={ariaLabel}>
-      <button className="carousel__nav left" onClick={prev} aria-label="Previous">
+    <div className={`carousel-project ${className}`} aria-label={ariaLabel}>
+      <button
+        className="carousel-project__nav left"
+        onClick={prev}
+        aria-label="Previous"
+      >
         ‹
       </button>
 
-      <div ref={viewportRef} className="carousel__viewport">
-        <div className="carousel__track">{rendered}</div>
+      <div ref={viewportRef} className="carousel-project__viewport">
+        <div className="carousel-project__track">
+          {extendedItems.map((item, idx) => (
+            <article
+              key={`${item.id}-${idx}`}
+              className="carousel-project__card"
+              ref={(el) => (itemRefs.current[idx] = el)}
+            >
+              <button
+                type="button"
+                className="carousel-project__link cursor-target"
+                onClick={() => onOpen?.(item)}
+              >
+                <div className="carousel-project__media">
+                  <img src={item.mediaSrc} alt={item.title} />
+                </div>
+
+                <div className="carousel-project__body">
+                  <h4>{item.title}</h4>
+                  <p>{item.caption}</p>
+                  <span className="cta">View →</span>
+                </div>
+              </button>
+            </article>
+          ))}
+        </div>
       </div>
 
-      <button className="carousel__nav right" onClick={next} aria-label="Next">
+      <button
+        className="carousel-project__nav right"
+        onClick={next}
+        aria-label="Next"
+      >
         ›
       </button>
 
-      <div className="carousel__dots">
+      <div className="carousel-project__dots">
         {items.map((_, i) => (
           <button
             key={i}

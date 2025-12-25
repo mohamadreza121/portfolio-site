@@ -34,6 +34,17 @@
   box-shadow: 0 4px 14px rgba(0,0,0,0.4);
 }
 
+.target-cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.target-cursor * {
+  pointer-events: none;
+}
+
 .corner-tl {
   transform: translate(-150%, -150%);
   border-right: none;

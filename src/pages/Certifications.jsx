@@ -1,33 +1,34 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
-import DecryptedText from '../components/DecryptedText';
-import { Viewer } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { Worker } from '@react-pdf-viewer/core';
-import './Certifications.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect, useMemo } from "react";
+
+import DecryptedText from "../components/DecryptedText";
 import ScrollReveal from "../components/ScrollReveal";
 import LightboxPortal from "../components/LightboxPortal";
+import Carousel from "../components/Carousel";
 
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import "./Certifications.css";
 
-// Thumbnails still in src/assets (imported normally)
-import enterpriseCoreThumb from '../assets/Cisco-Certified-Specialist-Enterprise-Core.png';
-import ccnaThumb from '../assets/CCNA.png';
-import hardwareThumb from '../assets/Computer-Hardware-Basics.png';
-import endpointThumb from '../assets/Endpoint-Security.png';
-import cybersecurityThumb from '../assets/Introduction-to-Cybersecurity.png';
-import javaThumb from '../assets/JAVA.png';
-import supportSecurityThumb from '../assets/Network-Support-and-Security.png';
-import networkingBasicsThumb from '../assets/Networking-Basics.png';
-import devicesConfigThumb from '../assets/Networking-Devices-and-Initial-Configuration.png';
-import pythonThumb from '../assets/Python-Essentials-1.png';
-import cssThumb from '../assets/CSS.png';
-import htmlThumb from '../assets/HTML.png';
+/* Thumbnails */
+import enterpriseCoreThumb from "../assets/Cisco-Certified-Specialist-Enterprise-Core.png";
+import ccnaThumb from "../assets/CCNA.png";
+import hardwareThumb from "../assets/Computer-Hardware-Basics.png";
+import endpointThumb from "../assets/Endpoint-Security.png";
+import cybersecurityThumb from "../assets/Introduction-to-Cybersecurity.png";
+import javaThumb from "../assets/JAVA.png";
+import supportSecurityThumb from "../assets/Network-Support-and-Security.png";
+import networkingBasicsThumb from "../assets/Networking-Basics.png";
+import devicesConfigThumb from "../assets/Networking-Devices-and-Initial-Configuration.png";
+import pythonThumb from "../assets/Python-Essentials-1.png";
+import cssThumb from "../assets/CSS.png";
+import htmlThumb from "../assets/HTML.png";
 
-// PDFs are now in public/assets → reference by URL
+/* Certificates */
 const certs = [
   { title: "Cisco Certified Specialist – Enterprise Core", thumb: enterpriseCoreThumb, pdf: "/assets/cert1.pdf" },
   { title: "CCNA – Routing & Switching", thumb: ccnaThumb, pdf: "/assets/cert2.pdf" },
@@ -43,114 +44,90 @@ const certs = [
   { title: "HTML", thumb: htmlThumb, pdf: "/assets/cert12.pdf" }
 ];
 
-
 export default function Certifications() {
   const [lightboxPdf, setLightboxPdf] = useState(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
-  const mainCerts = certs.slice(0, 10);
-  const extraCerts = certs.slice(10);
-  
   useEffect(() => {
-    if (lightboxPdf) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = lightboxPdf ? "hidden" : "";
+    return () => (document.body.style.overflow = "");
   }, [lightboxPdf]);
 
+  /* Convert certs to carousel items */
+  const carouselItems = useMemo(
+    () =>
+      certs.map((cert, i) => ({
+        id: `cert-${i}`,
+        title: cert.title,
+        caption: "Click to view certificate",
+        mediaSrc: cert.thumb,
+        mediaAlt: cert.title,
+        badge: "Certificate",
+        href: "#",
+        onClick: () => setLightboxPdf(cert.pdf)
+      })),
+    []
+  );
 
   return (
     <div id="certifications" className="certifications-page">
-        <span className="spy-marker" />
+      <span className="spy-marker" />
 
-      {/* MATCH WIDTH & ALIGNMENT WITH PROJECTS */}
       <div className="certifications-container">
-
-        {/* HERO LAYOUT MATCHING PROJECTS */}
-        <section className="certifications-hero">
-
-          {/* LEFT SIDE */}
-          <div className="certifications-left">
-            <ScrollReveal>
+        {/* ===============================
+            CENTERED HERO (MATCH PROJECTS)
+        =============================== */}
+        <section className="certifications-hero-center">
             <h1 className="certifications-title">
               <DecryptedText
-                text="Certifications"
-                animateOn="both"
-                sequential={true}
+                text="Professional Certifications"
+                animateOn="view"
+                sequential
                 speed={80}
-                revealDirection="start"
                 encryptedClassName="encrypted"
                 className="revealed"
               />
             </h1>
 
-            <div className="credly-btn-wrapper">
-              <a
-                href="https://www.credly.com/users/mohammadreza-heidarpoor"
-                target="_blank"
-                rel="noreferrer"
-                className="btn-pill credly-btn cursor-target"
-              >
-                <FontAwesomeIcon icon={faLink} className="icon-link" />
-                <DecryptedText
-                  text="Verify my certifications on Credly"
-                  sequential={true}
-                  animateOn="hover"
-                  speed={80}
-                  revealDirection="start"
-                />
-              </a>
-            </div>
+            <p className="certifications-subtitle">
+              Industry-recognized credentials validating enterprise networking,
+              security, and systems expertise.
+            </p>
 
-            {/* CSS & HTML BELOW BUTTON */}
-            <div className="extra-cert-wrapper">
-              {extraCerts.map((cert, idx) => (
-                <div
-                  key={idx}
-                  className="cert-card"
-                  onClick={() => setLightboxPdf(cert.pdf)}
-                >
-                  <img src={cert.thumb} alt={cert.title} className="cert-thumb cursor-target" />
-                  <p className="cert-title">{cert.title}</p>
-                </div>
-              ))}
-            </div>
-            </ScrollReveal>
-          </div>
-
-          {/* RIGHT SIDE */}
-          <div className="certifications-right">
-            <ScrollReveal>
-            <div className="cert-grid">
-              {mainCerts.map((cert, idx) => (
-                <div
-                  key={idx}
-                  className="cert-card"
-                  onClick={() => setLightboxPdf(cert.pdf)}
-                >
-                  <img src={cert.thumb} alt={cert.title} className="cert-thumb cursor-target" />
-                  <p className="cert-title">{cert.title}</p>
-                </div>
-              ))}
-            </div>
-            </ScrollReveal>
-          </div>
+            <a
+              href="https://www.credly.com/users/mohammadreza-heidarpoor"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-pill primary credly-btn cursor-target"
+            >
+              <FontAwesomeIcon icon={faLink} />
+              <span>Verify on Credly</span>
+            </a>
         </section>
 
+        {/* ===============================
+            CERTIFICATIONS CAROUSEL
+        =============================== */}
+          <section className="certifications-carousel">
+            <Carousel
+              items={carouselItems.map((item) => ({
+                ...item,
+                href: item.href,
+                onClick: item.onClick
+              }))}
+              ariaLabel="Certifications carousel"
+              className="cert-carousel-large"
+            />
+          </section>
       </div>
 
+      {/* ===============================
+          LIGHTBOX (UNCHANGED)
+      =============================== */}
       {lightboxPdf && (
         <LightboxPortal>
           <div className="lightbox" onClick={() => setLightboxPdf(null)}>
-            <div
-              className="lightbox-content"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
               <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                 <Viewer
                   fileUrl={lightboxPdf}
@@ -161,8 +138,6 @@ export default function Certifications() {
           </div>
         </LightboxPortal>
       )}
-
     </div>
   );
 }
-

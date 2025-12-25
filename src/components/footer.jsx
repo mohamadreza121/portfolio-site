@@ -1,33 +1,61 @@
 import React from "react";
-import { scrollToSection } from "../utils/scrollToSection";
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaLinkedin } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { navigateAndScroll } from "../utils/scrollToSection";
+
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaLinkedin,
+} from "react-icons/fa";
+
 import "./footer.css";
 import "./TargetCursor.css";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer id="footer" className="footer">
       <div className="footer-container">
-
         {/* Contact Info */}
         <div className="footer-section">
           <h3 className="footer-title">Contact</h3>
+
           <p>
-            <FaMapMarkerAlt size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
+            <FaMapMarkerAlt
+              size={14}
+              style={{ color: "var(--accent)", marginRight: "8px" }}
+            />
             Toronto, Ontario, Canada
           </p>
+
           <p>
-            <FaPhone size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
+            <FaPhone
+              size={14}
+              style={{ color: "var(--accent)", marginRight: "8px" }}
+            />
             +1 (647) 802-3224
           </p>
+
           <p>
-            <FaEnvelope size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
-            <a href="mailto:mrheidarpoor7@gmail.com" className="footer-link cursor-target">
+            <FaEnvelope
+              size={14}
+              style={{ color: "var(--accent)", marginRight: "8px" }}
+            />
+            <a
+              href="mailto:mrheidarpoor7@gmail.com"
+              className="footer-link cursor-target"
+            >
               mrheidarpoor7@gmail.com
             </a>
           </p>
+
           <p>
-            <FaLinkedin size={14} style={{ color: 'var(--accent)', marginRight: "8px" }} />
+            <FaLinkedin
+              size={14}
+              style={{ color: "var(--accent)", marginRight: "8px" }}
+            />
             <a
               href="https://linkedin.com/in/mohammadreza-heidarpoor"
               target="_blank"
@@ -42,14 +70,14 @@ export default function Footer() {
         {/* Quick Links */}
         <div className="footer-section">
           <h3 className="footer-title">Quick Links</h3>
+
+          <nav aria-label="Footer navigation">
             <ul className="footer-links">
               <li>
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => {
-                    scrollToSection("home");
-                  }}
+                  onClick={() => navigateAndScroll(navigate, "home")}
                 >
                   Home
                 </button>
@@ -59,9 +87,7 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => {
-                    scrollToSection("about");
-                  }}
+                  onClick={() => navigateAndScroll(navigate, "about")}
                 >
                   About
                 </button>
@@ -71,9 +97,7 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => {
-                    scrollToSection("projects");
-                  }}
+                  onClick={() => navigateAndScroll(navigate, "projects")}
                 >
                   Projects
                 </button>
@@ -83,9 +107,9 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => {
-                    scrollToSection("certifications");
-                  }}
+                  onClick={() =>
+                    navigateAndScroll(navigate, "certifications")
+                  }
                 >
                   Certifications
                 </button>
@@ -95,20 +119,22 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer-link cursor-target"
-                  onClick={() => {
-                    scrollToSection("services");
-                  }}
+                  onClick={() => navigateAndScroll(navigate, "services")}
                 >
                   Services
                 </button>
               </li>
             </ul>
-        </div>       
+          </nav>
+        </div>
       </div>
 
       {/* Bottom bar */}
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Mohammadreza Heidarpoor — Built with passion & security in mind 🔐</p>
+        <p>
+          © {new Date().getFullYear()} Mohammadreza Heidarpoor — Built with
+          passion & security in mind 🔐
+        </p>
       </div>
     </footer>
   );

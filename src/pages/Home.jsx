@@ -36,8 +36,6 @@ export default function Home({ revealKey }) {
 
       <div className="home-container">
         <section className="home-hero">
-          {/* LEFT COLUMN (visual / spacer) */}
-          <div className="hero-left"></div>
 
           {/* RIGHT COLUMN (content reveal) */}
           <div className="hero-right hero-enter">

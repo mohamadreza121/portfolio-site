@@ -8,6 +8,7 @@
   position: relative;
   z-index: 10;
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  pointer-events: auto;
 }
 
 .footer-container {

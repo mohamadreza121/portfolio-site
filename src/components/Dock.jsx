@@ -90,7 +90,16 @@ export default function Dock({
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
-  const isMobile = window.matchMedia("(max-width: 480px)").matches;
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 480px)").matches
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 480px)");
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const maxHeight = useMemo(
     () => Math.max(dockHeight, magnification + magnification / 2 + 4),

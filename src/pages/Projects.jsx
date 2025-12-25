@@ -1,80 +1,138 @@
-import { Link } from 'react-router-dom';
-import DecryptedText from '../components/DecryptedText';
-import './Projects.css';
+import { Link } from "react-router-dom";
+import DecryptedText from "../components/DecryptedText";
 import ScrollReveal from "../components/ScrollReveal";
-
+import "./Projects.css";
 
 const projects = [
-  { id: 1, title: "Secure Enterprise Office Network for a 3-Department Company", meta: "VLANs, Router-on-a-Stick, DHCP, DNS, NAT, ACLs, Port Security, RPVST" },
-  { id: 2, title: "Multi-Branch Enterprise Network Using OSPF and BGP Redistribution", meta: "OSPF, BGP, Redistribution, Redundancy, WAN Design" },
-  { id: 3, title: "Secure Network Access Using Firewall and VPN Tunneling", meta: "Firewall Policies, VPN, Encryption, Access Control" },
-  { id: 4, title: "Windows Server Infrastructure with Active Directory & Group Policy", meta: "Active Directory, GPO, DNS, DHCP, NTFS" },
-  { id: 5, title: "Protection Against Rogue Devices Using DHCP Snooping & DAI", meta: "DAI, DHCP Snooping, Port Security" },
-  { id: 6, title: "Structured Rack Design & Professional Cable Management Plan", meta: "Structured Cabling, Rack Design, TIA/EIA Standards" }
+  {
+    id: 1,
+    title: "Enterprise Office Network",
+    summary:
+      "HQ + Branches with dual-ISP edge, segmented VLANs, secure routing, and Windows services.",
+    tech: ["BGP", "OSPF", "FortiGate", "VLANs", "AD DS"],
+    image: "/projects/p1-topology.png",
+    featured: true
+  },
+  {
+    id: 2,
+    title: "Multi-Branch WAN Architecture",
+    summary:
+      "OSPF internal routing with BGP redistribution and resilient WAN design.",
+    tech: ["OSPF", "BGP", "Redistribution"],
+    image: "/projects/p2-wan.png"
+  },
+  {
+    id: 3,
+    title: "Firewall & VPN Security",
+    summary:
+      "Zone-based firewalling with site-to-site IPsec overlays and policy enforcement.",
+    tech: ["FortiGate", "IPsec", "NAT"],
+    image: "/projects/p3-firewall.png"
+  },
+  {
+    id: 4,
+    title: "Windows Server Infrastructure",
+    summary:
+      "Active Directory, DNS, DHCP, and Group Policy across enterprise sites.",
+    tech: ["AD DS", "GPO", "DNS", "DHCP"],
+    image: "/projects/p4-ad.png"
+  },
+  {
+    id: 5,
+    title: "Layer-2 Network Defense",
+    summary:
+      "Protection against rogue devices using DHCP Snooping and Dynamic ARP Inspection.",
+    tech: ["DHCP Snooping", "DAI", "Port Security"],
+    image: "/projects/p5-l2.png"
+  },
+  {
+    id: 6,
+    title: "Enterprise Operations & Hardening",
+    summary:
+      "Monitoring, logging, baselining, and operational hardening across the network.",
+    tech: ["Syslog", "SNMP", "Hardening"],
+    image: "/projects/p6-ops.png"
+  }
 ];
 
-export default function Projects(){
+export default function Projects() {
   return (
     <div id="projects" className="projects-page">
-        <span className="spy-marker" />
+      <span className="spy-marker" />
 
-      {/* MATCHES ABOUT WIDTH */}
       <div className="projects-container">
-
-        {/* HERO — matches About layout */}
-        <section className="projects-hero">
-
-          {/* LEFT */}
-          <div className="projects-left">
-            <ScrollReveal>
-            <h1 className="projects-title">
-              <DecryptedText 
-                text="My Networking & IT Projects"
-                sequential={true}
-                animateOn="both"
-                speed={80}
-                revealDirection="start"
-                encryptedClassName="encrypted"
-                className="revealed"
-              />
+        {/* ==================================================
+           HERO — CENTERED CHAPTER INTRO
+        ================================================== */}
+        <section className="projects-hero-center">
+          <ScrollReveal>
+            <h1 className="projects-title-center">
+              <span className="decrypt-stable">
+                <DecryptedText
+                  text="Enterprise Network Architecture Portfolio"
+                  animateOn="view"
+                  sequential
+                  speed={70}
+                  encryptedClassName="encrypted"
+                  className="revealed"
+                />
+              </span>
             </h1>
-            </ScrollReveal>
+          </ScrollReveal>
 
-            <ScrollReveal>
-            <p className="projects-intro">
-              <DecryptedText 
-                text="Hands-on projects designed to simulate real-world environments and demonstrate my ability to perform the responsibilities of a Network Engineer or Network Technician."
-                sequential={true}
-                animateOn="hover"
-                speed={2}
-                revealDirection="start"
-              />
-              
+          <ScrollReveal>
+            <p className="projects-subtitle">
+              A progressive, real-world enterprise infrastructure — designed,
+              secured, routed, and operated as a unified system.
             </p>
-            </ScrollReveal>
-          </div>
+          </ScrollReveal>
+        </section>
 
-          {/* RIGHT */}
-          <div className="projects-right">
-            <ScrollReveal>
-            <div className="project-list">
-              {projects.map(p => (
-                <div className="project-card" key={p.id}>
-                  <h3>{p.title}</h3>
-                  <div className="meta">{p.meta}</div>
-                  <div style={{ marginTop: 20 }}>
-                    <Link to={`/projects/${p.id}`} className="btn-pill cursor-target">
-                      View Project
+        {/* ==================================================
+           PROJECT GALLERY — CINEMATIC CARDS
+        ================================================== */}
+        <section className="projects-gallery">
+          {projects.map((project) => (
+            <ScrollReveal key={project.id}>
+              <article
+                className={`project-cinematic-card ${
+                  project.featured ? "featured" : ""
+                }`}
+                style={{
+                  backgroundImage: `url(${project.image})`
+                }}
+              >
+                {/* Overlay */}
+                <div className="project-overlay" />
+
+                {/* Content */}
+                <div className="project-content">
+                  <h2 className="project-title">{project.title}</h2>
+
+                  <p className="project-summary">{project.summary}</p>
+
+                  <div className="project-tech">
+                    {project.tech.map((t, i) => (
+                      <span key={i} className="tech-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="project-cta">
+                    <Link
+                      to={`/projects/${project.id}`}
+                      className="btn-pill primary cursor-target"
+                    >
+                      View Architecture →
                     </Link>
                   </div>
                 </div>
-              ))}
-            </div>
+              </article>
             </ScrollReveal>
-          </div>
-
+          ))}
         </section>
-      </div>   
+      </div>
     </div>
   );
 }

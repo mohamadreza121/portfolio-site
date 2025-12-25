@@ -13,104 +13,130 @@ import CurtainOverlay from "./components/CurtainOverlay";
 
 import "./index.css";
 
-/* ✅ REGISTER ONCE */
+/* =====================================================
+   GSAP
+===================================================== */
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   /* =====================================================
      ROUTING
-     ===================================================== */
+  ===================================================== */
   const location = useLocation();
 
   /* =====================================================
      GLOBAL STATE
-     ===================================================== */
+  ===================================================== */
   const [theme, setTheme] = useState("night");
   const [active, setActive] = useState("Home");
 
   /* =====================================================
-     PHASE STATE (3-PHASE MODEL)
-     ===================================================== */
+     PHASE STATE
+  ===================================================== */
   const [phase, setPhase] = useState("preloader");
-  // "preloader" → "curtains" → "ready"
+  // preloader → curtains → ready
 
   /* =====================================================
-     REVEAL KEY (TRIGGERS HERO / DECRYPTED EFFECTS)
-     ===================================================== */
+     REVEAL KEY
+  ===================================================== */
   const [revealKey, setRevealKey] = useState(0);
 
   /* =====================================================
-     INITIAL REVEAL GUARD (CRITICAL)
-     ===================================================== */
+     INTERNAL GUARDS
+  ===================================================== */
   const hasInitialRevealRef = useRef(false);
 
   /* =====================================================
      UI STATE
-     ===================================================== */
+  ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   /* =====================================================
-     INITIAL SCROLL RESET
-     ===================================================== */
+     DISABLE BROWSER SCROLL RESTORATION (CRITICAL)
+  ===================================================== */
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  /* =====================================================
+     FORCE HARD SCROLL RESET ON FIRST LOAD
+  ===================================================== */
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, []);
 
   /* =====================================================
      PHASE ATTR
-     ===================================================== */
+  ===================================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-phase", phase);
   }, [phase]);
 
   /* =====================================================
-     THEME CONTROL (SITE ONLY)
-     ===================================================== */
+     THEME
+  ===================================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "night" ? "day" : "night"));
+    setTheme((p) => (p === "night" ? "day" : "night"));
   };
 
   /* =====================================================
-     PRELOADER → CURTAINS HANDOFF
-     ===================================================== */
+     PRELOADER → CURTAINS
+  ===================================================== */
   const handlePreloaderComplete = useCallback(() => {
     setPhase("curtains");
   }, []);
 
   /* =====================================================
-     CURTAINS START → REVEAL SITE CONTENT (BOOT ONLY)
-     ===================================================== */
+     CURTAINS START → REVEAL
+     (THIS IS THE ONLY PLACE WE SCROLL ON BOOT)
+  ===================================================== */
   const handleCurtainsStartReveal = useCallback(() => {
-    window.scrollTo(0, 0);
+    // HARD reset before content becomes visible
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     setRevealKey((k) => k + 1);
   }, []);
 
   /* =====================================================
-     CURTAINS → READY HANDOFF
-     ===================================================== */
+     CURTAINS → READY
+  ===================================================== */
   const handleCurtainsComplete = useCallback(() => {
     setPhase("ready");
   }, []);
 
   /* =====================================================
-     🔁 RE-TRIGGER REVEAL WHEN RETURNING TO "/"
-     (SKIPS INITIAL LOAD)
-     ===================================================== */
+     ENSURE HOME IS ACTIVE AFTER BOOT
+  ===================================================== */
+  useEffect(() => {
+    if (phase !== "ready") return;
+
+    requestAnimationFrame(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      setActive("Home");
+    });
+  }, [phase]);
+
+  /* =====================================================
+     RE-TRIGGER REVEAL WHEN RETURNING TO "/"
+  ===================================================== */
   useEffect(() => {
     if (phase !== "ready") return;
     if (location.pathname !== "/") return;
 
-    // ⛔ Skip first reveal (handled by curtains)
     if (!hasInitialRevealRef.current) {
       hasInitialRevealRef.current = true;
       return;
     }
 
-    // ✅ Route-return re-trigger
     requestAnimationFrame(() => {
       setRevealKey((k) => k + 1);
       ScrollTrigger.refresh(true);
@@ -118,31 +144,30 @@ export default function App() {
   }, [location.pathname, phase]);
 
   /* =====================================================
-     SCROLL TRIGGER REFRESH (READY ONLY)
-     ===================================================== */
+     SCROLLTRIGGER REFRESH
+  ===================================================== */
   useEffect(() => {
     if (phase !== "ready") return;
-
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   }, [phase]);
 
   /* =====================================================
      SCROLL-TO-TOP BUTTON
-     ===================================================== */
+  ===================================================== */
   useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 200);
+    const onScroll = () => {
+      setShowScrollTop(window.scrollY > 200);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   /* =====================================================
      RENDER
-     ===================================================== */
+  ===================================================== */
   return (
     <div className="app-root">
-      {/* CURTAINS EXIST DURING PRELOADER + CURTAINS */}
+      {/* CURTAIN OVERLAY */}
       {(phase === "preloader" || phase === "curtains") && (
         <CurtainOverlay
           phase={phase}
@@ -156,7 +181,7 @@ export default function App() {
         <Preloader onComplete={handlePreloaderComplete} />
       )}
 
-      {/* GLOBAL FIXED LAYERS */}
+      {/* GLOBAL FIXED UI */}
       {(phase === "curtains" || phase === "ready") && (
         <>
           <Navbar
@@ -179,16 +204,18 @@ export default function App() {
         </>
       )}
 
+      {/* VISUAL LAYERS */}
       <LetterGlitch
         theme={theme}
         glitchSpeed={50}
         centerVignette={false}
-        outerVignette={true}
-        smooth={true}
+        outerVignette
+        smooth
       />
 
       <TargetCursor spinDuration={2.2} hideDefaultCursor parallaxOn />
 
+      {/* SITE CONTENT */}
       <div
         className={[
           "site-shell",
