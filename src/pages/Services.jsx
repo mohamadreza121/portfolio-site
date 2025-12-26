@@ -36,7 +36,7 @@ const services = [
   },
 ];
 
-export default function Services({ setActive }) {
+export default function Services() {
   const navigate = useNavigate();
 
   return (

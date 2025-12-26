@@ -8,12 +8,12 @@ export default function ProjectLightbox({
   onPrev,
   onNext,
 }) {
-  if (!item) return null;
-
   /* --------------------------------------------------
      Keyboard navigation
   -------------------------------------------------- */
   useEffect(() => {
+    if (!item) return;
+
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") onPrev?.();
@@ -28,6 +28,8 @@ export default function ProjectLightbox({
       document.body.style.overflow = "";
     };
   }, [onClose, onPrev, onNext]);
+
+  if (!item) return null;
 
   /* --------------------------------------------------
      Render

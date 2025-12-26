@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollReveal({
   children,
-  as: Component = "div",
+  as: As = "div",
   className = "",
 
   // animation config
@@ -71,10 +71,10 @@ export default function ScrollReveal({
 
 
   return (
-    <Component ref={wrapperRef} className={`scroll-reveal ${className}`}>
+    <As ref={wrapperRef} className={`scroll-reveal ${className}`}>
       <div ref={animRef} className="scroll-reveal-inner">
         {children}
       </div>
-    </Component>
+    </As>
   );
 }

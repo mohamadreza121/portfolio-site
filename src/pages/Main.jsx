@@ -14,7 +14,7 @@ import "../components/TargetCursor.css";
 /* ✅ CENTRALIZED SCROLL-SPY + ROUTING */
 import { useScrollSpyRouter } from "../hooks/useScrollSpyRouter";
 
-export default function Main({ active, setActive, revealKey }) {
+export default function Main({ setActive, revealKey }) {
   /* =====================================================
      SCROLL-SPY + ROUTING (SINGLE SOURCE OF TRUTH)
   ===================================================== */

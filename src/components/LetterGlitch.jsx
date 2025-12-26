@@ -14,6 +14,8 @@ const LetterGlitch = ({
   const letters = useRef([]);
   const grid = useRef({ columns: 0, rows: 0 });
   const context = useRef(null);
+  // `Date.now()` is intentionally used for animation timing.
+  // eslint-disable-next-line react-hooks/purity
   const lastGlitchTime = useRef(Date.now());
 
   const lettersAndSymbols = Array.from(characters);
@@ -151,6 +153,7 @@ const LetterGlitch = ({
   };
 
   const animate = () => {
+    // eslint-disable-next-line react-hooks/purity
     const now = Date.now();
     if (now - lastGlitchTime.current >= glitchSpeed) {
       updateLetters();

@@ -6,15 +6,9 @@ function clamp01(n) {
 }
 
 export default function Carousel({
-  items = [{
-  id: "html",
-  title: "HTML",
-  mediaSrc: htmlThumb,
-  caption: "HTML Certificate",
-  onClick: () => setLightboxPdf("/assets/cert-html.pdf"),
-  mediaRatio: "3 / 4" // taller cert
-}
-],
+  // Default to an empty list. The carousel's caller should provide items.
+  // This avoids relying on undefined placeholder variables (e.g., htmlThumb).
+  items = [],
   ariaLabel = "Media carousel",
   className = "",
 }) {
