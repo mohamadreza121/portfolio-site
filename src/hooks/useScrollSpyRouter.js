@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /* =====================================================
-   SHARED SCROLL-SPY + ROUTING HOOK (FINAL)
+   SHARED SCROLL-SPY + ROUTING HOOK (FINAL, CLEAN)
 ===================================================== */
 
 export function useScrollSpyRouter(setActive) {
@@ -16,36 +16,43 @@ export function useScrollSpyRouter(setActive) {
   const hasUserScrolledRef = useRef(false);
   const idleTimerRef = useRef(null);
 
-  const sections = [
-    { id: "home", name: "Home" },
-    { id: "about", name: "About" },
-    { id: "projects", name: "Projects" },
-    { id: "certifications", name: "Certs" },
-    { id: "services", name: "Services" },
-  ];
+  /* =====================================================
+     STABLE SECTION MAP
+  ===================================================== */
+  const sections = useMemo(
+    () => [
+      { id: "home", name: "Home" },
+      { id: "about", name: "About" },
+      { id: "projects", name: "Projects" },
+      { id: "certifications", name: "Certs" },
+      { id: "services", name: "Services" },
+    ],
+    []
+  );
 
   /* =====================================================
      UTILITIES
   ===================================================== */
-
-  const setHashQuietly = (hash) => {
+  const setHashQuietly = useCallback((hash) => {
     if ((window.location.hash || "") === hash) return;
     window.history.replaceState(window.history.state, "", hash);
-  };
+  }, []);
 
-  const setActiveById = (id) => {
-    const match = sections.find((s) => s.id === id);
-    if (match) {
-      setActive(match.name);
-      setHashQuietly(`#${id}`);
-    }
-  };
+  const setActiveById = useCallback(
+    (id) => {
+      const match = sections.find((s) => s.id === id);
+      if (match) {
+        setActive(match.name);
+        setHashQuietly(`#${id}`);
+      }
+    },
+    [sections, setActive, setHashQuietly]
+  );
 
   /* =====================================================
      PROGRAMMATIC SCROLL LOCK
-     (prevents observer fighting smooth scroll)
   ===================================================== */
-  const lockDuringSmoothScroll = () => {
+  const lockDuringSmoothScroll = useCallback(() => {
     isProgrammaticScrollRef.current = true;
 
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
@@ -56,15 +63,15 @@ export function useScrollSpyRouter(setActive) {
       idleTimerRef.current = setTimeout(() => {
         isProgrammaticScrollRef.current = false;
         window.removeEventListener("scroll", unlockWhenIdle);
-      }, 180); // scroll idle window
+      }, 180);
     };
 
     unlockWhenIdle();
     window.addEventListener("scroll", unlockWhenIdle, { passive: true });
-  };
+  }, []);
 
   /* =====================================================
-     ARM USER SCROLL (prevents initial noise)
+     ARM USER SCROLL (PREVENT INITIAL NOISE)
   ===================================================== */
   useEffect(() => {
     const arm = () => {
@@ -77,7 +84,7 @@ export function useScrollSpyRouter(setActive) {
   }, []);
 
   /* =====================================================
-     HASH → SCROLL (direct / deep links)
+     HASH → SCROLL (DIRECT / DEEP LINKS)
   ===================================================== */
   useEffect(() => {
     if (location.pathname !== "/") return;
@@ -93,11 +100,10 @@ export function useScrollSpyRouter(setActive) {
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [location.pathname, location.hash, lockDuringSmoothScroll, setActiveById]);
 
   /* =====================================================
-     ROUTER STATE → SCROLL (navigateAndScroll)
+     ROUTER STATE → SCROLL
   ===================================================== */
   useEffect(() => {
     if (!location.state?.scrollTo) return;
@@ -105,6 +111,7 @@ export function useScrollSpyRouter(setActive) {
 
     const id = location.state.scrollTo;
     const el = document.getElementById(id);
+
     if (!el) {
       navigate(".", { replace: true, state: null });
       return;
@@ -118,11 +125,10 @@ export function useScrollSpyRouter(setActive) {
     });
 
     navigate(".", { replace: true, state: null });
-  }, [location, navigate]);
+  }, [location, navigate, lockDuringSmoothScroll, setActiveById]);
 
   /* =====================================================
      INTERSECTION OBSERVER (SCROLL-SPY)
-     🔑 OBSERVES .spy-marker (NOT whole sections)
   ===================================================== */
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -130,7 +136,6 @@ export function useScrollSpyRouter(setActive) {
         if (isProgrammaticScrollRef.current) return;
         if (!hasUserScrolledRef.current) return;
 
-        // Force Home when at very top
         if (window.scrollY <= 2) {
           setActive("Home");
           setHashQuietly("#home");
@@ -157,16 +162,13 @@ export function useScrollSpyRouter(setActive) {
         }
       },
       {
-        root: null,
         threshold: 0,
         rootMargin: "-120px 0px -55% 0px",
       }
     );
 
     sections.forEach(({ id }) => {
-      const marker = document.querySelector(
-        `#${id} .spy-marker`
-      );
+      const marker = document.querySelector(`#${id} .spy-marker`);
       if (marker) {
         marker.dataset.section = id;
         observer.observe(marker);
@@ -174,11 +176,10 @@ export function useScrollSpyRouter(setActive) {
     });
 
     return () => observer.disconnect();
-  }, [setActive]);
+  }, [sections, setActive, setHashQuietly]);
 
   /* =====================================================
      SCROLL-TO-TOP INTEGRATION
-     (ensures Home becomes active)
   ===================================================== */
   useEffect(() => {
     const onScrollTopClick = () => {
@@ -190,9 +191,5 @@ export function useScrollSpyRouter(setActive) {
     window.addEventListener("scrollToTop", onScrollTopClick);
     return () =>
       window.removeEventListener("scrollToTop", onScrollTopClick);
-  }, []);
-
-  return {
-    isProgrammaticScroll: isProgrammaticScrollRef.current,
-  };
+  }, [lockDuringSmoothScroll, setActive, setHashQuietly]);
 }

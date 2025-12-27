@@ -26,13 +26,16 @@
   position: relative;
   border-radius: 14px;
   padding: 14px 10px;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
   pointer-events: auto;
   scroll-behavior: smooth;
   background: var(--section-bg);
   box-shadow: 0 10px 30px var(--card-shadow);
+
+  /* Hide scrollbars (but keep scrolling) */
+  scrollbar-width: none;
 
   /* Edge fade (modern) */
   -webkit-mask-image: linear-gradient(
@@ -49,9 +52,6 @@
     black 88%,
     transparent 100%
   );
-
-  /* Hide scrollbars (but keep scrolling) */
-  scrollbar-width: none;
 }
 .carousel__viewport::-webkit-scrollbar {
   display: none;
@@ -362,48 +362,16 @@
     width: 38px;
     height: 38px;
   }
-}
-
-@media (max-width: 420px) {
-  .carousel__track {
-    padding-left: 28px;
-    padding-right: 28px;
-    gap: 14px;
-  }
-}
-
-@media (max-width: 420px) {
-  .carousel-card__link {
-    width: min(300px, 86vw);
-  }
-}
-
-@media (max-width: 420px) {
-  .carousel__viewport {
-    scroll-snap-type: x mandatory;
+    .carousel__viewport {
+    overflow-x: auto;
+    scroll-snap-type: none;
   }
 
   .carousel-card {
-    scroll-snap-align: center;
-  }
-}
-
-@media (max-width: 420px) {
-  .carousel__viewport {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%
-    );
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
   }
 }
 

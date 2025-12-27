@@ -1,13 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import "./Carousel.css";
 
-function clamp01(n) {
-  return Math.max(0, Math.min(1, n));
-}
+const clamp01 = (n) => Math.max(0, Math.min(1, n));
 
 export default function Carousel({
-  // Default to an empty list. The carousel's caller should provide items.
-  // This avoids relying on undefined placeholder variables (e.g., htmlThumb).
   items = [],
   ariaLabel = "Media carousel",
   className = "",
@@ -15,13 +17,14 @@ export default function Carousel({
   const viewportRef = useRef(null);
   const itemRefs = useRef([]);
   const rafRef = useRef(0);
+  const scrollEndTimeout = useRef(null);
   const isJumpingRef = useRef(false);
 
   const hasItems = items.length > 0;
 
-  /* ------------------------------------------------------------------
-     Infinite list: [last, ...items, first]
-     ------------------------------------------------------------------ */
+  /* --------------------------------------------------
+     Infinite buffer
+     -------------------------------------------------- */
   const extendedItems = useMemo(() => {
     if (!hasItems) return [];
     return [items[items.length - 1], ...items, items[0]];
@@ -29,16 +32,16 @@ export default function Carousel({
 
   const [activeIndex, setActiveIndex] = useState(1);
 
-  /* ------------------------------------------------------------------
+  /* --------------------------------------------------
      Sync refs
-     ------------------------------------------------------------------ */
+     -------------------------------------------------- */
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, extendedItems.length);
   }, [extendedItems.length]);
 
-  /* ------------------------------------------------------------------
-     Initial scroll
-     ------------------------------------------------------------------ */
+  /* --------------------------------------------------
+     Initial centering
+     -------------------------------------------------- */
   useEffect(() => {
     const first = itemRefs.current[1];
     if (!first) return;
@@ -52,76 +55,93 @@ export default function Carousel({
     });
   }, [extendedItems.length]);
 
-  /* ------------------------------------------------------------------
-     Measure focus
-     ------------------------------------------------------------------ */
-  const measureAndPaint = () => {
+  /* --------------------------------------------------
+     Focus measurement
+     - Desktop: full visual focus
+     - Mobile: index only (NO transforms)
+     -------------------------------------------------- */
+  const measureAndPaint = useCallback(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
 
+    const isMobile = window.innerWidth < 520;
+
     const rect = viewport.getBoundingClientRect();
     const center = rect.left + rect.width / 2;
-    const half = Math.max(1, rect.width / 2);
 
     let bestIdx = 0;
-    let bestFocus = -1;
+    let bestMetric = isMobile ? Infinity : -1;
 
     itemRefs.current.forEach((el, i) => {
       if (!el) return;
+
       const r = el.getBoundingClientRect();
       const c = r.left + r.width / 2;
-      const focus = 1 - clamp01(Math.abs(c - center) / half);
+      const dist = Math.abs(c - center);
 
-      el.style.setProperty("--focus", focus.toFixed(3));
-
-      if (focus > bestFocus) {
-        bestFocus = focus;
-        bestIdx = i;
+      if (isMobile) {
+        if (dist < bestMetric) {
+          bestMetric = dist;
+          bestIdx = i;
+        }
+      } else {
+        const half = Math.max(1, rect.width / 2);
+        const focus = 1 - clamp01(dist / half);
+        el.style.setProperty("--focus", focus.toFixed(3));
+        if (focus > bestMetric) {
+          bestMetric = focus;
+          bestIdx = i;
+        }
       }
     });
 
-    if (!isJumpingRef.current) {
-      setActiveIndex(bestIdx);
-    }
-  };
+    if (!isJumpingRef.current) setActiveIndex(bestIdx);
+  }, []);
 
-  const schedulePaint = () => {
+  const schedulePaint = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(measureAndPaint);
-  };
+  }, [measureAndPaint]);
 
-  /* ------------------------------------------------------------------
-     Scroll listeners
-     ------------------------------------------------------------------ */
+  /* --------------------------------------------------
+     Momentum-safe scroll listener
+     -------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
 
     const viewport = viewportRef.current;
+    if (!viewport) return;
+
     schedulePaint();
 
-    viewport.addEventListener("scroll", schedulePaint, { passive: true });
+    const onScroll = () => {
+      clearTimeout(scrollEndTimeout.current);
+      scrollEndTimeout.current = setTimeout(schedulePaint, 80);
+    };
+
+    viewport.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", schedulePaint);
 
     return () => {
-      viewport.removeEventListener("scroll", schedulePaint);
+      viewport.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", schedulePaint);
+      clearTimeout(scrollEndTimeout.current);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [hasItems]);
+  }, [hasItems, schedulePaint]);
 
-  /* ------------------------------------------------------------------
-     HARD infinite correction (mobile-safe)
-     ------------------------------------------------------------------ */
+  /* --------------------------------------------------
+     Infinite correction (DESKTOP ONLY)
+     -------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
+    if (window.innerWidth < 520) return;
 
     const viewport = viewportRef.current;
     if (!viewport) return;
 
     if (activeIndex === 0 || activeIndex === items.length + 1) {
       isJumpingRef.current = true;
-
-      // Disable snap temporarily
       viewport.style.scrollSnapType = "none";
 
       requestAnimationFrame(() => {
@@ -136,7 +156,6 @@ export default function Carousel({
           block: "nearest",
         });
 
-        // Restore snap
         requestAnimationFrame(() => {
           viewport.style.scrollSnapType = "";
           isJumpingRef.current = false;
@@ -144,17 +163,19 @@ export default function Carousel({
         });
       });
     }
-  }, [activeIndex, items.length, hasItems]);
+  }, [activeIndex, items.length, hasItems, schedulePaint]);
 
-  /* ------------------------------------------------------------------
+  /* --------------------------------------------------
      Navigation
-     ------------------------------------------------------------------ */
+     -------------------------------------------------- */
   const scrollToIndex = (idx) => {
     const el = itemRefs.current[idx];
     if (!el) return;
 
+    const mobile = window.innerWidth < 520;
+
     el.scrollIntoView({
-      behavior: "smooth",
+      behavior: mobile ? "instant" : "smooth",
       inline: "center",
       block: "nearest",
     });
@@ -163,37 +184,7 @@ export default function Carousel({
   const next = () => scrollToIndex(activeIndex + 1);
   const prev = () => scrollToIndex(activeIndex - 1);
 
-  /* ------------------------------------------------------------------
-     Render
-     ------------------------------------------------------------------ */
   if (!hasItems) return null;
-
-  const rendered = extendedItems.map((item, idx) => (
-    <article
-      key={`${item.id}-${idx}`}
-      className="carousel-card"
-      ref={(el) => (itemRefs.current[idx] = el)}
-    >
-      <button
-        type="button"
-        className="carousel-card__link cursor-target"
-        onClick={(e) => {
-          e.preventDefault();
-          item.onClick?.();
-        }}
-      >
-        <div className="carousel-card__media">
-          <img src={item.mediaSrc} alt={item.mediaAlt || item.title} />
-        </div>
-
-        <div className="carousel-card__body">
-          <h4 className="carousel-card__title">{item.title}</h4>
-          <p className="carousel-card__caption">{item.caption}</p>
-          <div className="carousel-card__cta">View →</div>
-        </div>
-      </button>
-    </article>
-  ));
 
   const realActive =
     activeIndex === 0
@@ -209,7 +200,34 @@ export default function Carousel({
       </button>
 
       <div ref={viewportRef} className="carousel__viewport">
-        <div className="carousel__track">{rendered}</div>
+        <div className="carousel__track">
+          {extendedItems.map((item, idx) => (
+            <article
+              key={`${item.id}-${idx}`}
+              className="carousel-card"
+              ref={(el) => (itemRefs.current[idx] = el)}
+            >
+              <button
+                type="button"
+                className="carousel-card__link cursor-target"
+                onClick={(e) => {
+                  e.preventDefault();
+                  item.onClick?.();
+                }}
+              >
+                <div className="carousel-card__media">
+                  <img src={item.mediaSrc} alt={item.mediaAlt || item.title} />
+                </div>
+
+                <div className="carousel-card__body">
+                  <h4 className="carousel-card__title">{item.title}</h4>
+                  <p className="carousel-card__caption">{item.caption}</p>
+                  <div className="carousel-card__cta">View →</div>
+                </div>
+              </button>
+            </article>
+          ))}
+        </div>
       </div>
 
       <button className="carousel__nav right" onClick={next} aria-label="Next">

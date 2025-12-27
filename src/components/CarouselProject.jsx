@@ -12,7 +12,7 @@
  *   - Swipe is disabled when a lightbox is open (isLightboxOpen=true).
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import "./CarouselProject.css";
 
 /* Clamp helper */
@@ -33,8 +33,6 @@ export default function CarouselProject({
 
   const hasItems = items.length > 0;
 
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 520;
 
   /* ---------------------------------------------------------
      Infinite buffer: [last, ...items, first]
@@ -74,7 +72,7 @@ export default function CarouselProject({
      - On mobile we avoid writing focus transforms to prevent
        the “jump/twitch” feel during swipe.
      --------------------------------------------------------- */
-  const measureAndPaint = () => {
+  const measureAndPaint = useCallback(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
 
@@ -123,15 +121,13 @@ export default function CarouselProject({
       }
     });
 
-    if (!isJumpingRef.current) {
-      setActiveIndex(bestIdx);
-    }
-  };
+    if (!isJumpingRef.current) setActiveIndex(bestIdx);
+  }, [setActiveIndex]);
 
-  const schedulePaint = () => {
+  const schedulePaint = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(measureAndPaint);
-  };
+  }, [measureAndPaint]);
 
   /* ---------------------------------------------------------
      Scroll listener (momentum-safe)
@@ -148,7 +144,6 @@ export default function CarouselProject({
       if (isLightboxOpen) return;
 
       clearTimeout(scrollEndTimeout.current);
-
       scrollEndTimeout.current = setTimeout(() => {
         schedulePaint();
       }, 80);
@@ -163,7 +158,7 @@ export default function CarouselProject({
       clearTimeout(scrollEndTimeout.current);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [hasItems, isLightboxOpen]);
+  }, [hasItems, isLightboxOpen, schedulePaint]);
 
   /* ---------------------------------------------------------
      Infinite correction (DESKTOP ONLY)
@@ -202,7 +197,7 @@ export default function CarouselProject({
         });
       });
     }
-  }, [activeIndex, items.length, hasItems]);
+  }, [activeIndex, items.length, hasItems, schedulePaint]);
 
   /* ---------------------------------------------------------
      Navigation helpers

@@ -2,14 +2,17 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./Preloader.css";
 
+/* =====================================================
+   PRELOADER TIMING CONSTANTS (STABLE)
+===================================================== */
+const TOTAL_PULSES = 5;
+const PULSE_DURATION = 0.6;
+const TOTAL_PULSE_TIME = TOTAL_PULSES * PULSE_DURATION * 2;
+
 export default function Preloader({ onComplete }) {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const progressRef = useRef(null);
-
-  const TOTAL_PULSES = 5;
-  const PULSE_DURATION = 0.6;
-  const TOTAL_PULSE_TIME = TOTAL_PULSES * PULSE_DURATION * 2;
 
   useEffect(() => {
     const container = containerRef.current;
