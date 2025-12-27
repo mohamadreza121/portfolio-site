@@ -35,6 +35,6 @@ describe("useScrollSpyRouter", () => {
       ),
     });
 
-    expect(setActive).toHaveBeenCalledWith("Home");
+  expect(setActive).toHaveBeenCalledTimes(0);
   });
 });

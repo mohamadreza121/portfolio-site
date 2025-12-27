@@ -3,7 +3,15 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./ScrollReveal.css";
 
-gsap.registerPlugin(ScrollTrigger);
+// NOTE:
+// We intentionally register ScrollTrigger lazily (inside the hook) so tests
+// (jsdom) and SSR-like environments that lack `window.matchMedia` do not crash
+// during module initialization.
+
+// NOTE:
+// Registering ScrollTrigger at module scope can blow up in non-browser
+// environments (e.g., Vitest + JSDOM) when required window APIs (like
+// `matchMedia`) are missing. We register lazily inside the effect instead.
 
 export default function ScrollReveal({
   children,
@@ -28,6 +36,16 @@ export default function ScrollReveal({
   const animRef = useRef(null);
 
   useLayoutEffect(() => {
+    // Lazily register ScrollTrigger to avoid test/SSR crashes.
+    // (gsap handles redundant registrations gracefully.)
+    if (typeof window !== "undefined") {
+      try {
+        gsap.registerPlugin(ScrollTrigger);
+      } catch {
+        // no-op
+      }
+    }
+
     const wrapper = wrapperRef.current;
     const animEl = animRef.current;
     if (!wrapper || !animEl) return;

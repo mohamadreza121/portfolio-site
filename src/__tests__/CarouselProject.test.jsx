@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { vi } from "vitest";
 import CarouselProject from "../components/CarouselProject";
 
 const items = [
@@ -24,9 +25,10 @@ describe("CarouselProject", () => {
 
     render(<CarouselProject items={items} onOpen={onOpen} />);
 
-    fireEvent.click(
-      screen.getAllByRole("button", { name: /view/i })[0]
-    );
+    // The carousel duplicates items for infinite scrolling, so multiple buttons
+    // share similar text. Click the first card button whose accessible name
+    // includes the item title.
+    fireEvent.click(screen.getAllByRole("button", { name: /test image/i })[0]);
 
     expect(onOpen).toHaveBeenCalledWith(items[0]);
   });

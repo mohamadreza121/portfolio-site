@@ -174,6 +174,21 @@ export default function DecryptedText({
     if (revealKey) return;
     if (animateOn !== 'view' && animateOn !== 'both') return;
 
+    // JSDOM (and some older browsers) may not implement IntersectionObserver.
+    // In those cases, fall back to an immediate reveal.
+    if (typeof IntersectionObserver === 'undefined') {
+      if (!hasAnimated) {
+        setHasAnimated(true);
+        const t = setTimeout(() => {
+          setRevealedIndices(new Set());
+          setDisplayText(text);
+          setIsHovering(true);
+        }, revealDelay);
+        return () => clearTimeout(t);
+      }
+      return;
+    }
+
     const observerCallback = entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !hasAnimated) {

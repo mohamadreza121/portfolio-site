@@ -59,11 +59,14 @@ export default function CarouselProject({
     if (!first) return;
 
     requestAnimationFrame(() => {
-      first.scrollIntoView({
-        behavior: "instant",
-        inline: "center",
-        block: "nearest",
-      });
+      // JSDOM doesn't implement scrollIntoView; guard for tests.
+      if (typeof first.scrollIntoView === "function") {
+        first.scrollIntoView({
+          behavior: "instant",
+          inline: "center",
+          block: "nearest",
+        });
+      }
     });
   }, [extendedItems.length]);
 

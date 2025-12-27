@@ -98,15 +98,29 @@ export default function Dock({
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
-  const [isMobile, setIsMobile] = useState(
-    window.matchMedia("(max-width: 480px)").matches
-  );
+  // In test/SSR environments, `window.matchMedia` may be undefined.
+  // Default to desktop behavior to preserve visuals and interactions.
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return false;
+    }
+    return window.matchMedia("(max-width: 480px)").matches;
+  });
 
   useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+
     const mq = window.matchMedia("(max-width: 480px)");
     const handler = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+
+    // Older Safari uses `addListener`/`removeListener`.
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", handler);
+      return () => mq.removeEventListener("change", handler);
+    }
+
+    mq.addListener?.(handler);
+    return () => mq.removeListener?.(handler);
   }, []);
 
   // NOTE: `height` was previously computed but not used. We intentionally
