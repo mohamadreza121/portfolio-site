@@ -33,6 +33,9 @@ export default function CarouselProject({
 
   const hasItems = items.length > 0;
 
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 520;
+
   /* ---------------------------------------------------------
      Infinite buffer: [last, ...items, first]
      --------------------------------------------------------- */
@@ -51,7 +54,7 @@ export default function CarouselProject({
   }, [extendedItems.length]);
 
   /* ---------------------------------------------------------
-     Initial centering
+     Initial centering (safe for both)
      --------------------------------------------------------- */
   useEffect(() => {
     const first = itemRefs.current[1];
@@ -67,12 +70,38 @@ export default function CarouselProject({
   }, [extendedItems.length]);
 
   /* ---------------------------------------------------------
-     Focus measurement (visual sync only)
+     Focus measurement (desktop only)
+     - On mobile we avoid writing focus transforms to prevent
+       the “jump/twitch” feel during swipe.
      --------------------------------------------------------- */
   const measureAndPaint = () => {
     const viewport = viewportRef.current;
     if (!viewport) return;
 
+    // Mobile: just pick the best index (for dots), but do NOT animate focus.
+    if (typeof window !== "undefined" && window.innerWidth < 520) {
+      const rect = viewport.getBoundingClientRect();
+      const center = rect.left + rect.width / 2;
+
+      let bestIdx = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
+
+      itemRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const c = r.left + r.width / 2;
+        const dist = Math.abs(c - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      });
+
+      if (!isJumpingRef.current) setActiveIndex(bestIdx);
+      return;
+    }
+
+    // Desktop: full focus painting
     const rect = viewport.getBoundingClientRect();
     const center = rect.left + rect.width / 2;
     const half = Math.max(1, rect.width / 2);
@@ -120,7 +149,6 @@ export default function CarouselProject({
 
       clearTimeout(scrollEndTimeout.current);
 
-      // Wait until momentum settles before repaint
       scrollEndTimeout.current = setTimeout(() => {
         schedulePaint();
       }, 80);
@@ -138,10 +166,15 @@ export default function CarouselProject({
   }, [hasItems, isLightboxOpen]);
 
   /* ---------------------------------------------------------
-     Infinite correction (snap-safe)
+     Infinite correction (DESKTOP ONLY)
+     - Mobile has snap disabled, so correction is unnecessary
+       and can introduce hitching.
      --------------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
+
+    // ✅ mobile: do nothing
+    if (typeof window !== "undefined" && window.innerWidth < 520) return;
 
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -178,11 +211,11 @@ export default function CarouselProject({
     const el = itemRefs.current[idx];
     if (!el) return;
 
-    const isMobile =
+    const mobile =
       typeof window !== "undefined" && window.innerWidth < 520;
 
     el.scrollIntoView({
-      behavior: isMobile ? "instant" : "smooth",
+      behavior: mobile ? "instant" : "smooth",
       inline: "center",
       block: "nearest",
     });
@@ -206,6 +239,7 @@ export default function CarouselProject({
         className="carousel-project__nav left"
         onClick={prev}
         aria-label="Previous"
+        disabled={isLightboxOpen}
       >
         ‹
       </button>
@@ -228,6 +262,7 @@ export default function CarouselProject({
                 type="button"
                 className="carousel-project__link cursor-target"
                 onClick={() => onOpen?.(item)}
+                disabled={isLightboxOpen}
               >
                 <div className="carousel-project__media">
                   <img src={item.mediaSrc} alt={item.title} />
@@ -248,6 +283,7 @@ export default function CarouselProject({
         className="carousel-project__nav right"
         onClick={next}
         aria-label="Next"
+        disabled={isLightboxOpen}
       >
         ›
       </button>
@@ -258,6 +294,7 @@ export default function CarouselProject({
             key={i}
             className={`dot ${i === realActive ? "active" : ""}`}
             onClick={() => scrollToIndex(i + 1)}
+            disabled={isLightboxOpen}
           />
         ))}
       </div>

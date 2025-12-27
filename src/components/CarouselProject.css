@@ -16,7 +16,7 @@
   position: relative;
   overflow-x: hidden;
   overflow-y: hidden;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
 
   /* Hide scrollbars completely */
   scrollbar-width: none;
@@ -199,7 +199,8 @@
   }
 
   .carousel-project__card {
-    transform: none;
-    opacity: 1;
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
   }
 }
