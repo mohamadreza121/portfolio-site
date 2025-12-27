@@ -182,6 +182,14 @@
     overflow-x: auto;
     scroll-snap-type: none;
   }
+
+  /* Make every card fully visible (no focus-based dimming) */
+  .carousel-project__card {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }   
 
 @media (max-width: 420px) {
@@ -196,11 +204,5 @@
   /* Kill snap deadlocks */
   .carousel-project__viewport {
     scroll-snap-type: none;
-  }
-
-  .carousel-project__card {
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
   }
 }
