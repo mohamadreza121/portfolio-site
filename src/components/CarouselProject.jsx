@@ -83,6 +83,7 @@ export default function CarouselProject({
      Focus measurement
      --------------------------------------------------------- */
   const measureAndPaint = () => {
+    if (isSwiping.current) return;
     const viewport = viewportRef.current;
     if (!viewport) return;
 
@@ -178,7 +179,7 @@ export default function CarouselProject({
     if (!el) return;
 
     el.scrollIntoView({
-      behavior: "smooth",
+      behavior: window.innerWidth < 520 ? "instant" : "smooth",
       inline: "center",
       block: "nearest",
     });
@@ -200,6 +201,7 @@ export default function CarouselProject({
     }
 
     isSwiping.current = true;
+    cancelAnimationFrame(rafRef.current);
     touchStartX.current = e.clientX;
     touchCurrentX.current = e.clientX;
   };
@@ -219,6 +221,7 @@ export default function CarouselProject({
     }
 
     isSwiping.current = false;
+    schedulePaint();
   };
 
   if (!hasItems) return null;

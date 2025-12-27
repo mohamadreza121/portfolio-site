@@ -45,6 +45,7 @@
 .carousel-project__card {
   scroll-snap-align: center;
   flex: 0 0 auto;
+  will-change: transform;
 
   --focus: 0;
   transform:
