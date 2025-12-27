@@ -164,6 +164,7 @@ export default function Project1() {
           <CarouselProject
             items={mediaItems}
             onOpen={(item) => setActiveItem(item)}
+            isLightboxOpen={!!activeItem}
           />
         </section>
 

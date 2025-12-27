@@ -154,7 +154,7 @@ export default function Project3() {
         <section className="project-gallery">
           <h2 className="section-title">Implementation gallery</h2>
 
-          <CarouselProject items={mediaItems} onOpen={(item) => setActiveItem(item)} />
+          <CarouselProject items={mediaItems} onOpen={(item) => setActiveItem(item)} isLightboxOpen={!!activeItem}/>
         </section>
 
         {/* ================= NAV ================= */}
