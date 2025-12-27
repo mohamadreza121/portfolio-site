@@ -15,33 +15,29 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "./Certifications.css";
 
 /* Thumbnails */
-import enterpriseCoreThumb from "../assets/Cisco-Certified-Specialist-Enterprise-Core.png";
-import ccnaThumb from "../assets/CCNA.png";
-import hardwareThumb from "../assets/Computer-Hardware-Basics.png";
-import endpointThumb from "../assets/Endpoint-Security.png";
-import cybersecurityThumb from "../assets/Introduction-to-Cybersecurity.png";
-import javaThumb from "../assets/JAVA.png";
-import supportSecurityThumb from "../assets/Network-Support-and-Security.png";
-import networkingBasicsThumb from "../assets/Networking-Basics.png";
-import devicesConfigThumb from "../assets/Networking-Devices-and-Initial-Configuration.png";
-import pythonThumb from "../assets/Python-Essentials-1.png";
-import cssThumb from "../assets/CSS.png";
-import htmlThumb from "../assets/HTML.png";
+import cert1 from "../assets/cert1.png"
+import cert2 from "../assets/cert2.png";
+import cert3 from "../assets/cert3.png";
+import cert4 from "../assets/cert4.png";
+import cert5 from "../assets/cert5.png";
+import cert6 from "../assets/cert6.png";
+import cert7 from "../assets/cert7.png";
+import cert8 from "../assets/cert8.png";
+import cert9 from "../assets/cert9.png";
+import cert10 from "../assets/cert10.png";
 
 /* Certificates */
 const certs = [
-  { title: "Cisco Certified Specialist – Enterprise Core", thumb: enterpriseCoreThumb, pdf: "/assets/cert1.pdf" },
-  { title: "CCNA – Routing & Switching", thumb: ccnaThumb, pdf: "/assets/cert2.pdf" },
-  { title: "Computer Hardware Basics", thumb: hardwareThumb, pdf: "/assets/cert3.pdf" },
-  { title: "Endpoint Security", thumb: endpointThumb, pdf: "/assets/cert4.pdf" },
-  { title: "Introduction to Cybersecurity", thumb: cybersecurityThumb, pdf: "/assets/cert5.pdf" },
-  { title: "Introduction to Java", thumb: javaThumb, pdf: "/assets/cert6.pdf" },
-  { title: "Network Support & Security", thumb: supportSecurityThumb, pdf: "/assets/cert7.pdf" },
-  { title: "Networking Basics", thumb: networkingBasicsThumb, pdf: "/assets/cert8.pdf" },
-  { title: "Networking Devices and Initial Configuration", thumb: devicesConfigThumb, pdf: "/assets/cert9.pdf" },
-  { title: "Python Essentials 1", thumb: pythonThumb, pdf: "/assets/cert10.pdf" },
-  { title: "CSS", thumb: cssThumb, pdf: "/assets/cert11.pdf" },
-  { title: "HTML", thumb: htmlThumb, pdf: "/assets/cert12.pdf" }
+  { title: "Cisco Certified Specialist – Enterprise Core", thumb: cert1, pdf: "/assets/cert1.pdf" },
+  { title: "CCNA – Routing & Switching", thumb: cert2, pdf: "/assets/cert2.pdf" },
+  { title: "Computer Hardware Basics", thumb: cert3, pdf: "/assets/cert3.pdf" },
+  { title: "Endpoint Security", thumb: cert4, pdf: "/assets/cert4.pdf" },
+  { title: "Introduction to Cybersecurity", thumb: cert5, pdf: "/assets/cert5.pdf" },
+  { title: "Introduction to Java", thumb: cert6, pdf: "/assets/cert6.pdf" },
+  { title: "Network Support & Security", thumb: cert7, pdf: "/assets/cert7.pdf" },
+  { title: "Networking Basics", thumb: cert8, pdf: "/assets/cert8.pdf" },
+  { title: "Networking Devices and Initial Configuration", thumb: cert9, pdf: "/assets/cert9.pdf" },
+  { title: "Python Essentials 1", thumb: cert10, pdf: "/assets/cert10.pdf" },
 ];
 
 export default function Certifications() {

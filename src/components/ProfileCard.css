@@ -96,7 +96,7 @@
   height: 80svh;
   max-height: 540px;
   display: grid;
-  aspect-ratio: 0.718;
+  aspect-ratio: 0.8;
   border-radius: var(--card-radius);
   position: relative;
   background-blend-mode: multiply;
@@ -404,7 +404,7 @@
 .pc-details {
   width: 100%;
   position: absolute;
-  top: 3em;
+  top: 2em;
   display: flex;
   flex-direction: column;
 }

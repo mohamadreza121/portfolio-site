@@ -84,16 +84,27 @@
   min-height: 340px;
 }
 
-/* Allow variable image height (HTML / CSS certs) */
+/* =====================================================
+   CERTIFICATION MEDIA SYSTEM
+   ===================================================== */
+
+/* Base cert container */
 .cert-carousel-large .carousel-card__media {
-  height: auto;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.15);
+  min-height: 260px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Default cert behavior (most certs) */
 .cert-carousel-large .carousel-card__media img {
+  width: 100%;
   height: auto;
   max-height: 420px;
   object-fit: contain;
-  background: rgba(0, 0, 0, 0.25);
 }
 
 /* Bigger cards */
