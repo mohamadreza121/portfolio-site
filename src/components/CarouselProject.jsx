@@ -7,6 +7,8 @@
  * Notes:
  *   - Native swipe scrolling is used for smoothness (no JS velocity hacks).
  *   - Swipe is enabled ONLY on mobile (<520px) via CSS.
+ *   - Scroll-based animations are paused during momentum and
+ *     re-synced only after scrolling settles (prevents twitching).
  *   - Swipe is disabled when a lightbox is open (isLightboxOpen=true).
  */
 
@@ -21,11 +23,12 @@ export default function CarouselProject({
   onOpen,
   ariaLabel = "Project media carousel",
   className = "",
-  isLightboxOpen = false, // optional prop from page
+  isLightboxOpen = false,
 }) {
   const viewportRef = useRef(null);
   const itemRefs = useRef([]);
   const rafRef = useRef(0);
+  const scrollEndTimeout = useRef(null);
   const isJumpingRef = useRef(false);
 
   const hasItems = items.length > 0;
@@ -64,7 +67,7 @@ export default function CarouselProject({
   }, [extendedItems.length]);
 
   /* ---------------------------------------------------------
-     Focus measurement (RAF)
+     Focus measurement (visual sync only)
      --------------------------------------------------------- */
   const measureAndPaint = () => {
     const viewport = viewportRef.current;
@@ -102,7 +105,7 @@ export default function CarouselProject({
   };
 
   /* ---------------------------------------------------------
-     Scroll / resize listeners
+     Scroll listener (momentum-safe)
      --------------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
@@ -112,15 +115,27 @@ export default function CarouselProject({
 
     schedulePaint();
 
-    viewport.addEventListener("scroll", schedulePaint, { passive: true });
+    const onScroll = () => {
+      if (isLightboxOpen) return;
+
+      clearTimeout(scrollEndTimeout.current);
+
+      // Wait until momentum settles before repaint
+      scrollEndTimeout.current = setTimeout(() => {
+        schedulePaint();
+      }, 80);
+    };
+
+    viewport.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", schedulePaint);
 
     return () => {
-      viewport.removeEventListener("scroll", schedulePaint);
+      viewport.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", schedulePaint);
+      clearTimeout(scrollEndTimeout.current);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [hasItems]);
+  }, [hasItems, isLightboxOpen]);
 
   /* ---------------------------------------------------------
      Infinite correction (snap-safe)
@@ -137,7 +152,9 @@ export default function CarouselProject({
 
       requestAnimationFrame(() => {
         const target =
-          activeIndex === 0 ? itemRefs.current[items.length] : itemRefs.current[1];
+          activeIndex === 0
+            ? itemRefs.current[items.length]
+            : itemRefs.current[1];
 
         target?.scrollIntoView({
           behavior: "instant",
@@ -161,8 +178,8 @@ export default function CarouselProject({
     const el = itemRefs.current[idx];
     if (!el) return;
 
-    // Smooth on desktop; instant on mobile prevents janky "double momentum"
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 520;
+    const isMobile =
+      typeof window !== "undefined" && window.innerWidth < 520;
 
     el.scrollIntoView({
       behavior: isMobile ? "instant" : "smooth",
@@ -195,7 +212,9 @@ export default function CarouselProject({
 
       <div
         ref={viewportRef}
-        className={`carousel-project__viewport ${isLightboxOpen ? "is-locked" : ""}`}
+        className={`carousel-project__viewport ${
+          isLightboxOpen ? "is-locked" : ""
+        }`}
         aria-hidden={isLightboxOpen ? "true" : "false"}
       >
         <div className="carousel-project__track">

@@ -55,6 +55,7 @@
   scroll-snap-align: center;
   flex: 0 0 auto;
   will-change: transform;
+  backface-visibility: hidden;
 
   --focus: 0;
   transform:
