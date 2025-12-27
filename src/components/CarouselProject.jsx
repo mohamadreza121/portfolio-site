@@ -4,14 +4,10 @@
  * Purpose:
  *   Reusable UI component used across the portfolio template.
  *
- * Template customization:
- *   - Replace placeholder text values (e.g., [Your Name], [Your Professional Title])
- *     with your own content.
- *   - Do not change component logic unless you are extending the template.
- *
  * Notes:
- *   Swipe gestures are enabled ONLY on mobile (<520px) and
- *   automatically disabled when a lightbox is open.
+ *   - Native swipe scrolling is used for smoothness (no JS velocity hacks).
+ *   - Swipe is enabled ONLY on mobile (<520px) via CSS.
+ *   - Swipe is disabled when a lightbox is open (isLightboxOpen=true).
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,29 +16,17 @@ import "./CarouselProject.css";
 /* Clamp helper */
 const clamp01 = (n) => Math.max(0, Math.min(1, n));
 
-/* Swipe helpers */
-const SWIPE_THRESHOLD = 40;
-const isMobileViewport = () => window.innerWidth < 520;
-
-// ============================
-// COMPONENT
-// ============================
 export default function CarouselProject({
   items = [],
   onOpen,
   ariaLabel = "Project media carousel",
   className = "",
-  isLightboxOpen = false, // ✅ NEW (safe optional prop)
+  isLightboxOpen = false, // optional prop from page
 }) {
   const viewportRef = useRef(null);
   const itemRefs = useRef([]);
   const rafRef = useRef(0);
   const isJumpingRef = useRef(false);
-
-  /* Swipe refs */
-  const touchStartX = useRef(0);
-  const touchCurrentX = useRef(0);
-  const isSwiping = useRef(false);
 
   const hasItems = items.length > 0;
 
@@ -80,10 +64,9 @@ export default function CarouselProject({
   }, [extendedItems.length]);
 
   /* ---------------------------------------------------------
-     Focus measurement
+     Focus measurement (RAF)
      --------------------------------------------------------- */
   const measureAndPaint = () => {
-    if (isSwiping.current) return;
     const viewport = viewportRef.current;
     if (!viewport) return;
 
@@ -125,6 +108,8 @@ export default function CarouselProject({
     if (!hasItems) return;
 
     const viewport = viewportRef.current;
+    if (!viewport) return;
+
     schedulePaint();
 
     viewport.addEventListener("scroll", schedulePaint, { passive: true });
@@ -152,9 +137,7 @@ export default function CarouselProject({
 
       requestAnimationFrame(() => {
         const target =
-          activeIndex === 0
-            ? itemRefs.current[items.length]
-            : itemRefs.current[1];
+          activeIndex === 0 ? itemRefs.current[items.length] : itemRefs.current[1];
 
         target?.scrollIntoView({
           behavior: "instant",
@@ -178,8 +161,11 @@ export default function CarouselProject({
     const el = itemRefs.current[idx];
     if (!el) return;
 
+    // Smooth on desktop; instant on mobile prevents janky "double momentum"
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 520;
+
     el.scrollIntoView({
-      behavior: window.innerWidth < 520 ? "instant" : "smooth",
+      behavior: isMobile ? "instant" : "smooth",
       inline: "center",
       block: "nearest",
     });
@@ -187,42 +173,6 @@ export default function CarouselProject({
 
   const next = () => scrollToIndex(activeIndex + 1);
   const prev = () => scrollToIndex(activeIndex - 1);
-
-  /* ---------------------------------------------------------
-     Swipe handlers (mobile only, lightbox-aware)
-     --------------------------------------------------------- */
-  const handlePointerDown = (e) => {
-    if (
-      e.pointerType !== "touch" ||
-      !isMobileViewport() ||
-      isLightboxOpen
-    ) {
-      return;
-    }
-
-    isSwiping.current = true;
-    cancelAnimationFrame(rafRef.current);
-    touchStartX.current = e.clientX;
-    touchCurrentX.current = e.clientX;
-  };
-
-  const handlePointerMove = (e) => {
-    if (!isSwiping.current) return;
-    touchCurrentX.current = e.clientX;
-  };
-
-  const handlePointerUp = () => {
-    if (!isSwiping.current) return;
-
-    const deltaX = touchCurrentX.current - touchStartX.current;
-
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-      deltaX < 0 ? next() : prev();
-    }
-
-    isSwiping.current = false;
-    schedulePaint();
-  };
 
   if (!hasItems) return null;
 
@@ -245,11 +195,8 @@ export default function CarouselProject({
 
       <div
         ref={viewportRef}
-        className="carousel-project__viewport"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        className={`carousel-project__viewport ${isLightboxOpen ? "is-locked" : ""}`}
+        aria-hidden={isLightboxOpen ? "true" : "false"}
       >
         <div className="carousel-project__track">
           {extendedItems.map((item, idx) => (

@@ -14,17 +14,26 @@
 
 .carousel-project__viewport {
   position: relative;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
-  scroll-behavior: smooth;
   scroll-snap-type: x proximity;
 
   /* Hide scrollbars completely */
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  -webkit-overflow-scrolling: touch; /* iOS momentum */
+  overscroll-behavior-x: auto;
 }
 .carousel-project__viewport::-webkit-scrollbar {
   display: none;
+}
+
+/* Disable swipe/scroll interaction when lightbox open */
+.carousel-project__viewport.is-locked {
+  overflow: hidden;
+  touch-action: none;
+  pointer-events: none;
 }
 
 /* ----------------------------------------------------------
@@ -154,9 +163,25 @@
   box-shadow: 0 0 8px var(--accent-glow);
 }
 
+/* Desktop only */
+@media (min-width: 521px) {
+  .carousel-project__viewport {
+    scroll-behavior: smooth;
+  }
+}
+
+
 /* ----------------------------------------------------------
    Mobile safety
    ---------------------------------------------------------- */
+
+/* Mobile only: enable swipe */
+@media (max-width: 520px) {
+  .carousel-project__viewport {
+    overflow-x: auto;
+    scroll-snap-type: none;
+  }
+}   
 
 @media (max-width: 420px) {
   .carousel-project__track {
