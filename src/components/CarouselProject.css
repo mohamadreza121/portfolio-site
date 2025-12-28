@@ -178,6 +178,10 @@
 
 /* Mobile only: enable swipe */
 @media (max-width: 520px) {
+  .carousel-project__nav {
+    display: none;
+  }
+
   .carousel-project__viewport {
     overflow-x: auto;
     scroll-snap-type: none;
@@ -193,6 +197,12 @@
 }   
 
 @media (max-width: 420px) {
+  
+  .carousel-project__nav {
+    display: none;
+  }
+
+
   .carousel-project__track {
     padding: 12px 20px;
   }

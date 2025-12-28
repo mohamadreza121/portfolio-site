@@ -359,12 +359,13 @@
   }
 
   .carousel__nav {
-    width: 38px;
-    height: 38px;
+    display: none;
   }
-    .carousel__viewport {
+  .carousel__viewport {
     overflow-x: auto;
-    scroll-snap-type: none;
+    scroll-snap-type: none !important;
+    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .carousel-card {
@@ -376,6 +377,10 @@
 }
 
 @media (max-width: 400px) {
+
+  .carousel__nav {
+    display: none;
+  }
 
   /* Disable snapping deadlocks */
   .carousel__viewport {

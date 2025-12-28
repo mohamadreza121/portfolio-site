@@ -23,14 +23,23 @@ export default function Carousel({
   const hasItems = items.length > 0;
 
   /* --------------------------------------------------
-     Infinite buffer
+     Mobile detection
+     -------------------------------------------------- */
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 520;
+
+  /* --------------------------------------------------
+     Items source
+     - Desktop: infinite buffer
+     - Mobile: native list ONLY
      -------------------------------------------------- */
   const extendedItems = useMemo(() => {
     if (!hasItems) return [];
+    if (isMobile) return items;
     return [items[items.length - 1], ...items, items[0]];
-  }, [items, hasItems]);
+  }, [items, hasItems, isMobile]);
 
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(isMobile ? 0 : 1);
 
   /* --------------------------------------------------
      Sync refs
@@ -40,14 +49,15 @@ export default function Carousel({
   }, [extendedItems.length]);
 
   /* --------------------------------------------------
-     Initial centering
+     Initial centering (desktop only)
      -------------------------------------------------- */
   useEffect(() => {
+    if (isMobile) return;
+
     const first = itemRefs.current[1];
     if (!first) return;
 
     requestAnimationFrame(() => {
-      // JSDOM doesn't implement scrollIntoView; guard for tests.
       if (typeof first.scrollIntoView === "function") {
         first.scrollIntoView({
           behavior: "instant",
@@ -56,18 +66,14 @@ export default function Carousel({
         });
       }
     });
-  }, [extendedItems.length]);
+  }, [extendedItems.length, isMobile]);
 
   /* --------------------------------------------------
      Focus measurement
-     - Desktop: full visual focus
-     - Mobile: index only (NO transforms)
      -------------------------------------------------- */
   const measureAndPaint = useCallback(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
-
-    const isMobile = window.innerWidth < 520;
 
     const rect = viewport.getBoundingClientRect();
     const center = rect.left + rect.width / 2;
@@ -99,7 +105,7 @@ export default function Carousel({
     });
 
     if (!isJumpingRef.current) setActiveIndex(bestIdx);
-  }, []);
+  }, [isMobile]);
 
   const schedulePaint = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
@@ -119,7 +125,9 @@ export default function Carousel({
 
     const onScroll = () => {
       clearTimeout(scrollEndTimeout.current);
-      scrollEndTimeout.current = setTimeout(schedulePaint, 80);
+      scrollEndTimeout.current = setTimeout(() => {
+        schedulePaint();
+      }, 120); // ⬅️ momentum-safe delay
     };
 
     viewport.addEventListener("scroll", onScroll, { passive: true });
@@ -138,7 +146,7 @@ export default function Carousel({
      -------------------------------------------------- */
   useEffect(() => {
     if (!hasItems) return;
-    if (window.innerWidth < 520) return;
+    if (isMobile) return;
 
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -166,7 +174,7 @@ export default function Carousel({
         });
       });
     }
-  }, [activeIndex, items.length, hasItems, schedulePaint]);
+  }, [activeIndex, items.length, hasItems, schedulePaint, isMobile]);
 
   /* --------------------------------------------------
      Navigation
@@ -175,10 +183,8 @@ export default function Carousel({
     const el = itemRefs.current[idx];
     if (!el) return;
 
-    const mobile = window.innerWidth < 520;
-
     el.scrollIntoView({
-      behavior: mobile ? "instant" : "smooth",
+      behavior: isMobile ? "instant" : "smooth",
       inline: "center",
       block: "nearest",
     });
@@ -189,12 +195,13 @@ export default function Carousel({
 
   if (!hasItems) return null;
 
-  const realActive =
-    activeIndex === 0
-      ? items.length - 1
-      : activeIndex === items.length + 1
-      ? 0
-      : activeIndex - 1;
+  const realActive = isMobile
+    ? activeIndex
+    : activeIndex === 0
+    ? items.length - 1
+    : activeIndex === items.length + 1
+    ? 0
+    : activeIndex - 1;
 
   return (
     <div className={`carousel ${className}`} aria-label={ariaLabel}>
@@ -242,7 +249,7 @@ export default function Carousel({
           <button
             key={i}
             className={`dot ${i === realActive ? "active" : ""}`}
-            onClick={() => scrollToIndex(i + 1)}
+            onClick={() => scrollToIndex(isMobile ? i : i + 1)}
           />
         ))}
       </div>
