@@ -393,8 +393,8 @@ a.btn-pill {
 .lightbox-inner {
   width: min(92vw, 1200px);
   max-width: min(92vw, 1100px);
-  height: min(90vh, 900px);   /* 🔑 THIS IS THE FIX */
-  max-height: 90vh;
+  height: min(75vh, 800px);
+  max-height: 75vh;
 
   border-radius: 18px;
   overflow: hidden;

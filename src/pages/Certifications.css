@@ -131,3 +131,21 @@
     max-height: 320px;
   }
 }
+
+/* =====================================================
+   LIGHTBOX — MOBILE HEIGHT REDUCTION
+   ===================================================== */
+
+@media (max-width: 520px) {
+  .lightbox-inner {
+    height: 70vh;        /* ⬅️ smaller than 90vh */
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 420px) {
+  .lightbox-inner {
+    height: 65vh;
+    max-height: 65vh;
+  }
+}
