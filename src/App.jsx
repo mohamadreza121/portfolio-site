@@ -51,8 +51,29 @@ export default function App() {
   ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  /* =====================================================
+     SCROLLTRIGGER REFRESH QUEUE (DEDUPED)
+  ===================================================== */
+  const stRefreshRafRef = useRef(0);
+  const stRefreshQueuedRef = useRef(false);
 
+  const scheduleScrollTriggerRefresh = useCallback((force = false) => {
+    if (stRefreshQueuedRef.current) return;
+    stRefreshQueuedRef.current = true;
 
+    if (stRefreshRafRef.current) {
+      cancelAnimationFrame(stRefreshRafRef.current);
+    }
+
+    stRefreshRafRef.current = requestAnimationFrame(() => {
+      stRefreshQueuedRef.current = false;
+      try {
+        force ? ScrollTrigger.refresh(true) : ScrollTrigger.refresh();
+      } catch {
+        /* no-op */
+      }
+    });
+  }, []);
 
   /* =====================================================
      DISABLE BROWSER SCROLL RESTORATION (CRITICAL)
@@ -101,7 +122,6 @@ export default function App() {
      (THIS IS THE ONLY PLACE WE SCROLL ON BOOT)
   ===================================================== */
   const handleCurtainsStartReveal = useCallback(() => {
-    // HARD reset before content becomes visible
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
@@ -142,36 +162,48 @@ export default function App() {
 
     requestAnimationFrame(() => {
       setRevealKey((k) => k + 1);
-      ScrollTrigger.refresh(true);
+      scheduleScrollTriggerRefresh(false);
     });
-  }, [location.pathname, phase]);
+  }, [location.pathname, phase, scheduleScrollTriggerRefresh]);
 
   /* =====================================================
      SCROLLTRIGGER REFRESH
   ===================================================== */
   useEffect(() => {
     if (phase !== "ready") return;
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-  }, [phase]);
+    scheduleScrollTriggerRefresh(false);
+  }, [phase, scheduleScrollTriggerRefresh]);
 
+  /* =====================================================
+     SCROLL TOP VISIBILITY
+  ===================================================== */
   useEffect(() => {
     const onScroll = () => {
       setShowScrollTop(window.scrollY > 240);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // initialize on mount
+    onScroll();
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* =====================================================
+     CLEANUP RAF ON UNMOUNT
+  ===================================================== */
+  useEffect(() => {
+    return () => {
+      if (stRefreshRafRef.current) {
+        cancelAnimationFrame(stRefreshRafRef.current);
+      }
+    };
+  }, []);
 
   /* =====================================================
      RENDER
   ===================================================== */
   return (
     <div className="app-root">
-      {/* CURTAIN OVERLAY */}
       {(phase === "preloader" || phase === "curtains") && (
         <CurtainOverlay
           phase={phase}
@@ -180,12 +212,10 @@ export default function App() {
         />
       )}
 
-      {/* PRELOADER */}
       {phase === "preloader" && (
         <Preloader onComplete={handlePreloaderComplete} />
       )}
 
-      {/* GLOBAL FIXED UI */}
       {(phase === "curtains" || phase === "ready") && (
         <>
           <Navbar
@@ -209,7 +239,6 @@ export default function App() {
         </>
       )}
 
-      {/* VISUAL LAYERS */}
       <LetterGlitch
         theme={theme}
         glitchSpeed={50}
@@ -220,7 +249,6 @@ export default function App() {
 
       <TargetCursor spinDuration={2.2} hideDefaultCursor parallaxOn />
 
-      {/* SITE CONTENT */}
       <div
         className={[
           "site-shell",

@@ -184,10 +184,10 @@ export default function Project6() {
         {/* ================= NAV ================= */}
         <section className="project-navigation">
           <div className="cta-row">
-            <Link to="/projects/5" className="btn-pill">
+            <Link to="/projects/5" className="btn-pill cursor-target">
               ← Back to Project 5
             </Link>
-            <Link to="/" state={{ scrollTo: "projects" }} className="btn-pill primary">
+            <Link to="/" state={{ scrollTo: "projects" }} className="btn-pill primary cursor-target">
               Return to Portfolio Overview →
             </Link>
           </div>

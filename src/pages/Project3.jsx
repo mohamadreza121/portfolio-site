@@ -160,10 +160,10 @@ export default function Project3() {
         {/* ================= NAV ================= */}
         <section className="project-navigation">
           <div className="cta-row">
-            <Link to="/projects/2" className="btn-pill primary">
+            <Link to="/projects/2" className="btn-pill primary cursor-target">
               ← Back to Project 2
             </Link>
-            <Link to="/projects/4" className="btn-pill">
+            <Link to="/projects/4" className="btn-pill cursor-target">
               Continue to Project 4 →
             </Link>
           </div>

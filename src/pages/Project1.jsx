@@ -171,10 +171,10 @@ export default function Project1() {
         {/* ================= NAV ================= */}
         <section className="project-navigation">
           <div className="cta-row">
-            <Link to="/" state={{ scrollTo: "projects" }} className="btn-pill primary">
+            <Link to="/" state={{ scrollTo: "projects" }} className="btn-pill primary cursor-target">
               ← Back to Projects
             </Link>
-            <Link to="/projects/2" className="btn-pill">
+            <Link to="/projects/2" className="btn-pill cursor-target">
               Continue to Project 2 →
             </Link>
           </div>

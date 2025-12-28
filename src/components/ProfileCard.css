@@ -69,7 +69,7 @@
   perspective: 500px;
   transform: translate3d(0, 0, 0.1px);
   position: relative;
-  touch-action: none;
+  touch-action: manipulation;
 }
 
 .pc-behind {
@@ -464,6 +464,17 @@
   }
 }
 
+@media (hover: none) {
+  .pc-card:hover {
+    transform: none;
+  }
+
+    .pc-card:hover .pc-shine {
+    filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
+    animation-play-state: running;
+  }
+}
+
 @media (max-width: 768px) {
   .pc-card {
     height: 70svh;
@@ -507,6 +518,10 @@
   .pc-contact-btn {
     padding: 6px 12px;
     font-size: 11px;
+  }
+
+  .pc-content:not(.pc-avatar-content) {
+    mix-blend-mode: normal;
   }
 }
 
