@@ -9,16 +9,11 @@ import Preloader from "./components/Preloader";
 import Navbar from "./components/Navbar";
 import CurtainOverlay from "./components/CurtainOverlay";
 import QuoteModal from "./components/QuoteModal";
-import { initSectionDepthShift } from "./utils/sectionDepthShift";
 
 
 import "./index.css";
 
 export default function App() {
-
-      useEffect(() => {
-    initSectionDepthShift();
-  }, []);
   /* =====================================================
      ROUTING
   ===================================================== */

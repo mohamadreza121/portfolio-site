@@ -67,7 +67,7 @@ export default function Projects() {
         <header className="projects-hero-center">
           <h1 className="projects-title-center">
             <DecryptedText
-              text="Enterprise Network Architecture Portfolio"
+              text="Enterprise Network Architecture"
               animateOn="view"
               sequential
               speed={80}

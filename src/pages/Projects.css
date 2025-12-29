@@ -5,6 +5,7 @@
 .projects-page {
   position: relative;
   width: 100%;
+  font-family: 'JetBrains Mono', monospace;
   margin-top: 180px;
 }
 

@@ -77,8 +77,8 @@ export default function Certifications() {
                 text="Professional Certifications"
                 animateOn="view"
                 sequential
-                revealDirection="center"
                 speed={80}
+                revealDirection="center"
                 encryptedClassName="encrypted"
                 className="revealed"
               />
