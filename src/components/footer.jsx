@@ -6,6 +6,7 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaLinkedin,
+  FaPhone,
 } from "react-icons/fa";
 
 import ContactForm from "./ContactForm";
@@ -29,7 +30,15 @@ export default function Footer({ onRequestQuote }) {
                 size={14}
                 style={{ color: "var(--accent)", marginRight: "8px" }}
               />
-              <span>[Your City, Country]</span>
+              <span>Toronto, Canada</span>
+            </p>
+
+            <p>
+              <FaPhone
+                size={14}
+                style={{ color: "var(--accent)", marginRight: "8px" }}
+              />
+              <span>+1(647)802-3224</span>
             </p>
 
             <p>
@@ -41,7 +50,7 @@ export default function Footer({ onRequestQuote }) {
                 href="mailto:your.email@example.com"
                 className="footer-link cursor-target"
               >
-                your.email@example.com
+                mrheidarpoor7@gmail.com
               </a>
             </p>
 
@@ -51,7 +60,7 @@ export default function Footer({ onRequestQuote }) {
                 style={{ color: "var(--accent)", marginRight: "8px" }}
               />
               <a
-                href="https://linkedin.com/in/your-profile"
+                href="https://www.linkedin.com/in/mohammadreza-heidarpoor/"
                 target="_blank"
                 rel="noreferrer"
                 className="footer-link cursor-target"
