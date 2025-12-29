@@ -1,8 +1,5 @@
 'use client';
 
-import { useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import Home from "./Home";
 import About from "./About";
 import Projects from "./Projects";
@@ -11,23 +8,21 @@ import Services from "./Services";
 import Footer from "../components/footer";
 import "../components/TargetCursor.css";
 
-/* ✅ CENTRALIZED SCROLL-SPY + ROUTING */
+/* =====================================================
+   CENTRALIZED SCROLL-SPY + ROUTING
+===================================================== */
 import { useScrollSpyRouter } from "../hooks/useScrollSpyRouter";
 
-export default function Main({ setActive, revealKey, onRequestQuote, isQuoteOpen }) {
+export default function Main({
+  setActive,
+  revealKey,
+  onRequestQuote,
+  isQuoteOpen
+}) {
   /* =====================================================
-     SCROLL-SPY + ROUTING (SINGLE SOURCE OF TRUTH)
+     SCROLL-SPY (PAUSED WHEN MODAL IS OPEN)
   ===================================================== */
   useScrollSpyRouter(setActive, !isQuoteOpen);
-
-  /* =====================================================
-     🔥 GSAP / SCROLLTRIGGER RE-ARM (ONCE)
-  ===================================================== */
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh(true);
-    });
-  }, []);
 
   /* =====================================================
      RENDER

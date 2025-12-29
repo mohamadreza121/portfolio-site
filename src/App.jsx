@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowUp } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
@@ -12,13 +10,7 @@ import Navbar from "./components/Navbar";
 import CurtainOverlay from "./components/CurtainOverlay";
 import QuoteModal from "./components/QuoteModal";
 
-
 import "./index.css";
-
-/* =====================================================
-   GSAP
-===================================================== */
-gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   /* =====================================================
@@ -53,37 +45,11 @@ export default function App() {
   ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-
   /* =====================================================
-     QuoteModal STATE
+     QUOTE MODAL STATE
   ===================================================== */
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [quoteService, setQuoteService] = useState("");
-
-
-  /* =====================================================
-     SCROLLTRIGGER REFRESH QUEUE (DEDUPED)
-  ===================================================== */
-  const stRefreshRafRef = useRef(0);
-  const stRefreshQueuedRef = useRef(false);
-
-  const scheduleScrollTriggerRefresh = useCallback((force = false) => {
-    if (stRefreshQueuedRef.current) return;
-    stRefreshQueuedRef.current = true;
-
-    if (stRefreshRafRef.current) {
-      cancelAnimationFrame(stRefreshRafRef.current);
-    }
-
-    stRefreshRafRef.current = requestAnimationFrame(() => {
-      stRefreshQueuedRef.current = false;
-      try {
-        force ? ScrollTrigger.refresh(true) : ScrollTrigger.refresh();
-      } catch {
-        /* no-op */
-      }
-    });
-  }, []);
 
   /* =====================================================
      DISABLE BROWSER SCROLL RESTORATION (CRITICAL)
@@ -103,21 +69,21 @@ export default function App() {
   }, []);
 
   /* =====================================================
-     PHASE ATTR
+     PHASE ATTRIBUTE
   ===================================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-phase", phase);
   }, [phase]);
 
   /* =====================================================
-     THEME
+     THEME ATTRIBUTE
   ===================================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((p) => (p === "night" ? "day" : "night"));
+    setTheme((prev) => (prev === "night" ? "day" : "night"));
   };
 
   /* =====================================================
@@ -129,7 +95,6 @@ export default function App() {
 
   /* =====================================================
      CURTAINS START → REVEAL
-     (THIS IS THE ONLY PLACE WE SCROLL ON BOOT)
   ===================================================== */
   const handleCurtainsStartReveal = useCallback(() => {
     document.documentElement.scrollTop = 0;
@@ -172,20 +137,11 @@ export default function App() {
 
     requestAnimationFrame(() => {
       setRevealKey((k) => k + 1);
-      scheduleScrollTriggerRefresh(false);
     });
-  }, [location.pathname, phase, scheduleScrollTriggerRefresh]);
+  }, [location.pathname, phase]);
 
   /* =====================================================
-     SCROLLTRIGGER REFRESH
-  ===================================================== */
-  useEffect(() => {
-    if (phase !== "ready") return;
-    scheduleScrollTriggerRefresh(false);
-  }, [phase, scheduleScrollTriggerRefresh]);
-
-  /* =====================================================
-     SCROLL TOP VISIBILITY
+     SCROLL-TOP VISIBILITY
   ===================================================== */
   useEffect(() => {
     const onScroll = () => {
@@ -196,17 +152,6 @@ export default function App() {
     onScroll();
 
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* =====================================================
-     CLEANUP RAF ON UNMOUNT
-  ===================================================== */
-  useEffect(() => {
-    return () => {
-      if (stRefreshRafRef.current) {
-        cancelAnimationFrame(stRefreshRafRef.current);
-      }
-    };
   }, []);
 
   /* =====================================================
@@ -284,7 +229,6 @@ export default function App() {
           service={quoteService}
           onClose={() => setQuoteOpen(false)}
         />
-
       </div>
     </div>
   );

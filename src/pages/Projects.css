@@ -1,16 +1,14 @@
 /* =====================================================
-   PROJECTS — CINEMATIC ENTERPRISE SHOWCASE
-   ===================================================== */
+   PROJECTS — CLEAN ENTERPRISE GRID
+===================================================== */
 
 .projects-page {
   position: relative;
   width: 100%;
-  min-height: 100vh;
   margin-top: 180px;
-  overflow-x: hidden;
 }
 
-/* Subtle grid backdrop */
+/* Subtle grid background */
 .projects-page::before {
   content: "";
   position: absolute;
@@ -26,32 +24,27 @@
 .projects-container {
   position: relative;
   z-index: 2;
-  max-width: 1300px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 40px 20px 100px;
 }
 
 /* =====================================================
-   HERO — CENTERED CHAPTER INTRO
-   ===================================================== */
+   HEADER
+===================================================== */
 
 .projects-hero-center {
   text-align: center;
-  margin-bottom: clamp(70px, 12vh, 140px);
+  margin-bottom: clamp(60px, 10vh, 120px);
 }
 
 .projects-title-center {
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-size: clamp(2.3rem, 5vw, 3.4rem);
   font-weight: 800;
   color: var(--accent);
   text-shadow: 0 0 12px var(--accent-glow);
   margin-bottom: 18px;
-
-  /* 🔒 CRITICAL */
-  display: block;
-  min-height: 2.4em;      /* reserves 2 lines */
   line-height: 1.15;
-  white-space: balance;   /* modern browsers */
 }
 
 .projects-subtitle {
@@ -63,64 +56,48 @@
 }
 
 /* =====================================================
-   PROJECT GALLERY — 3D CINEMATIC CARDS
-   ===================================================== */
+   GRID — 3 × 2 DESKTOP / 1 × 6 MOBILE
+===================================================== */
 
-.projects-gallery {
+.projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 36px;
-  perspective: 1400px;
 }
 
 /* =====================================================
-   CARD — BASE
-   ===================================================== */
+   CARD
+===================================================== */
 
-.project-cinematic-card {
+.project-card {
   position: relative;
   height: 420px;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   overflow: hidden;
 
-  transform-style: preserve-3d;
-  transform: translateZ(0) rotateX(0deg) rotateY(0deg);
-  transition:
-    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.6s ease,
-    filter 0.6s ease;
-
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.65),
+    0 18px 48px rgba(0, 0, 0, 0.55),
     inset 0 0 0 1px var(--accent-border);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
 }
 
-/* FEATURED PROJECT (Project 1) */
-.project-cinematic-card.featured {
-  grid-column: span 2;
-  height: 480px;
-}
-
-/* =====================================================
-   DEPTH & PARALLAX
-   ===================================================== */
-
-.project-cinematic-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  filter: brightness(0.55) saturate(1.1);
-  transform: scale(1.08) translateZ(-30px);
-  z-index: 0;
+/* Safe hover (NO 3D, NO Z) */
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.75),
+    0 0 32px var(--accent-glow);
 }
 
 /* =====================================================
-   DARK OVERLAY
-   ===================================================== */
+   OVERLAY
+===================================================== */
 
 .project-overlay {
   position: absolute;
@@ -128,27 +105,25 @@
   background:
     linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(0, 0, 0, 0.55) 40%,
-      rgba(0, 0, 0, 0.25) 100%
+      rgba(0, 0, 0, 0.85),
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.15)
     );
-  z-index: 1;
 }
 
 html[data-theme="day"] .project-overlay {
   background:
     linear-gradient(
       to top,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(255, 255, 255, 0.75) 40%,
-      rgba(255, 255, 255, 0.45) 100%
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 0.75),
+      rgba(255, 255, 255, 0.45)
     );
 }
 
-
 /* =====================================================
-   CONTENT LAYER
-   ===================================================== */
+   CONTENT
+===================================================== */
 
 .project-content {
   position: absolute;
@@ -158,11 +133,10 @@ html[data-theme="day"] .project-overlay {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  transform: translateZ(40px);
 }
 
 .project-title {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--accent);
   text-shadow: 0 0 10px var(--accent-glow);
@@ -173,13 +147,12 @@ html[data-theme="day"] .project-overlay {
   font-size: 0.95rem;
   line-height: 1.55;
   color: var(--text-color);
-  opacity: 0.95;
   margin-bottom: 16px;
 }
 
 /* =====================================================
-   TECH STACK PILLS
-   ===================================================== */
+   TECH PILLS
+===================================================== */
 
 .project-tech {
   display: flex;
@@ -193,66 +166,28 @@ html[data-theme="day"] .project-overlay {
   font-size: 0.72rem;
   padding: 6px 10px;
   border-radius: 999px;
-
   background: var(--card-bg);
   border: 1px solid var(--accent-border);
   color: var(--accent);
-
-  box-shadow: 0 0 8px var(--accent-glow);
-}
-
-html[data-theme="day"] .tech-pill {
-  box-shadow: 0 0 4px var(--accent-glow);
-}
-
-
-
-/* =====================================================
-   CTA
-   ===================================================== */
-
-.project-cta {
-  margin-top: auto;
-}
-
-/* =====================================================
-   HOVER — CINEMATIC LIFT
-   ===================================================== */
-
-.project-cinematic-card:hover {
-  transform:
-    rotateX(6deg)
-    rotateY(-6deg)
-    translateY(-12px)
-    scale(1.02);
-
-  box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.8),
-    0 0 40px var(--accent-glow);
+  box-shadow: 0 0 6px var(--accent-glow);
 }
 
 /* =====================================================
    RESPONSIVE
-   ===================================================== */
+===================================================== */
 
-@media (max-width: 900px) {
-  .project-cinematic-card.featured {
-    grid-column: span 1;
-    height: 420px;
-  }
-
-  .projects-gallery {
-    gap: 28px;
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
-  .project-cinematic-card {
-    height: 380px;
-    transform: none !important;
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
   }
 
-  .project-cinematic-card:hover {
-    transform: none;
+  .project-card {
+    height: 380px;
   }
 }

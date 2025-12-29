@@ -150,7 +150,7 @@ export default function Footer({ onRequestQuote }) {
         {/* BOTTOM BAR */}
         <div className="footer-bottom">
           <p>
-            © {new Date().getFullYear()} [Your Name] — Portfolio Template
+            © {new Date().getFullYear()} Mohammadreza Heidarpoor — Portfolio Template
           </p>
         </div>
       </footer>

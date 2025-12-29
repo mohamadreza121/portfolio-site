@@ -49,6 +49,7 @@ export default function Services({ onRequestQuote }) {
               animateOn="view"
               sequential
               speed={80}
+              revealDirection="center"
               encryptedClassName="encrypted"
               className="revealed"
             />

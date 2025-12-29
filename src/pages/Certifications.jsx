@@ -3,7 +3,6 @@ import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useMemo } from "react";
 
 import DecryptedText from "../components/DecryptedText";
-import ScrollReveal from "../components/ScrollReveal";
 import LightboxPortal from "../components/LightboxPortal";
 import Carousel from "../components/Carousel";
 
@@ -78,6 +77,7 @@ export default function Certifications() {
                 text="Professional Certifications"
                 animateOn="view"
                 sequential
+                revealDirection="center"
                 speed={80}
                 encryptedClassName="encrypted"
                 className="revealed"
