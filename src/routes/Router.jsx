@@ -17,6 +17,8 @@ export default function Router({
   active,
   setActive,
   revealKey,
+  onRequestQuote,
+  isQuoteOpen,
 }) {
   const location = useLocation();
 
@@ -33,6 +35,8 @@ export default function Router({
                 active={active}
                 setActive={setActive}
                 revealKey={revealKey}
+                onRequestQuote={onRequestQuote}
+                isQuoteOpen={isQuoteOpen}
               />
             </PageTransition>
           }

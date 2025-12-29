@@ -74,7 +74,7 @@
 .service-cinematic-card {
   position: relative;
   border-radius: 18px;
-  background: var(--section-bg);
+  background: var(--service-card-surface);
   border: 1px solid var(--accent-border);
   overflow: hidden;
   box-shadow:

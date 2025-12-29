@@ -2,10 +2,10 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /* =====================================================
-   SHARED SCROLL-SPY + ROUTING HOOK (FINAL, CLEAN)
+   SHARED SCROLL-SPY + ROUTING HOOK (FINAL, FIXED)
 ===================================================== */
 
-export function useScrollSpyRouter(setActive) {
+export function useScrollSpyRouter(setActive, enabled = true) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -84,9 +84,11 @@ export function useScrollSpyRouter(setActive) {
   }, []);
 
   /* =====================================================
-     HASH → SCROLL (DIRECT / DEEP LINKS)
+     HASH → SCROLL (DEEP LINKS)
+     🚨 DISABLED WHILE MODAL IS OPEN
   ===================================================== */
   useEffect(() => {
+    if (!enabled) return;
     if (location.pathname !== "/") return;
     if (!location.hash) return;
 
@@ -100,12 +102,20 @@ export function useScrollSpyRouter(setActive) {
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  }, [location.pathname, location.hash, lockDuringSmoothScroll, setActiveById]);
+  }, [
+    enabled,
+    location.pathname,
+    location.hash,
+    lockDuringSmoothScroll,
+    setActiveById,
+  ]);
 
   /* =====================================================
      ROUTER STATE → SCROLL
+     🚨 DISABLED WHILE MODAL IS OPEN
   ===================================================== */
   useEffect(() => {
+    if (!enabled) return;
     if (!location.state?.scrollTo) return;
     if (location.pathname !== "/") return;
 
@@ -125,12 +135,21 @@ export function useScrollSpyRouter(setActive) {
     });
 
     navigate(".", { replace: true, state: null });
-  }, [location, navigate, lockDuringSmoothScroll, setActiveById]);
+  }, [
+    enabled,
+    location,
+    navigate,
+    lockDuringSmoothScroll,
+    setActiveById,
+  ]);
 
   /* =====================================================
      INTERSECTION OBSERVER (SCROLL-SPY)
+     🚨 DISABLED WHILE MODAL IS OPEN
   ===================================================== */
   useEffect(() => {
+    if (!enabled) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (isProgrammaticScrollRef.current) return;
@@ -176,7 +195,7 @@ export function useScrollSpyRouter(setActive) {
     });
 
     return () => observer.disconnect();
-  }, [sections, setActive, setHashQuietly]);
+  }, [enabled, sections, setActive, setHashQuietly]);
 
   /* =====================================================
      SCROLL-TO-TOP INTEGRATION

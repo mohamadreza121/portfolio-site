@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { navigateAndScroll } from "../utils/scrollToSection";
 import DecryptedText from "../components/DecryptedText";
 import "./Services.css";
 
@@ -36,8 +34,7 @@ const services = [
   },
 ];
 
-export default function Services() {
-  const navigate = useNavigate();
+export default function Services({ onRequestQuote }) {
 
   return (
     <div id="services" className="services-page">
@@ -78,8 +75,10 @@ export default function Services() {
                   <button
                     type="button"
                     className="btn-pill cursor-target"
-                    onClick={() => {
-                      navigateAndScroll(navigate, "footer");
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onRequestQuote?.(s.title);
                     }}
                   >
                     Request Quote →

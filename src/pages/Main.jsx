@@ -14,11 +14,11 @@ import "../components/TargetCursor.css";
 /* ✅ CENTRALIZED SCROLL-SPY + ROUTING */
 import { useScrollSpyRouter } from "../hooks/useScrollSpyRouter";
 
-export default function Main({ setActive, revealKey }) {
+export default function Main({ setActive, revealKey, onRequestQuote, isQuoteOpen }) {
   /* =====================================================
      SCROLL-SPY + ROUTING (SINGLE SOURCE OF TRUTH)
   ===================================================== */
-  useScrollSpyRouter(setActive);
+  useScrollSpyRouter(setActive, !isQuoteOpen);
 
   /* =====================================================
      🔥 GSAP / SCROLLTRIGGER RE-ARM (ONCE)
@@ -39,10 +39,10 @@ export default function Main({ setActive, revealKey }) {
         <About />
         <Projects />
         <Certifications />
-        <Services />
+        <Services onRequestQuote={onRequestQuote} />
       </main>
 
-      <Footer />
+      <Footer onRequestQuote={onRequestQuote} />
     </div>
   );
 }

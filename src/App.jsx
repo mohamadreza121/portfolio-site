@@ -10,6 +10,8 @@ import TargetCursor from "./components/TargetCursor";
 import Preloader from "./components/Preloader";
 import Navbar from "./components/Navbar";
 import CurtainOverlay from "./components/CurtainOverlay";
+import QuoteModal from "./components/QuoteModal";
+
 
 import "./index.css";
 
@@ -50,6 +52,14 @@ export default function App() {
      UI STATE
   ===================================================== */
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+
+  /* =====================================================
+     QuoteModal STATE
+  ===================================================== */
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  const [quoteService, setQuoteService] = useState("");
+
 
   /* =====================================================
      SCROLLTRIGGER REFRESH QUEUE (DEDUPED)
@@ -262,7 +272,19 @@ export default function App() {
           active={active}
           setActive={setActive}
           revealKey={revealKey}
+          onRequestQuote={(service) => {
+            setQuoteService(service || "");
+            setQuoteOpen(true);
+          }}
+          isQuoteOpen={quoteOpen}
         />
+
+        <QuoteModal
+          open={quoteOpen}
+          service={quoteService}
+          onClose={() => setQuoteOpen(false)}
+        />
+
       </div>
     </div>
   );

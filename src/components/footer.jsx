@@ -4,146 +4,147 @@ import { navigateAndScroll } from "../utils/scrollToSection";
 
 import {
   FaMapMarkerAlt,
-  FaPhone,
   FaEnvelope,
   FaLinkedin,
 } from "react-icons/fa";
 
+import ContactForm from "./ContactForm";
+
 import "./footer.css";
 import "./TargetCursor.css";
 
-export default function Footer() {
+export default function Footer({ onRequestQuote }) {
   const navigate = useNavigate();
 
   return (
-    <footer id="footer" className="footer">
-      <div className="footer-container">
-        {/* Contact Info */}
-        <div className="footer-section">
-          <h3 className="footer-title">Contact</h3>
+    <>
+      <footer id="footer" className="footer">
+        <div className="footer-container">
+          {/* CONTACT / LEAD SECTION */}
+          <div className="footer-section">
+            <h3 className="footer-title">Get in Touch</h3>
 
-          <p>
-            <FaMapMarkerAlt
-              size={14}
-              style={{ color: "var(--accent)", marginRight: "8px" }}
-            />
-            Toronto, Ontario, Canada
-          </p>
+            <p>
+              <FaMapMarkerAlt
+                size={14}
+                style={{ color: "var(--accent)", marginRight: "8px" }}
+              />
+              <span>[Your City, Country]</span>
+            </p>
 
-          <p>
-            <FaPhone
-              size={14}
-              style={{ color: "var(--accent)", marginRight: "8px" }}
-            />
-            +1 (647) 802-3224
-          </p>
+            <p>
+              <FaEnvelope
+                size={14}
+                style={{ color: "var(--accent)", marginRight: "8px" }}
+              />
+              <a
+                href="mailto:your.email@example.com"
+                className="footer-link cursor-target"
+              >
+                your.email@example.com
+              </a>
+            </p>
 
-          <p>
-            <FaEnvelope
-              size={14}
-              style={{ color: "var(--accent)", marginRight: "8px" }}
-            />
-            <a
-              href="mailto:mrheidarpoor7@gmail.com"
-              className="footer-link cursor-target"
+            <p>
+              <FaLinkedin
+                size={14}
+                style={{ color: "var(--accent)", marginRight: "8px" }}
+              />
+              <a
+                href="https://linkedin.com/in/your-profile"
+                target="_blank"
+                rel="noreferrer"
+                className="footer-link cursor-target"
+              >
+                LinkedIn
+              </a>
+            </p>
+
+            <button
+              type="button"
+              className="footer-link cursor-target footer-cta-btn"
+              onClick={() => onRequestQuote?.()}
             >
-              mrheidarpoor7@gmail.com
-            </a>
-          </p>
+              Request a Quote
+            </button>
+          </div>
 
-          <p>
-            <FaLinkedin
-              size={14}
-              style={{ color: "var(--accent)", marginRight: "8px" }}
+          {/* QUICK LINKS */}
+          <div className="footer-section">
+            <h3 className="footer-title">Quick Links</h3>
+
+            <nav aria-label="Footer navigation">
+              <ul className="footer-links">
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "home")}
+                  >
+                    Home
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "about")}
+                  >
+                    About
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "projects")}
+                  >
+                    Projects
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "certifications")}
+                  >
+                    Certifications
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link cursor-target"
+                    onClick={() => navigateAndScroll(navigate, "services")}
+                  >
+                    Services
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          {/* INLINE CONTACT FORM (OPTIONAL BUT PREMIUM) */}
+          <div className="footer-section footer-form-section">
+            <ContactForm
+              title="Start a Project"
+              subtitle="Tell me about your idea and I’ll get back to you."
+              showServiceSelect
             />
-            <a
-              href="https://linkedin.com/in/mohammadreza-heidarpoor"
-              target="_blank"
-              rel="noreferrer"
-              className="footer-link cursor-target"
-            >
-              LinkedIn
-            </a>
-          </p>
+          </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="footer-section">
-          <h3 className="footer-title">Quick Links</h3>
-
-          <nav aria-label="Footer navigation">
-            <ul className="footer-links">
-              <li>
-                <button
-                  type="button"
-                  className="footer-link cursor-target"
-                  onClick={() => {
-                    navigateAndScroll(navigate, "home");
-                  }}
-                >
-                  Home
-                </button>
-              </li>
-
-              <li>
-                <button
-                  type="button"
-                  className="footer-link cursor-target"
-                  onClick={() => {
-                    navigateAndScroll(navigate, "about");
-                  }}
-                >
-                  About
-                </button>
-              </li>
-
-              <li>
-                <button
-                  type="button"
-                  className="footer-link cursor-target"
-                  onClick={() => {
-                    navigateAndScroll(navigate, "projects");
-                  }}
-                >
-                  Projects
-                </button>
-              </li>
-
-              <li>
-                <button
-                  type="button"
-                  className="footer-link cursor-target"
-                  onClick={() => {
-                    navigateAndScroll(navigate, "certifications");
-                  }}
-                >
-                  Certifications
-                </button>
-              </li>
-
-              <li>
-                <button
-                  type="button"
-                  className="footer-link cursor-target"
-                  onClick={() => {
-                    navigateAndScroll(navigate, "services");
-                  }}
-                >
-                  Services
-                </button>
-              </li>
-            </ul>
-          </nav>
+        {/* BOTTOM BAR */}
+        <div className="footer-bottom">
+          <p>
+            © {new Date().getFullYear()} [Your Name] — Portfolio Template
+          </p>
         </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="footer-bottom">
-        <p>
-          © {new Date().getFullYear()} Mohammadreza Heidarpoor — Built with
-          passion & security in mind 🔐
-        </p>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

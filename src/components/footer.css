@@ -1,6 +1,6 @@
 /* ===== FOOTER BASE STYLES ===== */
 .footer {
-  background: var(--bg-color-footer);
+  background: var(--footer-surface);
   border-top: 1px solid var(--border-footer);
   padding: 40px 20px 20px;
   color: var(--text-color);
@@ -25,6 +25,8 @@
 .footer-section {
   flex: 1;
   min-width: 220px;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-title {
@@ -102,6 +104,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
+  line-height: 1.6;
 }
 .footer-section p a {
   display: inline;
@@ -111,4 +114,22 @@
   flex-shrink: 0;
 }
 
+
+.footer-cta-btn {
+  margin-top: 16px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.footer-form-section {
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--accent-border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px var(--accent-border);
+}
 
